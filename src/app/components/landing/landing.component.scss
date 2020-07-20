@@ -1,0 +1,264 @@
+.code-card-bg {
+  position: relative;
+  background-color: #e4e7f8;
+  border-radius: 15px;
+  height: 300px;
+}
+
+.code-card {
+  height: 100px;
+  background-color: #171c19;
+  border-radius: 15px;
+  font-size: 12px;
+}
+
+#code-card-html {
+  position: absolute;
+  top: -5%;
+  left: 5%;
+}
+#code-card-css {
+  position: absolute;
+  top: 33%;
+  left: 20%;
+}
+#code-card-js {
+  position: absolute;
+  bottom: -5%;
+  left: 10%;
+}
+// Sobreescribir background
+.hljs {
+  background-color: transparent;
+}
+
+.section {
+  margin: 50px 0;
+}
+
+.header-title {
+  font-family: "Montserrat";
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 1;
+  padding-bottom: 25px;
+  color: #303669;
+}
+
+.header-subtitle {
+  font-family: "Poppins";
+  font-size: 27px;
+  font-weight: 400;
+  line-height: 1.5;
+  padding-bottom: 10px;
+}
+
+.header-title-text {
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.5;
+  padding-bottom: 15px;
+}
+
+#caracteristicas {
+  margin-top: 40px;
+}
+
+.caracteristicas-card {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.caractaristica-card-icon:hover {
+  transform: scale(1.2);
+  transition: transform 0.3s;
+}
+
+.caracteristicas-card h2 {
+  color: #303669;
+  font-family: Montserrat;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 3;
+}
+
+.caracteristicas-card p {
+  margin: auto;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  font-family: Poppins;
+  font-weight: 300;
+  max-width: 300px;
+}
+
+.servicios-title {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 42px;
+  line-height: 1;
+  color: #303669;
+  margin-bottom: 20px;
+}
+
+.servicios-subtitle {
+  font-family: Poppins;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 2;
+}
+
+.servicios-text {
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.servicios-section-bg-graphics {
+  position: absolute;
+  width: 25%;
+  left: -23%;
+  top: -20%;
+}
+
+.precio-section {
+  display: flex;
+  padding-top: 55px;
+  padding-bottom: 55px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.precio-card-section {
+  padding: 20px;
+}
+
+.precio-plan-cards-section {
+  display: flex;
+  flex-direction: row;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  justify-content: center;
+  align-items: center;
+}
+
+.precio-card {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 45px 40px 55px;
+  border-radius: 50px;
+  text-align: center;
+}
+
+.precio-card:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 0.5s;
+}
+
+.precio-rate {
+  color: #303669;
+  font-weight: 800;
+  font-family: Montserrat;
+  font-size: 59px;
+  line-height: 1;
+}
+
+.precio-period {
+  font-size: 18px;
+  font-family: Poppins;
+  font-weight: 600;
+  color: #78c2ff;
+}
+
+.precio-title {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.precio-title h2 {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 45px;
+  line-height: 1;
+  color: #303669;
+  margin-bottom: 20px;
+}
+.precio-title p {
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.5;
+  max-width: 700px;
+}
+
+.precio-text {
+  font-size: 18px;
+  font-family: Poppins;
+  font-weight: 400;
+  color: #000;
+  margin-top: 20px;
+}
+
+.precio-all-plan-features-section {
+  text-align: left;
+  width: 100%;
+  display: flex;
+  margin: 15px 0;
+}
+
+.precio-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.precio-card ul li {
+  padding-left: 1.5em;
+  padding-bottom: 1.5em;
+}
+
+.featured {
+  border: 7px dashed #78c2ff;
+}
+
+.contact-title-section {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: left;
+  width: 100%;
+}
+
+.contact-subtitle {
+  font-family: Poppins;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 2;
+}
+
+.contact-title {
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 45px;
+  line-height: 1;
+  color: #303669;
+  margin-bottom: 20px;
+}
+
+.contact-text {
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
