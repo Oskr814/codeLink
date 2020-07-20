@@ -1,4 +1,7 @@
 @import 'variables.scss';
+input {
+    margin-top: 10px;
+}
 
 #logo {
     width: 150px;
@@ -7,7 +10,7 @@
 .login-title {
     font-family: Montserrat;
     font-weight: bold;
-    font-size: 3em;
+    font-size:2.3em;
     color: $blue-crayola;
 }
 

@@ -1,5 +1,10 @@
 @import "variables.scss";
 
+input {
+    margin-top: 15px;
+    font-family: Montserrat;
+}
+
 #logo {
     width: 150px;
 }
@@ -7,7 +12,7 @@
 .registro-title {
     font-family: Montserrat;
     font-weight: bold;
-    font-size: 3em;
+    font-size: 2.3em;
     color: $blue-crayola;
 }
 

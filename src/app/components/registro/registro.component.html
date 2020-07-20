@@ -1,17 +1,27 @@
 <div class="row">
-  <div class="col-lg-6">
-      <img src="assets/images/illustrations/wfh_1.svg" alt="" class="w-100">
+  <div class="col-lg-6 d-none d-lg-block">
+    <img src="assets/images/illustrations/wfh_1.svg" alt="" class="w-100" />
   </div>
-  <div class="col-lg-6">
-    <div><img src="assets/images/logo-dark.png" alt="" id="logo" /></div>
+  <div class="col-lg-6 px-5 py-3">
     <div class="registro-title">
       Registrate
     </div>
     <div class="registro-subtitle">
       Un lugar donde tus proyectos cobran vida.
     </div>
-    <div class="shadow p-4 mt-3 rounded">
-      <div class="pt-1">
+    <div class="px-3 py-3">
+      <form (ngSubmit)="preRegistroUser()">
+        <!-- Nombre -->
+        <input
+          type="text"
+          name="name"
+          id="name"
+          class="form-control"
+          placeholder="Nombre"
+          [(ngModel)]="user.name"
+          aria-describedby="helpId"
+        />
+
         <!-- Correo -->
         <input
           type="text"
@@ -19,33 +29,25 @@
           id="email"
           class="form-control"
           placeholder="Correo"
+          [(ngModel)]="user.email"
           aria-describedby="helpId"
         />
-
-        <!-- Contraseña -->
-        <label for="password"></label>
+        <!-- contraseña -->
         <input
-          type="text"
+          type="password"
           name="password"
           id="password"
           class="form-control"
           placeholder="Contraseña"
+          [(ngModel)]="user.password"
           aria-describedby="helpId"
         />
-        <!-- Repetir contraseña -->
-        <label for="repassword"></label>
-        <input
-          type="text"
-          name="repassword"
-          id="repassword"
-          class="form-control"
-          placeholder="Repetir contraseña"
-          aria-describedby="helpId"
-        />
-      </div>
-      <div class="mt-4">
-          <button type="button" id="" class="btn btn-primary btn-block">Siguiente</button>
-      </div>
+        <div class="mt-4">
+          <button type="submit" id="" class="btn btn-primary btn-block">
+            Continuar
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
