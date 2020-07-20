@@ -1,0 +1,17 @@
+@import 'variables.scss';
+
+#logo {
+    width: 150px;
+}
+
+.login-title {
+    font-family: Montserrat;
+    font-weight: bold;
+    font-size: 3em;
+    color: $blue-crayola;
+}
+
+.login-subtitle {
+    font-family: Poppins;
+    font-size: 1.5em;
+}
