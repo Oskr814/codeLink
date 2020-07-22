@@ -151,31 +151,56 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 25px 20px 30px;
-  border-radius: 50px;
-  text-align: center;
+  align-items: left;
+  text-align: left;
 }
 
 .precio-card:hover {
-  cursor: pointer;
-  transform: scale(1.03);
-  transition: transform 0.5s;
+  .precio-card-header {
+    background: #6278df;
+    color: white;
+    transition: background .7s;
+  }
+
+  .btn-precio {
+    box-shadow: none;
+    background: #6278df;
+    color: white;
+  }
+}
+
+.precio-card-header {
+  padding: 40px 20px 40px;
+  border-bottom: solid 1px #cfcdcd;
+}
+
+.precio-card-body {
+  padding: 40px 20px 40px;
+}
+
+.btn-precio {
+  box-shadow: 2.5px 4.33px 30px 0 rgba(64,87,191,0.2);
+  font-weight: bold;
+  color: #6278df;
+}
+
+.btn-precio:hover {
+  box-shadow: none;
+  background: #000 !important;
+  color: white;
 }
 
 .precio-rate {
-  color: #303669;
   font-weight: 800;
   font-family: Montserrat;
-  font-size: 50px;
+  font-size: 35px;
   line-height: 1;
 }
 
 .precio-period {
   font-size: 18px;
   font-family: Poppins;
-  font-weight: 600;
-  color: #78c2ff;
+  font-weight: 500;
 }
 
 .precio-title {
@@ -206,14 +231,6 @@
   font-size: 18px;
   font-family: Poppins;
   font-weight: 400;
-  color: #000;
-}
-
-.precio-all-plan-features-section {
-  text-align: left;
-  width: 100%;
-  display: flex;
-  margin: 15px 0;
 }
 
 .precio-card ul {
@@ -226,8 +243,20 @@
   padding-bottom: 1.5em;
 }
 
-.featured {
-  border: 7px dashed #78c2ff;
+.precio-card li.check:before {
+  content: "\f00c";
+  font-family: fontawesome;
+  color: #6278df;
+  font-size: 2em;
+  margin-right: 5px;
+}
+
+.precio-card li.uncheck:before {
+  content: "\f00d";
+  font-family: fontawesome;
+  color: #6278df;
+  font-size: 2em;
+  margin-right: 5px;
 }
 
 .contact-title-section {
