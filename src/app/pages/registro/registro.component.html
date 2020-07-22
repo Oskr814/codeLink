@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 d-none d-lg-block">
+      <img src="assets/images/illustrations/wfh_1.svg" alt="" class="w-100" />
+    </div>
+    <div class="col-lg-6 px-4 py-3">
+      <div class="registro-title">
+        Registrate
+      </div>
+      <div class="registro-subtitle">
+        Un lugar donde tus proyectos cobran vida.
+      </div>
+      <div class="px-3 py-3">
+        <form
+          [formGroup]="form"
+          (ngSubmit)="preRegistroUser()"
+          *ngIf="!preRegistro"
+        >
+          <!-- Nombre -->
+          <div class="form-group">
+            <input
+              type="text"
+              name="name"
+              id="name"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': isInvalid('name'),
+                'is-valid': isValid('name')
+              }"
+              placeholder="Nombre"
+              formControlName="name"
+            />
+            <small class="text-danger" *ngIf="isInvalid('name')"
+              >Debe proporcionar un nombre</small
+            >
+          </div>
+
+          <!-- Correo -->
+          <div class="form-group">
+            <input
+              type="text"
+              name="email"
+              id="email"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': isInvalid('email'),
+                'is-valid': isValid('email')
+              }"
+              placeholder="Correo"
+              formControlName="email"
+            />
+            <small class="text-danger" *ngIf="isInvalid('email')"
+              >Debe ingreser una correo valido</small
+            >
+          </div>
+          <!-- contraseña -->
+          <div class="form-group">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': isInvalid('password'),
+                'is-valid': isValid('password')
+              }"
+              placeholder="Contraseña"
+              formControlName="password"
+              aria-describedby="helpId"
+            />
+            <small id="helpId" class="text-danger" *ngIf="isInvalid('password')"
+              >Debe ingresar una contraseña de al menos 8 caracteres</small
+            >
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': isInvalid('repassword'),
+                'is-valid': isValid('repassword')
+              }"
+              placeholder="Repetir contraseña"
+              formControlName="repassword"
+            />
+            <small id="helpId" class="text-danger" *ngIf="isInvalid('repassword')"
+              >Las contraseñas no coinciden</small
+            >
+          </div>
+
+          <div class="mt-4">
+            <button type="submit" id="" class="btn btn-primary btn-block">
+              Continuar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

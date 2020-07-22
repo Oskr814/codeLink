@@ -1,0 +1,59 @@
+@import 'variables.scss';
+
+.active {
+  position: absolute;
+  background-color: #2176ffff;
+  width: 250%;
+  height: 100%;
+  color: white;
+  border-radius: 0 10px 10px 0;
+  top: 0;
+  right: -40px;
+  z-index: -1;
+}
+
+ul,
+li {
+  font-size: 1em;
+  color: #5f6368;
+  list-style: none;
+}
+
+label:hover {
+  cursor: pointer;
+  color: $blue-crayola;
+  font-weight: 500;
+}
+
+#menu {
+  padding-left: 20px;
+  height: 400px;
+}
+
+#menu li {
+  line-height: 180%;
+  white-space: nowrap;
+}
+
+#menu input[name="list"] {
+  position: absolute;
+  left: -1000em; //Ocultar check Icon
+}
+#menu label:before {
+  content: "\f054 \00a0 \00a0 \00a0 \f07b";
+  font-family: fontawesome;
+  font-size: 1em;
+  margin-right: 4px;
+}
+
+#menu input:checked ~ label:before {
+  content: "\f078 \00a0 \00a0 \00a0 \f07c";
+  font-family: fontawesome;
+}
+
+#menu .interior {
+  display: none;
+}
+#menu input:checked ~ ul {
+  display: block;
+}

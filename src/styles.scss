@@ -4,3 +4,22 @@
 @import "~highlight.js/scss/monokai.scss";
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
+
+/* FontAwesome*/
+@import "~font-awesome/scss/font-awesome.scss";
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: Poppins;
+    font-size: 15px;
+    padding-top: 70px;
+}
+
+.form-group {
+    height: 45px;
+}

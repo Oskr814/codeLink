@@ -1,3 +1,7 @@
+.section {
+  margin: 100px 0;
+}
+
 .code-card-bg {
   position: relative;
   background-color: #e4e7f8;
@@ -30,10 +34,6 @@
 // Sobreescribir background
 .hljs {
   background-color: transparent;
-}
-
-.section {
-  margin: 50px 0;
 }
 
 .header-title {
@@ -152,14 +152,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 45px 40px 55px;
+  padding: 25px 20px 30px;
   border-radius: 50px;
   text-align: center;
 }
 
 .precio-card:hover {
   cursor: pointer;
-  transform: scale(1.05);
+  transform: scale(1.03);
   transition: transform 0.5s;
 }
 
@@ -167,7 +167,7 @@
   color: #303669;
   font-weight: 800;
   font-family: Montserrat;
-  font-size: 59px;
+  font-size: 50px;
   line-height: 1;
 }
 
@@ -207,7 +207,6 @@
   font-family: Poppins;
   font-weight: 400;
   color: #000;
-  margin-top: 20px;
 }
 
 .precio-all-plan-features-section {

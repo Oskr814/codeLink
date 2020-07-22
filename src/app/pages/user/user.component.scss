@@ -1,0 +1,15 @@
+#img-perfil-container {
+  display: grid;
+  place-items: center;
+}
+
+.img-pefil {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.title {
+    font-weight: 500;
+}

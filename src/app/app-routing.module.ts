@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LandingComponent } from './components/landing/landing.component';
-import { RegistroComponent } from './components/registro/registro.component';
-import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
+import { LandingComponent } from './pages/landing/landing.component';
+import { RegistroComponent } from './pages/registro/registro.component';
+import { LoginComponent } from './pages/login/login.component';
+import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
+import { UserComponent } from './pages/user/user.component';
+import { PlanesComponent } from './pages/planes/planes.component';
 
 const routes: Routes = [
   {
@@ -18,7 +20,14 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user',
+    component: UserComponent,
+  },
+  {
+    path: 'plans',
+    component: PlanesComponent,
   },
   { path: '', redirectTo: '/', pathMatch: 'full' },
   {
@@ -27,8 +36,13 @@ const routes: Routes = [
   },
 ];
 
+const routerOptions: ExtraOptions = {
+  onSameUrlNavigation: 'ignore',
+  anchorScrolling: 'enabled',
+  scrollPositionRestoration: 'enabled',
+};
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

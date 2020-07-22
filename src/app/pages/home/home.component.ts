@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  activeFolder: string;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  active(event) {
+    this.activeFolder = event.target.id;
   }
 
 }

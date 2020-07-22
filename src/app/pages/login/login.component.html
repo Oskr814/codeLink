@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 d-none d-lg-block">
+      <img
+        src="assets/images/illustrations/login.svg"
+        alt=""
+        class="w-100 h-100"
+      />
+    </div>
+    <div class="col-lg-6 px-4 py-3">
+      <div class="login-title">
+        Iniciar sesion
+      </div>
+      <div class="login-subtitle">
+        Accede para continuar tu trabajo
+      </div>
+      <div class="p-3 mt-3">
+        <form [formGroup]="form" (ngSubmit)="login()">
+          <!-- Correo -->
+          <div class="form-group">
+            <input
+              type="text"
+              name="email"
+              id="email"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': isInvalid('email'),
+                'is-valid': isValid('email')
+              }"
+              placeholder="Correo"
+              formControlName="email"
+            />
+            <small class="text-danger" *ngIf="isInvalid('email')"
+              >Debe proporcionar un correo valido</small
+            >
+          </div>
+
+          <!-- Contraseña -->
+          <div class="form-group">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': isInvalid('password'),
+                'is-valid': isValid('password')
+              }"
+              placeholder="Contraseña"
+              formControlName="password"
+            />
+            <small class="text-danger" *ngIf="isInvalid('password')"
+              >Debe ingresar su contraseña</small
+            >
+          </div>
+          <div class="mt-4">
+            <button type="submit" id="" class="btn btn-primary btn-block">
+              Iniciar sesion
+            </button>
+          </div>
+          <div class="text-center mt-2">
+            <a [routerLink]="['/registro']">Eres nuevo? Registrate</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
