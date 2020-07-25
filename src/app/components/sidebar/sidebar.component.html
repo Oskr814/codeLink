@@ -1,0 +1,32 @@
+<div [ngClass]="{ toggle: toggleSidebar }" id="sidebar-wrapper">
+    <div class="list-group list-group-flush">
+        <div ngbDropdown placement="right" class="d-inline-block mx-auto">
+            <button
+                class="btn btn-primary rounded-pill my-4"
+                id="dropdownNuevo"
+                ngbDropdownToggle
+            >
+                <i class="fa fa-plus mr-2" aria-hidden="true"></i> Nuevo
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownNuevo">
+                <button
+                    class="btn btn-light"
+                    ngbDropdownItem
+                    (click)="new('carpeta')"
+                >
+                    Carpeta
+                </button>
+                <button
+                    class="btn btn-light"
+                    ngbDropdownItem
+                    (click)="new('proyecto')"
+                >
+                    Proyecto
+                </button>
+            </div>
+        </div>
+        <ng-scrollbar id="tree">
+            <app-folder-tree-view></app-folder-tree-view>
+        </ng-scrollbar>
+    </div>
+</div>

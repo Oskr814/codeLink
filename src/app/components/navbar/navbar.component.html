@@ -1,16 +1,65 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light shadow-sm fixed-top">
-    <a class="navbar-brand" href="#">
-        <img [src]="logoUrl" alt="" id="img-logo">
-    </a>
-    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+    <button
+        type="button"
+        class="mr-2"
+        id="btn-sidebar-toggle"
+        *ngIf="actualRoute === '/home'"
+        (click)="toggleSidebar()"
+    >
+        <i class="fa fa-bars" aria-hidden="true"></i>
     </button>
+    <a class="navbar-brand" [routerLink]="[user ? '/home' : '/']">
+        <img [src]="logoUrl" alt="" id="img-logo" />
+    </a>
     <div class="collapse navbar-collapse" id="collapsibleNavId">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li
+                class="nav-item"
+                ngbDropdown
+                display="dynamic"
+                placement="bottom-right"
+                *ngIf="!user"
+            >
+                <button
+                    type="button"
+                    class="btn btn-sm btn-outline-primary"
+                    [routerLink]="['login']"
+                >
+                    Login
+                </button>
+            </li>
+            <li
+                class="nav-item"
+                ngbDropdown
+                display="dynamic"
+                placement="bottom-right"
+                *ngIf="user"
+            >
+                <img
+                    ngbDropdownToggle
+                    role="button"
+                    tabindex="0"
+                    [src]="user.photoURL"
+                    class="border"
+                />
+
+                <div
+                    ngbDropdownMenu
+                    aria-labelledby="navbarDropdown3"
+                    class="dropdown-menu"
+                >
+                    <a ngbDropdownItem href="#" [routerLink]="['user']"
+                        >Perfil</a
+                    >
+                    <a
+                        ngbDropdownItem
+                        href="#"
+                        ngbDropdownItem
+                        (click)="logOut()"
+                        >logOut</a
+                    >
+                </div>
+            </li>
         </ul>
-        <div class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-primary my-2 my-sm-0" [routerLink]="['/login']">Login</button>
-        </div>
     </div>
 </nav>

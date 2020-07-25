@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserModel } from '../../models/user.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
@@ -14,15 +15,11 @@ export class RegistroComponent implements OnInit {
 
   preRegistro: Boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private router: Router) {
     this.initForm();
   }
 
-  ngOnInit(): void {
-    this.user = new UserModel();
-
-    this.user.email = 'oscar@gmail.com';
-  }
+  ngOnInit(): void {}
 
   initForm() {
     this.form = this.formBuilder.group(
@@ -68,7 +65,7 @@ export class RegistroComponent implements OnInit {
   preRegistroUser() {
     if (this.validForm()) {
       console.log('registro');
-      this.preRegistro = false;
+      this.router.navigate(['/plans']);
     }
   }
 }

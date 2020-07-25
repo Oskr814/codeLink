@@ -1,74 +1,108 @@
-<div class="container-fluid">
-  <div class="row my-5">
-    <div class="col-lg-3 col-md-4 d-lg-block d-md-block d-none">
-      <button
-        type="button"
-        class="btn btn-primary btn-block rounded-pill mb-4 w-75"
-      >
-        <i class="fa fa-plus mr-2" aria-hidden="true"></i> Nuevo
-      </button>
-      <ng-scrollbar id="tree">
-        <app-folder-tree-view></app-folder-tree-view>
-      </ng-scrollbar>
-    </div>
-    <div class="col-lg-9 col-md-8">
-      <div class="container">
+<div class="d-flex">
+    <app-sidebar (createNew)="showModal(content, $event)"></app-sidebar>
+
+    <div class="container">
         <div class="row title">
-          Proyectos recientes
+            <div class="col-12">
+                Proyectos recientes
+            </div>
         </div>
         <div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-12">
-            <div class="project-card p-2 my-3">
-              Proyecto1
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="project-card p-2 my-3">
+                    Proyecto1
+                </div>
             </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12">
-            <div class="project-card p-2 my-3">
-              Proyecto2
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="project-card p-2 my-3">
+                    Proyecto2
+                </div>
             </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-12">
-            <div class="project-card p-2 my-3">
-              Proyecto3
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="project-card p-2 my-3">
+                    Proyecto3
+                </div>
             </div>
-          </div>
         </div>
         <div class="row mt-4">
-          <div class="col-lg-12">
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <td scope="col">Nombre</td>
-                    <td scope="col">Fecha creacion</td>
-                    <td scope="col">Fecha de modificacion</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of [1,2,3,4,5,6,7]">
-                    <td>
-                      <div class="p-1">
-                        <i class="fa fa-folder" aria-hidden="true"></i>
-                        <span class="ml-2">Folder name</span>
-                      </div>
-                    </td>
-                    <td>20 Julio 2020 10:02 AM</td>
-                    <td>20 Julio 2020 01:02 PM</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <i class="fa fa-code" aria-hidden="true"></i>
-                      <span class="ml-2">Nombre proyecto</span>
-                    </td>
-                    <td>20 Julio 2020 10:02 AM</td>
-                    <td>20 Julio 2020 01:02 PM</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="col-lg-12">
+                <div class="text-right">
+                    <i
+                        class="fa fa-list text-muted mr-2"
+                        aria-hidden="true"
+                    ></i>
+                    <i class="fa fa-th text-muted" aria-hidden="true"></i>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td scope="col">Nombre</td>
+                                <td scope="col">Fecha creacion</td>
+                                <td scope="col">
+                                    Fecha de modificacion
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of [1, 2]">
+                                <td>
+                                    <div class="p-1">
+                                        <i
+                                            class="fa fa-folder"
+                                            aria-hidden="true"
+                                        ></i>
+                                        <span class="ml-2">Folder name</span>
+                                    </div>
+                                </td>
+                                <td>20 Julio 2020 10:02 AM</td>
+                                <td>20 Julio 2020 01:02 PM</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i
+                                        class="fa fa-code"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <span class="ml-2">Nombre proyecto</span>
+                                </td>
+                                <td>20 Julio 2020 10:02 AM</td>
+                                <td>20 Julio 2020 01:02 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header border-0 pb-0">
+        <h4 class="modal-title font-weight-light">{{ modalText.title }}</h4>
+    </div>
+    <div class="modal-body py-0">
+        <div class="form-group mt-2">
+            <input
+                type="text"
+                class="form-control"
+                name=""
+                id=""
+                aria-describedby="helpId"
+                [placeholder]="'Nombre ' + modalText.type"
+            />
+        </div>
+    </div>
+    <div class="modal-footer border-0 pt-0">
+        <button
+            type="button"
+            class="btn btn-ligth"
+            (click)="modal.close('Close click')"
+        >
+            Cancelar
+        </button>
+        <button type="button" class="btn btn-sm btn-primary">
+            Aceptar
+        </button>
+    </div>
+</ng-template>

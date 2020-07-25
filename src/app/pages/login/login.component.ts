@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +11,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private _authService: AuthService
+  ) {
     this.iniForm();
   }
 
@@ -23,7 +29,7 @@ export class LoginComponent implements OnInit {
   }
 
   isInvalid(campo) {
-    return this.form.get(campo).invalid && this.form.get(campo).touched
+    return this.form.get(campo).invalid && this.form.get(campo).touched;
   }
 
   isValid(campo) {
@@ -31,16 +37,17 @@ export class LoginComponent implements OnInit {
   }
 
   validForm() {
-    
-      Object.values(this.form.controls).forEach( control => {
-        control.markAsTouched();
-      });
+    Object.values(this.form.controls).forEach((control) => {
+      control.markAsTouched();
+    });
     return this.form.valid;
   }
 
   login() {
-    if(this.validForm()) {
-      console.log('login');
+    if (this.validForm()) {
+      const email = this.form.get('email').value;
+      const password = this.form.get('password').value;
+      this._authService.signIn(email, password);
     }
   }
 }

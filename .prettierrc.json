@@ -1,0 +1,8 @@
+{
+    "trailingComma": "none",
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": true,
+    "prettier.proseWrap": "never",
+    "html.format.wrapAttributes": "force-aligned"
+}

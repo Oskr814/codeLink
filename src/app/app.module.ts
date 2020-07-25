@@ -23,6 +23,7 @@ import { UserComponent } from './pages/user/user.component';
 import { ProyectosComponent } from './pages/proyectos/proyectos.component';
 import { FolderTreeViewComponent } from './components/folder-tree-view/folder-tree-view.component';
 import { PlanesComponent } from './pages/planes/planes.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { PlanesComponent } from './pages/planes/planes.component';
     ProyectosComponent,
     FooterComponent,
     FolderTreeViewComponent,
-    PlanesComponent
+    PlanesComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

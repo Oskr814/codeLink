@@ -1,18 +1,17 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-3 col-md-6">
       <h4 class="my-4">Imagen de perfil</h4>
       <div id="img-perfil-container">
         <img
           src="assets/images/illustrations/wfh_8.svg"
           alt=""
-          class="img-pefil"
+          class="img-pefil img-thumbnail mb-3 shadow-sm"
         />
+        <button type="button" id="btn-img-perfil">
+          <i class="fa fa-camera w-100" aria-hidden="true"></i>
+        </button>
       </div>
-      <button type="button" class="btn btn-block btn-sm btn-primary">
-        <i class="fa fa-picture-o mr-2" aria-hidden="true"></i>
-        Cambiar foto
-      </button>
     </div>
     <div class="col-lg-8 col-md-6 border-left">
       <h4 class="my-4">Informacion de Usuario</h4>
@@ -55,7 +54,7 @@
               <span class="title">Plan actual:</span> Plan Basico
             </div>
             <div class="col-lg-4 col-12">
-              <button type="button" class="btn btn-sm btn-block btn-success">
+              <button type="button" class="btn btn-sm btn-block btn-success" [routerLink]="['/plans']">
                 <i class="fa fa-refresh mr-2" aria-hidden="true"></i> Actualizar
                 plan
               </button>
