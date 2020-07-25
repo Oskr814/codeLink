@@ -8,69 +8,98 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card p-2 my-3">
                     Proyecto1
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card p-2 my-3">
                     Proyecto2
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card p-2 my-3">
                     Proyecto3
                 </div>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-lg-12">
+        <div class="row mt-4" *ngIf="deviceResolution > 576">
+            <div class="col-12">
                 <div class="text-right">
                     <i
-                        class="fa fa-list text-muted mr-2"
+                        class="btn btn-light fa fa-list text-muted mr-2"
                         aria-hidden="true"
+                        (click)="list = true"
                     ></i>
-                    <i class="fa fa-th text-muted" aria-hidden="true"></i>
+                    <i
+                        class="btn btn-light fa fa-th text-muted"
+                        aria-hidden="true"
+                        (click)="list = false"
+                    ></i>
                 </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <td scope="col">Nombre</td>
-                                <td scope="col">Fecha creacion</td>
-                                <td scope="col">
-                                    Fecha de modificacion
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of [1, 2]">
-                                <td>
-                                    <div class="p-1">
-                                        <i
-                                            class="fa fa-folder"
-                                            aria-hidden="true"
-                                        ></i>
-                                        <span class="ml-2">Folder name</span>
-                                    </div>
-                                </td>
-                                <td>20 Julio 2020 10:02 AM</td>
-                                <td>20 Julio 2020 01:02 PM</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i
-                                        class="fa fa-code"
-                                        aria-hidden="true"
-                                    ></i>
-                                    <span class="ml-2">Nombre proyecto</span>
-                                </td>
-                                <td>20 Julio 2020 10:02 AM</td>
-                                <td>20 Julio 2020 01:02 PM</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            </div>
+        </div>
+
+        <div class="row" [ngClass]="{ 'd-none': !list }">
+            <div class="table-responsive mt-3">
+                <table class="table">
+                    <tr>
+                        <td scope="col">Nombre</td>
+                        <td scope="col">Fecha creacion</td>
+                        <td scope="col">
+                            Fecha de modificacion
+                        </td>
+                    </tr>
+                    <tr *ngFor="let item of [1, 2]">
+                        <td>
+                            <div class="p-1">
+                                <i class="fa fa-folder" aria-hidden="true"></i>
+                                <span class="ml-2">Folder name</span>
+                            </div>
+                        </td>
+                        <td>20 Julio 2020 10:02 AM</td>
+                        <td>20 Julio 2020 01:02 PM</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="fa fa-code" aria-hidden="true"></i>
+                            <span class="ml-2">Nombre proyecto</span>
+                        </td>
+                        <td>20 Julio 2020 10:02 AM</td>
+                        <td>20 Julio 2020 01:02 PM</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row" [ngClass]="{ 'd-none': list }">
+            <div class="col-12">
+                Carpetas
+            </div>
+
+            <div
+                class="col-lg-3 col-md-4 col-6"
+                *ngFor="let item of [1, 2, 3, 4, 5]"
+            >
+                <div class="card mt-4">
+                    <div class="card-body text-truncate">
+                        <i class="fa fa-folder mr-3" aria-hidden="true"></i
+                        >Folder Name
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-4">
+                Proyectos
+            </div>
+
+            <div
+                class="col-lg-3 col-md-4 col-sm-6"
+                *ngFor="let item of [1, 2, 3, 4, 5]"
+            >
+                <div class="project-card p-2 my-3">
+                    Proyecto1
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 @import 'variables.scss';
+
 .title {
     font-weight: bold;
     font-size: 2em;
@@ -14,4 +15,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+}
+
+.card-body {
+    padding: 1em;
 }

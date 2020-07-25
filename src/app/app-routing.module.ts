@@ -7,42 +7,47 @@ import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UserComponent } from './pages/user/user.component';
 import { PlanesComponent } from './pages/planes/planes.component';
+import { ProyectosComponent } from './pages/proyectos/proyectos.component';
 
 const routes: Routes = [
-  {
-    path: 'registro',
-    component: RegistroComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-  },
-  {
-    path: 'user',
-    component: UserComponent,
-  },
-  {
-    path: 'plans',
-    component: PlanesComponent,
-  },
-  { path: '', redirectTo: '/', pathMatch: 'full' },
-  {
-    path: '**',
-    component: LandingComponent,
-  },
+    {
+        path: 'registro',
+        component: RegistroComponent
+    },
+    {
+        path: 'login',
+        component: LoginComponent
+    },
+    {
+        path: 'home',
+        component: HomeComponent
+    },
+    {
+        path: 'user',
+        component: UserComponent
+    },
+    {
+        path: 'plans',
+        component: PlanesComponent
+    },
+    {
+        path: 'proyecto',
+        component: ProyectosComponent
+    },
+    { path: '', redirectTo: '/', pathMatch: 'full' },
+    {
+        path: '**',
+        component: LandingComponent
+    }
 ];
 
 const routerOptions: ExtraOptions = {
-  onSameUrlNavigation: 'ignore',
-  anchorScrolling: 'enabled',
-  scrollPositionRestoration: 'enabled',
+    onSameUrlNavigation: 'ignore',
+    anchorScrolling: 'enabled',
+    scrollPositionRestoration: 'enabled'
 };
 @NgModule({
-  imports: [RouterModule.forRoot(routes, routerOptions)],
-  exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes, routerOptions)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {}

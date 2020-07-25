@@ -4,14 +4,12 @@ import { HighlightModule } from 'ngx-highlightjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-
-
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LandingComponent } from './pages/landing/landing.component';
-
+import { GridsterModule } from 'angular-gridster2';
 
 //Components
+import { AppComponent } from './app.component';
+import { LandingComponent } from './pages/landing/landing.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 
@@ -26,30 +24,31 @@ import { PlanesComponent } from './pages/planes/planes.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LandingComponent,
-    NavbarComponent,
-    RegistroComponent,
-    LoginComponent,
-    HomeComponent,
-    UserComponent,
-    ProyectosComponent,
-    FooterComponent,
-    FolderTreeViewComponent,
-    PlanesComponent,
-    SidebarComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NgbModule,
-    HighlightModule,
-    NgScrollbarModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        LandingComponent,
+        NavbarComponent,
+        RegistroComponent,
+        LoginComponent,
+        HomeComponent,
+        UserComponent,
+        ProyectosComponent,
+        FooterComponent,
+        FolderTreeViewComponent,
+        PlanesComponent,
+        SidebarComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgbModule,
+        HighlightModule,
+        NgScrollbarModule,
+        GridsterModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

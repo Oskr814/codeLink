@@ -1,0 +1,22 @@
+.project-container {
+    height: 100%;
+}
+.code {
+    height: 33.3%;
+    background: #cccc;
+}
+
+#html,
+#css,
+#js,
+#code {
+    width: 50%;
+    border: solid 1px;
+}
+
+#code {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    height: calc(100% - 60px);
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -10,9 +10,24 @@ export class HomeComponent implements OnInit {
     activeFolder: string;
     modalText: { title: string; type: string };
 
+    list: boolean = true;
+
+    deviceResolution: number;
+
     constructor(private modalService: NgbModal) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.deviceResolution = window.innerWidth;
+
+        this.list = this.deviceResolution > 576;
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.deviceResolution = window.innerWidth;
+
+        this.list = this.deviceResolution > 576;
+    }
 
     active(event) {
         this.activeFolder = event.target.id;
