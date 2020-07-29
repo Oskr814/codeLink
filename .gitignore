@@ -1,46 +1,50 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
-
+#FrontEnd
 # compiled output
-/dist
-/tmp
-/out-tsc
+/codeLink-app/dist
+/codeLink-app/tmp
+/codeLink-app/out-tsc
 # Only exists if Bazel was run
-/bazel-out
+/codeLink-app/bazel-out
 
 # dependencies
-/node_modules
+/codeLink-app/node_modules
 
 # profiling files
-chrome-profiler-events*.json
-speed-measure-plugin*.json
+/codeLink-app/chrome-profiler-events*.json
+/codeLink-app/speed-measure-plugin*.json
 
 # IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+/codeLink-app/.idea
+/codeLink-app/.project
+/codeLink-app/.classpath
+/codeLink-app/.c9/
+/codeLink-app/*.launch
+/codeLink-app/.settings/
+/codeLink-app/*.sublime-workspace
 
 # IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
+/codeLink-app/.vscode/*
+/codeLink-app/!.vscode/settings.json
+/codeLink-app/!.vscode/tasks.json
+/codeLink-app/!.vscode/launch.json
+/codeLink-app/!.vscode/extensions.json
+/codeLink-app/.history/*
 
 # misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
+/codeLink-app/.sass-cache
+/codeLink-app/connect.lock
+/codeLink-app/coverage
+/codeLink-app/libpeerconnection.log
+/codeLink-app/npm-debug.log
+/codeLink-app/yarn-error.log
+/codeLink-app/testem.log
+/codeLink-app/typings
 
 # System Files
-.DS_Store
-Thumbs.db
+/codeLink-app/.DS_Store
+/codeLink-app/Thumbs.db
+
+
+#BackEnd
+/codeLink-api/node_modules
