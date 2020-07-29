@@ -5,14 +5,27 @@
     <div class="code" id="code"></div> -->
 
     <gridster [options]="options">
-        <gridster-item [item]="item" *ngFor="let item of dashboard">
-            <div>
-                <div
-                    id="editor"
-                    class="monaco-editor"
-                    style="width: 100%; height: 1000px;"
-                ></div>
-            </div>
+        <gridster-item [item]="dashboard[0]">
+            <ngx-monaco-editor
+                [options]="editorHTML"
+                [(ngModel)]="codeHTML"
+                style="height: 100%;"
+            ></ngx-monaco-editor>
         </gridster-item>
+        <gridster-item [item]="dashboard[1]">
+            <ngx-monaco-editor
+                [options]="editorCSS"
+                [(ngModel)]="codeCSS"
+                style="height: 100%;"
+            ></ngx-monaco-editor>
+        </gridster-item>
+        <gridster-item [item]="dashboard[2]">
+            <ngx-monaco-editor
+                [options]="editorJS"
+                [(ngModel)]="codeJS"
+                style="height: 100%;"
+            ></ngx-monaco-editor>
+        </gridster-item>
+        <gridster-item [item]="dashboard[3]"> </gridster-item>
     </gridster>
 </div>

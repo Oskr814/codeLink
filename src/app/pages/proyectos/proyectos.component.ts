@@ -1,39 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 
+declare const monaco: any;
 @Component({
     selector: 'app-proyectos',
     templateUrl: './proyectos.component.html',
     styleUrls: ['./proyectos.component.scss']
 })
 export class ProyectosComponent implements OnInit {
+    editorHTML = { theme: 'vs-dark', language: 'html' };
+    editorCSS = { theme: 'vs-dark', language: 'css' };
+    editorJS = { theme: 'vs-dark', language: 'javascript' };
+    codeHTML: string;
+    codeCSS: string;
+    codeJS: string;
+
     options: GridsterConfig;
     dashboard: Array<GridsterItem>;
-    sampleCodes = [
-        {
-            type: 'html',
-            code: `<div id="codeLink">
-  Hola mundo!
-</div>
-<h1>codeLink</h1>`
-        },
-        {
-            type: 'js',
-            code: `let nombre = 'Link';
-const info = 
-getInfo(nombre);
-console.log(info);`
-        },
-        {
-            type: 'css',
-            code: `div { 
-      font-size: 18px;
-      color: #171C19;
-    }`
-        }
-    ];
-
-    dimenssions: {};
 
     constructor() {}
 
@@ -66,9 +49,9 @@ console.log(info);`
         };
 
         this.dashboard = [
-            { cols: 1, rows: 1, y: 0, x: 0 },
-            { cols: 1, rows: 1, y: 1, x: 0 },
-            { cols: 1, rows: 1, y: 2, x: 0 },
+            { cols: 2, rows: 1, y: 0, x: 0 },
+            { cols: 2, rows: 1, y: 1, x: 0 },
+            { cols: 2, rows: 1, y: 2, x: 0 },
             { cols: 2, rows: 3, y: 0, x: 1 }
         ];
     }

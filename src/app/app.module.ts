@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { AppRoutingModule } from './app-routing.module';
 import { GridsterModule } from 'angular-gridster2';
+import { MonacoEditorModule, MONACO_PATH } from '@materia-ui/ngx-monaco-editor';
 
 //Components
 import { AppComponent } from './app.component';
@@ -46,9 +47,15 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
         NgbModule,
         HighlightModule,
         NgScrollbarModule,
-        GridsterModule
+        GridsterModule,
+        MonacoEditorModule
     ],
-    providers: [],
+    providers: [
+        {
+            provide: MONACO_PATH,
+            useValue: 'https://unpkg.com/monaco-editor@0.18.1/min/vs'
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
