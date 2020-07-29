@@ -1,14 +1,14 @@
 # codeLink
 Proyecto desarrollado con Angular, NodeJS y MongoDB
 
-##FrontEnd
+## FrontEnd
 ```sh
 $ cd codeLink-app
 $ npm install
 $ ng serve
 ```
 
-##BackEnd
+## BackEnd
 ```sh
 $ cd codeLink-api
 $ npm install
