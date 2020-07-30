@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
 
 let verificarToken = (req, res, next) => {
-  let token = req.get("token");
+  const token = req.get("token");
 
   jwt.verify(token, process.env.SEED, (err, decoded) => {
     if (err) {
       return res.status(401).json({
+        ok: false,
         message: "Token no valido",
       });
     }
@@ -15,8 +16,4 @@ let verificarToken = (req, res, next) => {
   });
 };
 
-
-
-module.exports = {
-    verificarToken
-};
+module.exports = verificarToken;

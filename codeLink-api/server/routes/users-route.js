@@ -3,18 +3,19 @@ const bcrypt = require("bcrypt");
 
 const app = express();
 
-const Usuario = require("../models/user-model");
+const User = require("../models/user-model");
+const verificarToken = require('../middlewares/auth');
 
 //CREATE
 app.post("/user", (req, res) => {
-  let newUser = req.body;
+  let body = req.body;
 
-  let user = new Usuario({
-    name: newUser.name,
-    email: newUser.email,
-    password: bcrypt.hashSync(newUser.password, 10),
-    role: newUser.role,
-    plan: newUser.plan,
+  let user = new User({
+    name: body.name,
+    email: body.email,
+    password: bcrypt.hashSync(body.password, 10),
+    role: body.role,
+    plan: body.plan,
   });
 
   user.save((err, user) => {
@@ -25,65 +26,65 @@ app.post("/user", (req, res) => {
       });
     }
 
-    return res.status(200).json({
+    return res.json({
       ok: true,
       user,
     });
   });
 });
 //READ
-app.get("/user", (req, res) => {
-  Usuario.find({status: true})
+app.get("/user", verificarToken, (req, res) => {
+  User.find({status: true})
     .then((users) => {
-      res.status(200).json({
+      res.json({
           ok: true,
           users
       });
     })
     .catch((err) => {
-      res.status(422).json({
+      res.status(500).json({
         ok: false,
         err,
       });
     });
 });
 
-app.put("/user/:id", (req, res) => {
+app.put("/user/:id", verificarToken, (req, res) => {
   let id = req.params.id;
-  let user = req.body;
+  let body = req.body;
 
   //Eliminar posibles campos que no se deberian actualizar de esta manera
-  delete user.password;
-  delete user.plan;
-  delete user.email;
+  delete body.password;
+  delete body.plan;
+  delete body.email;
 
-  Usuario.update({ _id: id }, user, { runValidators: true })
+  User.update({ _id: id }, body, { runValidators: true })
     .then((result) => {
-      res.status(200).json({
+      res.json({
         ok: true,
         result,
       });
     })
     .catch((err) => {
-      res.status(422).json({
+      res.status(500).json({
         ok: false,
         err,
       });
     });
 });
 
-app.delete("/user/:id", (req, res) => {
+app.delete("/user/:id", verificarToken, (req, res) => {
     let id = req.params.id;
 
-    Usuario.update({_id: id}, {status: false})
+    User.update({_id: id}, {status: false})
     .then( result => {
-        res.status(200).json({
+        res.json({
             ok: true,
             result
         })
     })
     .catch( err => {
-        res.status(422).json({
+        res.status(500).json({
             ok: false,
             err
         })

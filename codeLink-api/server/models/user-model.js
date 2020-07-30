@@ -2,8 +2,6 @@ const moongose = require("mongoose");
 
 let Schema = moongose.Schema;
 
-const roles = ["ADMIN_ROLE", "USER_ROLE"];
-
 let userSchema = new Schema({
   name: {
     type: String,
@@ -20,11 +18,6 @@ let userSchema = new Schema({
   },
   img: {
     type: String,
-  },
-  role: {
-    type: String,
-    default: "USER_ROLE",
-    enum: roles,
   },
   plan: {
     type: String,
