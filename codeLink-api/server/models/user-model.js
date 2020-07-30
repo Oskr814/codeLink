@@ -19,9 +19,12 @@ let userSchema = new Schema({
   img: {
     type: String,
   },
+  pre: { //Preregistro
+    type: Boolean,
+    default: true
+  },
   plan: {
     type: String,
-    required: [true, "El plan es requerido"],
   },
   status: {
       type: Boolean,
