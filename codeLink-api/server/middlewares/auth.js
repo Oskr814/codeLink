@@ -1,7 +1,13 @@
 const jwt = require("jsonwebtoken");
 
 let verificarToken = (req, res, next) => {
-  const token = req.get("token");
+  let token = req.get("token");
+
+  if(token.startsWith('Bearer ')) {
+    token = token.slice(7, token.length);
+  }
+
+  console.log(token);
 
   jwt.verify(token, process.env.SEED, (err, decoded) => {
     if (err) {
