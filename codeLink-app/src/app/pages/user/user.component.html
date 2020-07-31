@@ -4,7 +4,7 @@
       <h4 class="my-4">Imagen de perfil</h4>
       <div id="img-perfil-container">
         <img
-          src="assets/images/illustrations/wfh_8.svg"
+          [src]="user.img? user.img : 'assets/images/default-user.svg'"
           alt=""
           class="img-pefil img-thumbnail mb-3 shadow-sm"
         />

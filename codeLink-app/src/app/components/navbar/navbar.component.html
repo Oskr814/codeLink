@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light shadow-sm fixed-top">
+<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom fixed-top">
     <button
         type="button"
         class="mr-2"
@@ -11,8 +11,8 @@
     <a class="navbar-brand" [routerLink]="[user ? '/home' : '/']">
         <img [src]="logoUrl" alt="" id="img-logo" />
     </a>
-    <div class="collapse navbar-collapse" id="collapsibleNavId">
-        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+    <div class="ml-auto">
+        <ul class="navbar-nav mt-2 mt-lg-0">
             <li
                 class="nav-item"
                 ngbDropdown
@@ -40,7 +40,7 @@
                     ngbDropdownToggle
                     role="button"
                     tabindex="0"
-                    [src]="user.photoURL"
+                    [src]="user.img ? user.img : 'assets/images/default-user.svg'"
                     class="border"
                 />
 

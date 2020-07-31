@@ -1,22 +1,59 @@
 @import 'variables.scss';
 
+.toggle-animation {
+    transition: margin-left .25s;
+}
+
+.toggle {
+    margin-left: 15rem;
+}
+
 .title {
     font-weight: bold;
-    font-size: 2em;
+    font-size: 1.5em;
+}
+
+.content {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-top: 15px;
+    padding: 15px 10px;
 }
 
 .project-card {
+    position: relative;
     width: 100%;
     height: 150px;
-    border: solid 1px $blue-crayola;
     box-sizing: border-box;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    background-image: url('../../../assets/images/illustrations/wfh_3.svg');
+    background-color: white;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
 }
 
+.proyect-card-title {
+    position: absolute;
+    bottom: 10px;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #5f6368;
+    width: 100%;
+}
+
 .card-body {
     padding: 1em;
+}
+
+table .tile {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+@media (max-width: 576px) {
+    .toggle {
+        margin: 0;
+    }
 }

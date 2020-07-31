@@ -1,13 +1,14 @@
 #sidebar-wrapper {
+    position: fixed;
+    z-index: 1;
+    background: white;
     min-height: 100vh;
-    -webkit-transition: margin 0.25s ease-out;
-    -moz-transition: margin 0.25s ease-out;
-    -o-transition: margin 0.25s ease-out;
-    transition: margin 0.25s ease-out;
+    transition: margin 0.25s;
 }
 
 #sidebar-wrapper.toggle {
     margin-left: -15rem;
+  //  transition: margin 0s;
 }
 
 #sidebar-wrapper .sidebar-heading {

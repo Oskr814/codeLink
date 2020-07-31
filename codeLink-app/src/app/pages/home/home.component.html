@@ -1,26 +1,31 @@
 <div class="d-flex">
-    <app-sidebar (createNew)="openModal(content, $event)"></app-sidebar>
+    <app-sidebar class="bg-white" (createNew)="openModal(content, $event)"></app-sidebar>
 
-    <div class="container">
-        <div class="row title">
-            <div class="col-12">
+    <div class="toggle-animation w-100 px-5 py-4" [ngClass]="{'toggle': !toggleSidebar}">
+        <div class="row content">
+            <div class="col-12 title">
                 Proyectos recientes
             </div>
-        </div>
-        <div class="row">
+        
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card p-2 my-3">
-                    Proyecto1
+                    <div class="proyect-card-title">
+                        Proyecto2
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card p-2 my-3">
-                    Proyecto2
+                    <div class="proyect-card-title">
+                        Proyecto1
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card p-2 my-3">
-                    Proyecto3
+                    <div class="proyect-card-title">
+                        Proyecto2
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,12 +33,12 @@
             <div class="col-12">
                 <div class="text-right">
                     <i
-                        class="btn btn-light fa fa-list text-muted mr-2"
+                        class="btn btn-light shadow-sm fa fa-list text-muted mr-2"
                         aria-hidden="true"
                         (click)="list = true"
                     ></i>
                     <i
-                        class="btn btn-light fa fa-th text-muted"
+                        class="btn btn-light shadow-sm fa fa-th text-muted"
                         aria-hidden="true"
                         (click)="list = false"
                     ></i>
@@ -41,9 +46,12 @@
             </div>
         </div>
 
-        <div class="row" [ngClass]="{ 'd-none': !list }">
+        <div class="row content" [ngClass]="{ 'd-none': !list }">
+            <div class="col-12 title">
+                Carpetas
+            </div>
             <div class="table-responsive mt-3">
-                <table class="table">
+                <table class="table bg-white">
                     <tr>
                         <td scope="col">Nombre</td>
                         <td scope="col">Fecha creacion</td>

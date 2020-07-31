@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
     selector: 'app-home',
@@ -14,7 +15,16 @@ export class HomeComponent implements OnInit {
 
     deviceResolution: number;
 
-    constructor(private modalService: NgbModal) {}
+    toggleSidebar: boolean;
+
+    constructor(
+        private modalService: NgbModal,
+        private _sidebarService: SidebarService
+    ) {
+        this._sidebarService.hideSidebar.subscribe(
+            (toggle) => (this.toggleSidebar = toggle)
+        );
+    }
 
     ngOnInit(): void {
         this.deviceResolution = window.innerWidth;
