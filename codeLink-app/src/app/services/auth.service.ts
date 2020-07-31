@@ -3,18 +3,16 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { catchError, retry } from 'rxjs/operators';
-import { JwtHelperService } from '@auth0/angular-jwt';
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    user$ = new BehaviorSubject<User>(this.userAuth());
+    user$ = new BehaviorSubject<User>(this.authUser());
     constructor(
         private router: Router,
-        private httpClient: HttpClient,
-        private jwtHelper: JwtHelperService
+        private httpClient: HttpClient
     ) {}
 
     async login(email: string, password: string) {
@@ -26,7 +24,7 @@ export class AuthService {
             .subscribe(
                 (res: any) => {
                     if (res.ok) {
-                        localStorage.setItem('token', res.token);
+                        this.setToken(res.token)
 
                         this.user$.next(res.user);
 
@@ -44,8 +42,8 @@ export class AuthService {
         this.router.navigate(['/']);
     }
 
-    userAuth(): User {
-        let token = localStorage.getItem('token');
+    authUser(): User {
+        let token = localStorage.getItem('token');      
 
         if (token) {
             const base64URL = token.split('.')[1];
@@ -55,5 +53,11 @@ export class AuthService {
         }
 
         return null;
+    }
+
+    setToken(token) {
+        localStorage.setItem('token', token);
+
+        this.user$.next(this.authUser());
     }
 }
