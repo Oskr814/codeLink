@@ -6,4 +6,4 @@ process.env.PORT = process.env.PORT || 3000;
 process.env.SEED = process.env.SEED || 'JWT-secret';
 
 //JWT EXP
-process.env.JWTEXP = 60 * 60 * 24;
+process.env.JWTEXP = 60 * 60 * 24 * 30;
