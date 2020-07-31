@@ -6,4 +6,6 @@ export interface User {
   img?: string;
   status?: boolean;
   plan?: string,
+  creditCard?: Object,
+  paymentMethod: boolean
 }
