@@ -11,6 +11,10 @@ import { ProyectosComponent } from './pages/proyectos/proyectos.component';
 
 const routes: Routes = [
     {
+        path: 'landing',
+        component: LandingComponent
+    },
+    {
         path: 'registro',
         component: RegistroComponent
     },
@@ -20,11 +24,13 @@ const routes: Routes = [
     },
     {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'user',
-        component: UserComponent
+        component: UserComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'plans',
@@ -32,12 +38,17 @@ const routes: Routes = [
     },
     {
         path: 'proyecto',
-        component: ProyectosComponent
+        component: ProyectosComponent,
+        canActivate: [AuthGuard]
     },
-    { path: '', redirectTo: '/', pathMatch: 'full' },
     {
         path: '**',
-        component: LandingComponent
+        pathMatch: 'full',
+        redirectTo: '/home'
+    },
+    {
+        path: '',
+        component: LandingComponent,
     }
 ];
 

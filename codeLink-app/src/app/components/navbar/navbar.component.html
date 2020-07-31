@@ -3,7 +3,7 @@
         type="button"
         class="mr-2"
         id="btn-sidebar-toggle"
-        *ngIf="actualRoute === '/home'"
+        *ngIf="actualRoute === '/home' && !user.pre"
         (click)="toggleSidebar()"
     >
         <i class="fa fa-bars" aria-hidden="true"></i>
@@ -24,6 +24,7 @@
                     type="button"
                     class="btn btn-sm btn-outline-primary"
                     [routerLink]="['login']"
+                    *ngIf="actualRoute !== '/login' && !user"
                 >
                     Login
                 </button>

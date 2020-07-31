@@ -1,12 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HighlightModule } from 'ngx-highlightjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { AppRoutingModule } from './app-routing.module';
 import { GridsterModule } from 'angular-gridster2';
 import { MonacoEditorModule, MONACO_PATH } from '@materia-ui/ngx-monaco-editor';
+import { JwtModule } from '@auth0/angular-jwt';
 
 //Components
 import { AppComponent } from './app.component';
@@ -44,11 +45,21 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
         AppRoutingModule,
         ReactiveFormsModule,
         FormsModule,
+        HttpClientModule,
         NgbModule,
-        HighlightModule,
         NgScrollbarModule,
         GridsterModule,
-        MonacoEditorModule
+        MonacoEditorModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: () => {
+                    return localStorage.getItem('access_token');
+                },
+                allowedDomains: ['http://localhost:3000'],
+                disallowedRoutes: ['http://localhost:3000/login'],
+                headerName: 'token'
+            }        
+        })
     ],
     providers: [
         {

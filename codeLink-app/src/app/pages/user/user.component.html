@@ -38,7 +38,7 @@
         <div class="mt-3">
           <div class="row">
             <div class="col-lg-8 col-12">
-              <span class="title">Correo electronico:</span> correo@gmail.com
+              <span class="title">Correo electronico:</span> {{user.email}}
             </div>
             <div class="col-lg-4 col-12">
               <button type="button" class="btn btn-sm btn-block btn-primary">
@@ -51,7 +51,7 @@
         <div class="mt-3">
           <div class="row">
             <div class="col-lg-8 col-12">
-              <span class="title">Plan actual:</span> Plan Basico
+              <span class="title">Plan actual:</span> {{user.plan}}
             </div>
             <div class="col-lg-4 col-12">
               <button type="button" class="btn btn-sm btn-block btn-success" [routerLink]="['/plans']">
