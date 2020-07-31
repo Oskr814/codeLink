@@ -7,7 +7,6 @@ import {
     Router
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap, map, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -20,14 +19,14 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): boolean {
-        const user: any = this._authService.userAuth();
+        const user: any = this._authService.authUser();
 
-        if(!user) {
+        if (!user) {
             this.router.navigate(['/landing']);
             return false;
         }
 
-        if(user.pre) {
+        if (user.pre) {
             this.router.navigate(['/plans']);
         }
 
