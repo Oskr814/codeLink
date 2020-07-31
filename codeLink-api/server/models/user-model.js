@@ -19,17 +19,26 @@ let userSchema = new Schema({
   img: {
     type: String,
   },
-  pre: { //Preregistro
+  pre: {
+    //Preregistro
     type: Boolean,
-    default: true
+    default: true,
   },
   plan: {
     type: String,
   },
+  creditCard: {
+    type: Object,
+    default: {},
+  },
+  paymentMethod: {
+    type: Boolean,
+    default: false
+  },
   status: {
-      type: Boolean,
-      default: true
-  }
+    type: Boolean,
+    default: true,
+  },
 });
 
 userSchema.methods.toJSON = function () {
@@ -37,6 +46,7 @@ userSchema.methods.toJSON = function () {
   let userObject = user.toObject();
 
   delete userObject.password;
+  delete userObject.card;
 
   return userObject;
 };
