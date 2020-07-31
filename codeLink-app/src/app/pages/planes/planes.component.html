@@ -1,35 +1,171 @@
 <div class="container">
-  <div class="row">
-    <div class="col-12">
-      <div class="precio-title">
-        <h2>Precios</h2>
-        <p>
-          Ofrecemos servicios de calidad, con paquetes que se adaptan a todos
-          los publicos.
-        </p>
-      </div>
-    </div>
-    <div
-      class="col-lg-4 col-md-6 col-xs-10 precio-card-section"
-      *ngFor="let plan of plans"
-    >
-      <div class="precio-card shadow">
-        <div class="precio-card-header">
-          <p class="precio-period">{{ plan.title }}</p>
-          <p class="precio-rate">{{ plan.price }}</p>
-          <p class="precio-text">{{ plan.subtitle }}</p>
+    <div class="row">
+        <div class="col-12">
+            <div class="precio-title">
+                <h2>Precios</h2>
+                <p>
+                    Ofrecemos servicios de calidad, con paquetes que se adaptan
+                    a todos los publicos.
+                </p>
+            </div>
         </div>
-        <div class="precio-card-body">
-          <ul>
-            <li class="check" *ngFor="let feature of plan.features">
-              {{ feature }}
-            </li>
-          </ul>
-          <button type="button" class="btn btn-precio btn-block" [routerLink]="['/home']">
-            Obtener
-          </button>
+        <div
+            class="col-lg-4 col-md-6 col-xs-10 precio-card-section"
+            *ngFor="let plan of plans"
+        >
+            <div class="precio-card shadow">
+                <div class="precio-card-header">
+                    <p class="precio-period">{{ plan.title }}</p>
+                    <p class="precio-rate">{{ plan.price }}</p>
+                    <p class="precio-text">{{ plan.subtitle }}</p>
+                </div>
+                <div class="precio-card-body">
+                    <ul>
+                        <li class="check" *ngFor="let feature of plan.features">
+                            {{ feature }}
+                        </li>
+                    </ul>
+                    <button
+                        type="button"
+                        class="btn btn-precio btn-block"
+                        (click)="setPlan(plan.code)"
+                    >
+                        Obtener
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
+
+<!-- Modal -->
+<ng-template #content let-modal>
+    <div class="modal-header border-0 pb-0 mb-2">
+        <div id="credit-card" class="shadow-sm">
+            <img
+                id="credit-card-logo"
+                src="assets/images/plans/visa.png"
+                alt=""
+                *ngIf="form.get('number').value"
+            />
+            <img
+                id="credit-card-chip"
+                src="assets/images/plans/chip-tarjeta.png"
+                alt=""
+            />
+            <div id="credit-card-number" class="credit-card-text">
+                {{
+                    form.get('number').value
+                        ? form.get('number').value
+                        : 'XXXX-XXXX-XXXX-XXXX'
+                }}
+            </div>
+            <div id="credit-card-name" class="credit-card-text">
+                {{
+                    form.get('name').value
+                        ? form.get('name').value
+                        : 'NOMBRE EN TARJETA'
+                }}
+            </div>
+            <div id="credit-card-date" class="credit-card-text">
+                {{form.get('mes').value ? form.get('mes').value : '01'}}
+                /
+                {{form.get('anio').value ? form.get('anio').value : '2020'}}
+            </div>
+        </div>
+    </div>
+    <div class="modal-body container py-0 mt-10">
+        <form [formGroup]="form" class="row">
+            <div class="col-12 mb-2">
+                <label for="number" class="font-weight-bold"
+                    >Numero en tarjeta</label
+                >
+                <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid': isInvalid('number'),
+                      'is-valid': isValid('number')
+                    }"
+                    id="number"
+                    formControlName="number"
+                    aria-describedby="helpId"
+                    placeholder="XXXX-XXXX-XXXX-XXXX"
+                />
+            </div>
+            <div class="col-12 mb-2">
+                <label for="name" class="font-weight-bold"
+                    >Nombre en tarjeta</label
+                >
+                <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid': isInvalid('name'),
+                      'is-valid': isValid('name')
+                    }"
+                    id="name"
+                    formControlName="name"
+                    aria-describedby="helpId"
+                />
+            </div>
+            <div class="col-4">
+                <label for="mes" class="font-weight-bold">Mes</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid': isInvalid('mes'),
+                      'is-valid': isValid('mes')
+                    }"
+                    id="mes"
+                    formControlName="mes"
+                    aria-describedby="helpId"
+                    placeholder="01"
+                />
+            </div>
+            <div class="col-4">
+                <label for="anio" class="font-weight-bold">Año</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid': isInvalid('anio'),
+                      'is-valid': isValid('anio')
+                    }"
+                    id="anio"
+                    formControlName="anio"
+                    aria-describedby="helpId"
+                    placeholder="2021"
+                />
+            </div>
+            <div class="col-4">
+                <label for="cvc" class="font-weight-bold">CVC</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                        'is-invalid': isInvalid('cvc'),
+                        'is-valid': isValid('cvc')
+                      }"
+                    id="cvc"
+                    formControlName="cvc"
+                    aria-describedby="helpId"
+                    placeholder="XXX"
+                />
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer border-0 pt-2">
+        <button
+            type="button"
+            class="btn btn-ligth"
+            (click)="modal.close('Close click')"
+        >
+            Cancelar
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="updatePlan(true)">
+            Aceptar
+        </button>
+    </div>
+</ng-template>

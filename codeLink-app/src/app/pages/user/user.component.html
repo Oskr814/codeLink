@@ -41,7 +41,7 @@
               <span class="title">Correo electronico:</span> {{user.email}}
             </div>
             <div class="col-lg-4 col-12">
-              <button type="button" class="btn btn-sm btn-block btn-primary">
+              <button type="button" class="btn btn-sm btn-block btn-primary" (click)="open(content)">
                 <i class="fa fa-lock mr-2" aria-hidden="true"></i> Cambiar
                 contraseña
               </button>
@@ -66,6 +66,7 @@
             type="button"
             [disabled]="form.invalid"
             class="btn btn-sm btn-primary btn-block mt-4"
+            (click)="actualizarUsuario()"
           >
             <i class="fa fa-check mr-2" aria-hidden="true"></i>
             Guardar
@@ -83,3 +84,36 @@
     </div>
   </div>
 </div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header border-0 pb-0">
+      <h4 class="modal-title font-weight-light">Cambiar contraseña</h4>
+  </div>
+  <div class="modal-body container py-0">
+      <form class="row">
+        <div class="col-12">
+          <label for="old-password">Contraseña actual</label>
+          <input type="password"
+            class="form-control" id="old-password" aria-describedby="helpId" placeholder="">
+        </div>
+        <div class="col-12">
+          <label for="new-password">Nueva contraseña</label>
+          <input type="password"
+            class="form-control" id="new-password" aria-describedby="helpId" placeholder="">
+        </div>
+      </form>
+  </div>
+  <div class="modal-footer border-0 pt-2">
+      <button
+          type="button"
+          class="btn btn-ligth"
+          (click)="modal.close('Close click')"
+      >
+          Cancelar
+      </button>
+      <button type="button" class="btn btn-sm btn-primary">
+          Aceptar
+      </button>
+  </div>
+</ng-template>

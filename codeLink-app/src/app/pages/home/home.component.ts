@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
         this.activeFolder = event.target.id;
     }
 
-    showModal(content, type) {
+    openModal(content, type) {
         if (type == 'carpeta') {
             this.modalText = {
                 title: 'Nueva carpeta',
