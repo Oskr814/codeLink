@@ -2,10 +2,9 @@
 
 .active {
   position: absolute;
-  background-color: #2176ffff;
+  background-color: #E8F0FE;
   width: 250%;
-  height: 100%;
-  color: white;
+  height: 110%;
   border-radius: 0 10px 10px 0;
   top: 0;
   right: -20px;
@@ -15,14 +14,13 @@
 ul,
 li {
   font-size: 1em;
-  color: #5f6368;
+  color: #484a4d;
   list-style: none;
 }
 
 label:hover {
   cursor: pointer;
   color: $blue-crayola;
-  font-weight: 500;
 }
 
 #menu {
@@ -42,7 +40,7 @@ label:hover {
 #menu label:before {
   content: "\f054 \00a0 \00a0 \00a0 \f07b";
   font-family: fontawesome;
-  font-size: 1em;
+  font-size: 1.2em;
   margin-right: 4px;
 }
 

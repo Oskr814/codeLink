@@ -7,6 +7,9 @@
 /* FontAwesome*/
 @import '~font-awesome/scss/font-awesome.scss';
 
+/* Animated CSS*/
+@import '~animate.css/animate.min.css';
+
 html,
 body {
     width: 100%;
@@ -17,11 +20,16 @@ body {
     font-family: Poppins;
     font-size: 15px;
     padding-top: 57px;
-    background: #f7f7f7;
+    background: #F4F5F7;
 }
 
 .form-group {
     height: 45px;
+}
+
+.text-enfasis {
+    font-size: 0.9em;
+    font-weight: 500;
 }
 
 /* modal animation */

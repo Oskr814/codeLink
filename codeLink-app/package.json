@@ -25,6 +25,7 @@
         "@materia-ui/ngx-monaco-editor": "^4.0.2",
         "@ng-bootstrap/ng-bootstrap": "^7.0.0",
         "angular-gridster2": "^10.1.2",
+        "animate.css": "^4.1.0",
         "bootstrap": "^4.5.0",
         "chart.js": "^2.5.0",
         "font-awesome": "^4.7.0",

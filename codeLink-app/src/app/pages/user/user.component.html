@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container animate__animated animate__fadeIn animate__faster">
   <div class="row">
     <div class="col-lg-3 col-md-6">
       <h4 class="my-4">Imagen de perfil</h4>
@@ -32,16 +32,16 @@
             aria-describedby="helpId"
           />
           <small id="helpId" class="text-danger" *ngIf="isInvalid('name')"
-            >Debe ingresar una contraseña de al menos 8 caracteres</small
+            >Debe proporcionar su nombre</small
           >
         </div>
         <div class="mt-3">
           <div class="row">
             <div class="col-lg-8 col-12">
-              <span class="title">Correo electronico:</span> {{user.email}}
+              <span class="title">Correo electronico: </span> <b>{{user.email}}</b>
             </div>
             <div class="col-lg-4 col-12">
-              <button type="button" class="btn btn-sm btn-block btn-primary" (click)="open(content)">
+              <button type="button" class="btn btn-sm btn-block btn-light" (click)="open(content)">
                 <i class="fa fa-lock mr-2" aria-hidden="true"></i> Cambiar
                 contraseña
               </button>
@@ -54,7 +54,7 @@
               <span class="title">Plan actual:</span> {{user.plan}}
             </div>
             <div class="col-lg-4 col-12">
-              <button type="button" class="btn btn-sm btn-block btn-success" [routerLink]="['/plans']">
+              <button type="button" class="btn btn-sm btn-block btn-light" [routerLink]="['/plans']">
                 <i class="fa fa-refresh mr-2" aria-hidden="true"></i> Actualizar
                 plan
               </button>
@@ -69,7 +69,7 @@
             (click)="actualizarUsuario()"
           >
             <i class="fa fa-check mr-2" aria-hidden="true"></i>
-            Guardar
+            Guardar informacion
           </button>
           <button
             type="button"

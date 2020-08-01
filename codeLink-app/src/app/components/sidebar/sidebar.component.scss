@@ -1,13 +1,14 @@
 #sidebar-wrapper {
     position: fixed;
     z-index: 1;
-    background: white;
+    background: #fff;
     min-height: 100vh;
     transition: margin 0.25s;
+    box-shadow: inset -0.1rem 0 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
 #sidebar-wrapper.toggle {
-    margin-left: -15rem;
+    margin-left: -16rem;
   //  transition: margin 0s;
 }
 
@@ -17,7 +18,7 @@
 }
 
 #sidebar-wrapper .list-group {
-    width: 15rem;
+    width: 16rem;
 }
 
 #sidebar-wrapper {
@@ -26,7 +27,7 @@
 
 @media (max-width: 576px) {
     #sidebar-wrapper {
-        margin-left: -15rem;
+        margin-left: -16rem;
     }
 
     #sidebar-wrapper.toggle {

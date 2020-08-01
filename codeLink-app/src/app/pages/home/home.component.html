@@ -1,29 +1,41 @@
-<div class="d-flex">
-    <app-sidebar class="bg-white" (createNew)="openModal(content, $event)"></app-sidebar>
+<div class="d-flex animate__animated animate__fadeIn animate__faster">
+    <app-sidebar
+        class="bg-white"
+        (createNew)="openModal(content, $event)"
+    ></app-sidebar>
 
-    <div class="toggle-animation w-100 px-5 py-4" [ngClass]="{'toggle': !toggleSidebar}">
-        <div class="row content">
-            <div class="col-12 title">
-                Proyectos recientes
+    <div
+        class="toggle-animation w-100 px-5 py-4"
+        [ngClass]="{ toggle: !toggleSidebar }"
+    >
+        <div class="row">
+            <div class="col-12">
+                <div class="title">
+                    <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
+                    recientes
+                    <button type="button" class="btn btn-sm btn-light" (click)="openModal(content, 'proyecto')">
+                        Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
-        
+
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card p-2 my-3">
-                    <div class="proyect-card-title">
+                    <div class="project-card-title">
                         Proyecto2
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card p-2 my-3">
-                    <div class="proyect-card-title">
+                    <div class="project-card-title">
                         Proyecto1
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card p-2 my-3">
-                    <div class="proyect-card-title">
+                    <div class="project-card-title">
                         Proyecto2
                     </div>
                 </div>
@@ -32,6 +44,7 @@
         <div class="row mt-4" *ngIf="deviceResolution > 576">
             <div class="col-12">
                 <div class="text-right">
+                    <span class="mr-2 text-muted text-enfasis">Vista:</span>
                     <i
                         class="btn btn-light shadow-sm fa fa-list text-muted mr-2"
                         aria-hidden="true"
@@ -47,27 +60,38 @@
         </div>
 
         <div class="row content" [ngClass]="{ 'd-none': !list }">
-            <div class="col-12 title">
-                Carpetas
+            <div class="col-12">
+                <div class="title">
+                    <i class="fa fa-folder-open mr-2" aria-hidden="true"></i>
+                    Carpetas / <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos 
+                    <button type="button" class="btn btn-sm btn-light" (click)="openModal(content, 'carpeta')">
+                        Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
             <div class="table-responsive mt-3">
-                <table class="table bg-white">
+                <table class="table">
                     <tr>
-                        <td scope="col">Nombre</td>
-                        <td scope="col">Fecha creacion</td>
-                        <td scope="col">
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha creacion</th>
+                        <th scope="col">
                             Fecha de modificacion
-                        </td>
+                        </th>
+                        <th></th>
                     </tr>
                     <tr *ngFor="let item of [1, 2]">
                         <td>
                             <div class="p-1">
-                                <i class="fa fa-folder" aria-hidden="true"></i>
+                                <i class="fa fa-folder text-muted" aria-hidden="true"></i>
                                 <span class="ml-2">Folder name</span>
                             </div>
                         </td>
                         <td>20 Julio 2020 10:02 AM</td>
                         <td>20 Julio 2020 01:02 PM</td>
+                        <td>
+                            <i class="fa fa-edit btn btn-light mr-2" aria-hidden="true"></i>
+                            <i class="fa fa-trash btn btn-light" aria-hidden="true"></i>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -76,21 +100,31 @@
                         </td>
                         <td>20 Julio 2020 10:02 AM</td>
                         <td>20 Julio 2020 01:02 PM</td>
+                        <td>
+                            <i class="fa fa-edit btn btn-light mr-2" aria-hidden="true"></i>
+                            <i class="fa fa-trash btn btn-light" aria-hidden="true"></i>
+                        </td>
                     </tr>
                 </table>
             </div>
         </div>
 
-        <div class="row" [ngClass]="{ 'd-none': list }">
+        <div class="row content" [ngClass]="{ 'd-none': list }">
             <div class="col-12">
-                Carpetas
+                <div class="title">
+                    <i class="fa fa-folder-open mr-2" aria-hidden="true"></i>
+                    Carpetas
+                    <button type="button" class="btn btn-sm btn-light" (click)="openModal(content, 'carpeta')">
+                        Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
 
             <div
                 class="col-lg-3 col-md-4 col-6"
                 *ngFor="let item of [1, 2, 3, 4, 5]"
             >
-                <div class="card mt-4">
+                <div class="card show-sm mt-4">
                     <div class="card-body text-truncate">
                         <i class="fa fa-folder mr-3" aria-hidden="true"></i
                         >Folder Name
@@ -99,7 +133,12 @@
             </div>
 
             <div class="col-12 mt-4">
-                Proyectos
+                <div class="title">
+                    <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
+                    <button type="button" class="btn btn-sm btn-light" (click)="openModal(content, 'proyecto')">
+                        Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
 
             <div
@@ -107,7 +146,9 @@
                 *ngFor="let item of [1, 2, 3, 4, 5]"
             >
                 <div class="project-card p-2 my-3">
-                    Proyecto1
+                    <div class="project-card-title">
+                        Proyecto1
+                    </div>
                 </div>
             </div>
         </div>

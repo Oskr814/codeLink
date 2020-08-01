@@ -1,4 +1,4 @@
-<div [ngClass]="{ toggle: toggleSidebar }" class="bg-white border-right" id="sidebar-wrapper">
+<div [ngClass]="{ toggle: toggleSidebar }" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
         <div ngbDropdown placement="right" class="d-inline-block mx-auto">
             <button
@@ -26,6 +26,7 @@
             </div>
         </div>
         <ng-scrollbar id="tree">
+            <div class="ml-4 mb-3 text-muted text-enfasis border-bottom w-75">Directorio raiz</div>
             <app-folder-tree-view></app-folder-tree-view>
         </ng-scrollbar>
     </div>

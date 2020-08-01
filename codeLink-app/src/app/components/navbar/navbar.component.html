@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom fixed-top">
+<nav class="navbar navbar-expand-sm navbar-light bg-white shadow-sm fixed-top">
     <button
         type="button"
         class="mr-2"
@@ -50,14 +50,14 @@
                     class="dropdown-menu"
                 >
                     <a ngbDropdownItem href="#" [routerLink]="['user']"
-                        >Perfil</a
+                        ><i class="fa fa-user mr-2 text-muted" aria-hidden="true"></i> Perfil</a
                     >
                     <a
                         ngbDropdownItem
                         href="#"
                         ngbDropdownItem
                         (click)="logOut()"
-                        >logOut</a
+                        ><i class="fa fa-sign-out mr-2 text-muted" aria-hidden="true"></i> Salir</a
                     >
                 </div>
             </li>
