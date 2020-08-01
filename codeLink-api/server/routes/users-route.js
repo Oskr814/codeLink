@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 
 const app = express();
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/user-model");
 const verificarToken = require("../middlewares/auth");
@@ -19,35 +19,16 @@ app.post("/user", (req, res) => {
     plan: body.plan,
   });
 
-  user.save((err, user) => {
-    if (err) {
-      return res.status(422).json({
-        ok: false,
-        err,
-      });
-    }
-
-    return res.json({
-      ok: true,
-      user,
-    });
-  });
+  user
+    .save()
+    .then((user) => res.json({ ok: true, user }))
+    .catch((err) => res.status(500).json({ ok: false, err }));
 });
 //READ
 app.get("/user", verificarToken, (req, res) => {
   User.find({ status: true })
-    .then((users) => {
-      res.json({
-        ok: true,
-        users,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        ok: false,
-        err,
-      });
-    });
+    .then((users) => res.json({ ok: true, users }))
+    .catch((err) => res.status(500).json({ ok: false, err }));
 });
 
 app.put("/user/:id", verificarToken, (req, res) => {
@@ -58,18 +39,8 @@ app.put("/user/:id", verificarToken, (req, res) => {
   delete body.password;
   delete body.email;
 
-  User.findOneAndUpdate(
-    { _id: id },
-    body,
-    { runValidators: true, new: true },
-    (err, user) => {
-      if (err) {
-        return res.status(500).json({
-          ok: false,
-          err,
-        });
-      }
-
+  User.findOneAndUpdate({ _id: id }, body, { runValidators: true, new: true })
+    .then((user) => {
       const token = jwt.sign({ data: user }, process.env.SEED, {
         expiresIn: process.env.JWTEXP,
       });
@@ -78,26 +49,16 @@ app.put("/user/:id", verificarToken, (req, res) => {
         ok: true,
         token,
       });
-    }
-  );
+    })
+    .catch((err) => res.status(500).json({ ok: false, err }));
 });
 
 app.delete("/user/:id", verificarToken, (req, res) => {
   let id = req.params.id;
 
   User.update({ _id: id }, { status: false })
-    .then((result) => {
-      res.json({
-        ok: true,
-        result,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        ok: false,
-        err,
-      });
-    });
+    .then((result) => res.json({ ok: true, result }))
+    .catch((err) => res.status(500).json({ ok: false, err }));
 });
 
 module.exports = app;
