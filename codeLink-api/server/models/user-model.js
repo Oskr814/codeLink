@@ -1,5 +1,7 @@
 const moongose = require("mongoose");
 
+const FolderSchema = require('./folder-schema');
+
 let Schema = moongose.Schema;
 
 let userSchema = new Schema({
@@ -39,6 +41,7 @@ let userSchema = new Schema({
     type: Boolean,
     default: true,
   },
+  folders: [FolderSchema]
 });
 
 userSchema.methods.toJSON = function () {
