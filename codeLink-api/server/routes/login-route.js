@@ -8,7 +8,7 @@ const User = require("../models/user-model");
 app.post("/login", (req, res) => {
   let body = req.body;
 
-  User.findOne({ email: body.email })
+  User.findOne({ email: body.email }, { folders: 0, projects: 0})
     .then((user) => {
       if (!user) {
         return res.status(400).json({
@@ -28,6 +28,8 @@ app.post("/login", (req, res) => {
         expiresIn: process.env.JWTEXP,
       });
 
+      delete user.folders;
+
       res.json({
           ok: true,
           user,
@@ -35,6 +37,7 @@ app.post("/login", (req, res) => {
       });
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json({
         ok: false,
         err,
