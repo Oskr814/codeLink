@@ -94,21 +94,38 @@ $shadow: 0 0.1rem 1px rgba(0, 0, 0, 0.175);
     padding: 1em;
 }
 
-tr td,
-th {
-    border: none;
+nav i {
+    position: relative;
+    top: 4px;
 }
 
-th {
-    font-size: 0.8em;
-    color: #5E6C84;
-    border-bottom: solid 1px #cccccc;
-    font-weight: 600;
+.nav-link {
+    margin: 5px;
+    margin: 5px;
+    font-size: 1.2em;
+    letter-spacing: 5px;
+    padding: 0;
+    padding-bottom: 10px;
+}
+
+.nav-link:hover {
+    cursor: pointer;
 }
 
 tr:hover {
     cursor: pointer;
-    background: #F4F5F7;
+    background: #f4f5f7;
+}
+
+th {
+    font-size: 0.8em;
+    color: #5e6c84;
+    border-bottom: solid 1px #cccccc;
+    font-weight: 600;
+}
+
+th:hover {
+    cursor: default;
 }
 
 //media querys

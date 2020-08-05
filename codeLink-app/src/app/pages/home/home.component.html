@@ -13,7 +13,11 @@
                 <div class="title">
                     <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
                     recientes
-                    <button type="button" class="btn btn-sm btn-primary" (click)="openModal(content, 'proyecto')">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-primary"
+                        (click)="openModal(content, 'proyecto')"
+                    >
                         Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -21,7 +25,10 @@
 
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card my-3">
-                    <img src="assets/images/illustrations/login.svg" class="project-card-img">
+                    <img
+                        src="assets/images/illustrations/login.svg"
+                        class="project-card-img"
+                    />
                     <div class="project-card-title">
                         <span>Proyecto2</span>
                     </div>
@@ -64,13 +71,32 @@
             <div class="col-12">
                 <div class="title">
                     <i class="fa fa-folder-open mr-2" aria-hidden="true"></i>
-                    Carpetas / <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos 
-                    <button type="button" class="btn btn-sm btn-primary" (click)="openModal(content, 'carpeta')">
+                    Carpetas /
+                    <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-primary"
+                        (click)="openModal(content, 'carpeta')"
+                    >
                         Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
             <div class="table-responsive mt-4 content">
+                <nav class="nav" *ngIf="navigation.length >= 1">
+                    <a class="nav-link" (click)="navigate()"
+                        ><i class="fa fa-arrow-left"></i>...</a
+                    >
+
+                    <div class="form-group form-inline ml-auto">
+                        Buscar por nombre:
+                        <input
+                            class="form-control ml-2"
+                            type="text"
+                            [(ngModel)]="search"
+                        />
+                    </div>
+                </nav>
                 <table class="table">
                     <tr>
                         <th scope="col">Nombre</th>
@@ -80,30 +106,48 @@
                         </th>
                         <th>Acciones</th>
                     </tr>
-                    <tr *ngFor="let item of [1, 2]">
+                    <tr
+                        *ngFor="let folder of folders | filter: search"
+                        (click)="getFolderContent(folder)"
+                    >
                         <td>
                             <div class="p-1">
-                                <i class="fa fa-folder text-muted" aria-hidden="true"></i>
-                                <span class="ml-2">Folder name</span>
+                                <i
+                                    class="fa fa-folder text-muted"
+                                    aria-hidden="true"
+                                ></i>
+                                <span class="ml-2">{{ folder.name }}</span>
                             </div>
                         </td>
-                        <td>20 Julio 2020 10:02 AM</td>
-                        <td>20 Julio 2020 01:02 PM</td>
+                        <td>{{ folder.create_date | date }}</td>
+                        <td>{{ folder.wirte_date | date }}</td>
                         <td>
-                            <i class="fa fa-edit btn btn-ligth mr-2" aria-hidden="true"></i>
-                            <i class="fa fa-trash btn btn-ligth text-danger" aria-hidden="true"></i>
+                            <i
+                                class="fa fa-edit btn btn-ligth mr-2"
+                                aria-hidden="true"
+                            ></i>
+                            <i
+                                class="fa fa-trash btn btn-ligth text-danger"
+                                aria-hidden="true"
+                            ></i>
                         </td>
                     </tr>
-                    <tr>
+                    <tr *ngFor="let project of projects | filter: search">
                         <td>
                             <i class="fa fa-code" aria-hidden="true"></i>
-                            <span class="ml-2">Nombre proyecto</span>
+                            <span class="ml-2">{{ project.name }}</span>
                         </td>
-                        <td>20 Julio 2020 10:02 AM</td>
-                        <td>20 Julio 2020 01:02 PM</td>
+                        <td>{{ project.create_date | date }}</td>
+                        <td>{{ project.write_date | date }}</td>
                         <td>
-                            <i class="fa fa-edit btn btn-ligth mr-2" aria-hidden="true"></i>
-                            <i class="fa fa-trash btn btn-ligth text-danger" aria-hidden="true"></i>
+                            <i
+                                class="fa fa-edit btn btn-ligth mr-2"
+                                aria-hidden="true"
+                            ></i>
+                            <i
+                                class="fa fa-trash btn btn-ligth text-danger"
+                                aria-hidden="true"
+                            ></i>
                         </td>
                     </tr>
                 </table>
@@ -115,28 +159,54 @@
                 <div class="title">
                     <i class="fa fa-folder-open mr-2" aria-hidden="true"></i>
                     Carpetas
-                    <button type="button" class="btn btn-sm btn-primary" (click)="openModal(content, 'carpeta')">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-primary"
+                        (click)="openModal(content, 'carpeta')"
+                    >
                         Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
-
+            <div class="col-12 pt-3">
+                <nav class="nav" *ngIf="navigation.length >= 1">
+                    <a class="nav-link" (click)="navigate()"
+                        ><i class="fa fa-arrow-left"></i>...</a
+                    >
+    
+                    <div class="form-group form-inline ml-auto">
+                        Buscar por nombre:
+                        <input
+                            class="form-control ml-2"
+                            type="text"
+                            [(ngModel)]="search"
+                        />
+                    </div>
+                </nav>
+            </div>
             <div
                 class="col-lg-3 col-md-4 col-6"
-                *ngFor="let item of [1, 2, 3, 4, 5]"
+                *ngFor="let folder of folders | filter: search"
             >
                 <div class="card show-sm mt-4">
-                    <div class="card-body text-truncate">
+                    <div
+                        class="card-body text-truncate"
+                        (click)="getFolderContent(folder)"
+                    >
                         <i class="fa fa-folder mr-3" aria-hidden="true"></i
-                        >Folder Name
+                        >{{ folder.name }}
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 mt-4">
+            <div class="col-12 mt-4" *ngIf="projects.length > 0">
                 <div class="title">
                     <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
-                    <button type="button" class="btn btn-sm btn-primary" (click)="openModal(content, 'proyecto')">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-primary"
+                        (click)="openModal(content, 'proyecto')"
+                    >
                         Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -144,11 +214,11 @@
 
             <div
                 class="col-lg-3 col-md-4 col-sm-6"
-                *ngFor="let item of [1, 2, 3, 4, 5]"
+                *ngFor="let project of projects | filter: search"
             >
                 <div class="project-card my-3">
                     <div class="project-card-title">
-                        Proyecto1
+                        {{ project.name }}
                     </div>
                 </div>
             </div>

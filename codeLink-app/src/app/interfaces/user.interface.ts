@@ -7,5 +7,7 @@ export interface User {
   status?: boolean;
   plan?: string,
   creditCard?: Object,
-  paymentMethod: boolean
+  paymentMethod: boolean,
+  folders: [],
+  projects: []
 }

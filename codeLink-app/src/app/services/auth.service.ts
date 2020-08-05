@@ -12,11 +12,11 @@ export class AuthService {
     user$ = new BehaviorSubject<User>(this.authUser());
     constructor(
         private router: Router,
-        private httpClient: HttpClient
+        private http: HttpClient
     ) {}
 
     async login(email: string, password: string) {
-        this.httpClient
+        this.http
             .post('http://localhost:3000/login', {
                 email,
                 password
