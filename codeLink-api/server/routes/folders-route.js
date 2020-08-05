@@ -40,29 +40,37 @@ app.post("/folder/:owner", (req, res) => {
     .catch((err) => res.status(500).json({ ok: false, err }));
 });
 
-app.get("/folder/:owner", (req, res) => {
+app.get("/folders/:owner/:id?", (req, res) => {
   let owner = req.params.owner;
 
-  let body = req.body;
+  let id = req.params.id;
 
   UserFolder.findOne({
     _id: owner,
   })
     .then((user) => {
-      user.folders = user.folders.filter((folder) => {
-        if (body.parent) {
-          return folder.status && folder.parent == body.parent;
-        }
+      let folders = [];
+      let projects = [];
 
-        return folder.status;
-      });
+      if (!id) {
+        folders = user.folders.filter( folder => !folder.parent && folder.status);
+        projects = user.projects;
+      } else {
+        const folder = user.folders.find((folder) => folder._id == id);
+        folders = user.folders.filter((childFolder) => {
+          
+            return childFolder.status && childFolder.parent == folder._id;
+          
+        });
+        projects = folder.projects;
+      }
 
-      res.json({
-        ok: true,
-        folders: user.folders,
-      });
+      res.json({ folders, projects });
     })
-    .catch((err) => res.status(500).json({ ok: false, err }));
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ ok: false, err });
+    });
 });
 
 app.put("/folder/:id", (req, res) => {
