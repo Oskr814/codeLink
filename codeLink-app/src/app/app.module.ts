@@ -26,6 +26,10 @@ import { PlanesComponent } from './pages/planes/planes.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoggedGuard } from './guards/logged.guard';
+import { AuthService } from './services/auth.service';
+import { FoldersService } from './services/folders.service';
+import { DatePipe } from './pipes/date.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
     declarations: [
@@ -40,7 +44,9 @@ import { LoggedGuard } from './guards/logged.guard';
         FooterComponent,
         FolderTreeViewComponent,
         PlanesComponent,
-        SidebarComponent
+        SidebarComponent,
+        DatePipe,
+        FilterPipe
     ],
     imports: [
         BrowserModule,
@@ -67,7 +73,9 @@ import { LoggedGuard } from './guards/logged.guard';
             useValue: 'https://unpkg.com/monaco-editor@0.18.1/min/vs'
         },
         AuthGuard,
-        LoggedGuard
+        LoggedGuard,
+        AuthService,
+        FoldersService
     ],
     bootstrap: [AppComponent]
 })
