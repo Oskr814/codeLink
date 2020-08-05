@@ -1,6 +1,7 @@
 const moongose = require("mongoose");
 
 const FolderSchema = require('./folder-schema');
+const ProjectSchema = require("./project-schema");
 
 let Schema = moongose.Schema;
 
@@ -41,7 +42,8 @@ let userSchema = new Schema({
     type: Boolean,
     default: true,
   },
-  folders: [FolderSchema]
+  folders: [FolderSchema],
+  projects: [ProjectSchema]
 });
 
 userSchema.methods.toJSON = function () {
@@ -49,7 +51,7 @@ userSchema.methods.toJSON = function () {
   let userObject = user.toObject();
 
   delete userObject.password;
-  delete userObject.card;
+  delete userObject.creditCard;
 
   return userObject;
 };
