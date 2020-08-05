@@ -1,21 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-folder-tree-view',
-  templateUrl: './folder-tree-view.component.html',
-  styleUrls: ['./folder-tree-view.component.scss']
+    selector: 'app-folder-tree-view',
+    templateUrl: './folder-tree-view.component.html',
+    styleUrls: ['./folder-tree-view.component.scss']
 })
 export class FolderTreeViewComponent implements OnInit {
+    activeFolder: string;
 
-  activeFolder: string;
-  
-  constructor() { }
+    constructor() {}
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {}
 
-  active(event) {
-    this.activeFolder = event.target.id;
-  }
-
+    active(event) {
+        if (event.target.id) this.activeFolder = event.target.id;
+    }
 }

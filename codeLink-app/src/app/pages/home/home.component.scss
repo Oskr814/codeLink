@@ -1,17 +1,6 @@
 @import 'variables.scss';
 $shadow: 0 0.1rem 1px rgba(0, 0, 0, 0.175);
 
-.btn-light {
-    background: #ebeffc;
-    color: #4d505a;
-    border: none;
-    box-shadow: $shadow;
-}
-
-.btn-light:hover {
-    background: #d5dfff;
-}
-
 .toggle-animation {
     transition: margin-left 0.25s;
 }
@@ -21,7 +10,7 @@ $shadow: 0 0.1rem 1px rgba(0, 0, 0, 0.175);
 }
 
 .title {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.7em;
     border-bottom: solid 1px #adadad6f;
     padding-bottom: 15px;
@@ -50,27 +39,55 @@ $shadow: 0 0.1rem 1px rgba(0, 0, 0, 0.175);
 
 .project-card:hover {
     cursor: pointer;
-    transform: scale(1.0525);
-    transition: transform 0.15s;
+    // transform: scale(1.0525);
+    // transition: transform 0.25s;
+    .project-card-title {
+        .project-card-title span {
+            display: block;
+        }
+        color: #fff;
+        height: 20%;
+        transition: height 0.25s;
+    }
 }
 
 .project-card-title {
     position: absolute;
-    bottom: 10px;
-    font-weight: 600;
-    color: #5f6368;
+    font-size: 1.1em;
+    bottom: 0;
+    border-radius: 0 0 10px 10px;
+    padding: 0 0 0 5px;
+    box-sizing: border-box;
     width: 100%;
+    height: 0%;
+    overflow: hidden;
+    color: transparent;
+    background: #3131318e;
+    font-weight: 600;
+    text-align: center;
+    transition: height 0.25s;
+
+    .project-card-title span {
+        display: none;
+    }
+}
+
+.project-card-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 .card {
-    background: #f1f6fd;
+    background: #ffffff;
+    box-shadow: $shadow;
     border: none;
 }
 
 .card:hover {
     cursor: pointer;
     background: #eef3fa;
-    box-shadow: $shadow
+    box-shadow: $shadow;
 }
 
 .card-body {
@@ -83,15 +100,18 @@ th {
 }
 
 th {
-    color: #5f6368;
-    font-weight: 500;
+    font-size: 0.8em;
+    color: #5E6C84;
+    border-bottom: solid 1px #cccccc;
+    font-weight: 600;
 }
 
 tr:hover {
     cursor: pointer;
-    background: #f3f6ff;
+    background: #F4F5F7;
 }
 
+//media querys
 @media (max-width: 576px) {
     .toggle {
         margin: 0;
