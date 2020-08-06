@@ -2,9 +2,37 @@ iframe {
     height: 100%;
     width: 100%;
 }
-.project-container {
-    height: 100%;
+
+#main {
+    overflow: hidden;
 }
+
+#project-container {
+    height: calc(100% - 76px);
+}
+
+.title {
+    background: #282c30;
+    padding: 0 15px;
+    font-weight: bold;
+    color: #ffffffAf
+}
+
+.download {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
+
+.download:hover {
+    color: #fff;
+    cursor: pointer;
+}
+.download:focus {
+    color: #fff;
+    cursor: pointer;
+}
+
 .code {
     height: 33.3%;
     background: #cccc;

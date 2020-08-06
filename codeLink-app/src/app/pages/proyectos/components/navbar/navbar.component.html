@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark py-0">
+    <a class="navbar-brand" id="go-back" [routerLink]="['/home']"
+        ><i class="fa fa-arrow-left"></i
+    ></a>
+    <input type="text" placeholder="name" [(ngModel)]="name" (keyup)="setName(name)" />
+
+    <div class="ml-auto" *ngIf="deviceResolution > 576; else elseBock">
+        <ul class="navbar-nav mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link button"
+                    ><i class="fa fa-download" aria-hidden="true"></i>
+                    Exportar</a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link button" (click)="save.emit()"
+                    ><i class="fa fa-floppy-o" aria-hidden="true"></i>
+                    Guardar</a
+                >
+            </li>
+        </ul>
+    </div>
+
+    <ng-template #elseBock>
+        <div class="ml-auto">
+            <ul class="navbar-nav mt-lg-0">
+                <li class="nav-item" ngbDropdown>
+                    <a class="nav-link" ngbDropdownToggle id="dropdownBasic1"
+                        ><i class="fa fa-download" aria-hidden="true"></i>
+                        Exportar</a
+                    >
+
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem>Action - 1</button>
+                        <button ngbDropdownItem>Another Action</button>
+                        <button ngbDropdownItem>Something else is here</button>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                        ><i class="fa fa-download" aria-hidden="true"></i>
+                        Exportar</a
+                    >
+                </li>
+            </ul>
+        </div>
+    </ng-template>
+</nav>

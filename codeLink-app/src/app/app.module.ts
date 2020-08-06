@@ -14,6 +14,9 @@ import { AppComponent } from './app.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
+//Projects
+import { NavbarProjectComponent } from './pages/proyectos/components/navbar/navbar.component';
+import { FooterProjectComponent } from './pages/proyectos/components/footer/footer.component';
 
 //Pages
 import { RegistroComponent } from './pages/registro/registro.component';
@@ -46,6 +49,8 @@ import { ProjectsService } from './services/projects.service';
         FolderTreeViewComponent,
         PlanesComponent,
         SidebarComponent,
+        NavbarProjectComponent,
+        FooterProjectComponent,
         DatePipe,
         FilterPipe
     ],

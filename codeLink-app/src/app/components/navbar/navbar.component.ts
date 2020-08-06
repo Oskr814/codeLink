@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
             this.user = user;
         });
 
-        router.events.subscribe((event: NavigationEnd) => {
+        this.router.events.subscribe((event: NavigationEnd) => {
             if (event.url) {                
                 this.actualRoute = event.url;
             }

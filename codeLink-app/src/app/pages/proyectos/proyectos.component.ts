@@ -16,14 +16,15 @@ declare const monaco: any;
 export class ProyectosComponent implements OnInit {
     @ViewChild('iframe') iframe: ElementRef;
 
-    editorHTML = {
+    editarBaseOptions = {
         theme: 'vs-dark',
-        language: 'html',
-        minimap: { enabled: false },
         wordWrap: 'on',
         tabCompletion: true
-    };
-    editorCSS = { theme: 'vs-dark', language: 'css' };
+    }
+
+    editorHTML = this.editarBaseOptions;
+
+    editorCSS = { theme: 'vs-dark', language: 'css', };
     editorJS = { theme: 'vs-dark', language: 'javascript' };
 
     options: GridsterConfig;
@@ -39,6 +40,9 @@ export class ProyectosComponent implements OnInit {
         private _projectsService: ProjectsService,
         private http: HttpClient
     ) {
+
+        this.editorHTML['language'] = 'html';
+
         this.route.paramMap.subscribe(async (params) => {
             const _id = params.get('_id');
 
@@ -60,36 +64,11 @@ export class ProyectosComponent implements OnInit {
         this.options = {
             itemChangeCallback: ProyectosComponent.itemChange,
             itemResizeCallback: ProyectosComponent.itemResize,
-            pushItems: true,
-            pushResizeItems: true,
-            pushDirections: {
-                north: true,
-                east: true,
-                south: true,
-                west: true
-            },
-            resizable: {
-                enabled: true,
-                handles: {
-                    s: true,
-                    e: true,
-                    n: true,
-                    w: true,
-                    se: true,
-                    ne: true,
-                    sw: true,
-                    nw: true
-                }
-            },
-            displayGrid: 'none'
+            displayGrid: 'none',
+            margin: 0
         };
 
-        this.dashboard = [
-            { cols: 2, rows: 1, y: 0, x: 0 },
-            { cols: 2, rows: 1, y: 1, x: 0 },
-            { cols: 2, rows: 1, y: 2, x: 0 },
-            { cols: 2, rows: 3, y: 0, x: 1 }
-        ];
+        this.setLayout('left');
     }
 
     static itemChange(item, itemComponent) {
@@ -98,6 +77,48 @@ export class ProyectosComponent implements OnInit {
 
     static itemResize(item, itemComponent) {
         //console.info('itemResized', item, itemComponent);
+    }
+
+    setLayout(layout) {
+
+        this.dashboard = [];
+        switch (layout) {
+            case 'left':
+                this.dashboard = [
+                    { cols: 1, rows: 1, y: 0, x: 0 },
+                    { cols: 1, rows: 1, y: 1, x: 0 },
+                    { cols: 1, rows: 1, y: 2, x: 0 },
+                    { cols: 1, rows: 3, y: 0, x: 1 }
+                ];
+                break;
+            case 'top':
+                this.dashboard = [
+                    { cols: 1, rows: 1, y: 0, x: 0 },
+                    { cols: 1, rows: 1, y: 0, x: 1 },
+                    { cols: 1, rows: 1, y: 0, x: 2 },
+                    { cols: 3, rows: 1, y: 1, x: 0 }
+                ];
+                break;
+            case 'bottom':
+                this.dashboard = [
+                    { cols: 1, rows: 1, y: 1, x: 0 },
+                    { cols: 1, rows: 1, y: 1, x: 1 },
+                    { cols: 1, rows: 1, y: 1, x: 2 },
+                    { cols: 3, rows: 1, y: 0, x: 0 }
+                ];
+                break;
+            case 'right':
+                this.dashboard = [
+                    { cols: 2, rows: 1, y: 0, x: 2 },
+                    { cols: 2, rows: 1, y: 1, x: 2 },
+                    { cols: 2, rows: 1, y: 2, x: 2 },
+                    { cols: 2, rows: 3, y: 0, x: 0 }
+                ];
+                break;
+
+            default:
+                break;
+        }        
     }
 
     //Projects
