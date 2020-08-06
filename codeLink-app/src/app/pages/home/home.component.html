@@ -13,38 +13,60 @@
                 <div class="title">
                     <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
                     recientes
-                    <button
-                        type="button"
-                        class="btn btn-sm btn-primary"
-                        (click)="openModal(content, 'proyecto')"
-                    >
-                        Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
-                    </button>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card my-3">
+                    <div class="project-card-bg"></div>
                     <img
-                        src="assets/images/illustrations/login.svg"
-                        class="project-card-img"
+                        src="assets/images/profile.png"
+                        class="project-card-img border"
                     />
                     <div class="project-card-title">
-                        <span>Proyecto2</span>
+                        <div>Proyecto2</div>
+                        <div class="project-card-subtitle">
+                            <div>html css js</div>
+                            <div class="project-card-time">
+                                Fecha: {{ 1596306399891 | date: 'L' }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card my-3">
+                    <div class="project-card-bg"></div>
+                    <img
+                        src="assets/images/profile.png"
+                        class="project-card-img border"
+                    />
                     <div class="project-card-title">
-                        Proyecto1
+                        <div>Proyecto2</div>
+                        <div class="project-card-subtitle">
+                            <div>html css js</div>
+                            <div class="project-card-time">
+                                Fecha: {{ 1596306399891 | date: 'L' }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="project-card my-3">
+                    <div class="project-card-bg"></div>
+                    <img
+                        src="assets/images/profile.png"
+                        class="project-card-img border"
+                    />
                     <div class="project-card-title">
-                        Proyecto2
+                        <div>Proyecto2</div>
+                        <div class="project-card-subtitle">
+                            <div>html css js</div>
+                            <div class="project-card-time">
+                                Fecha: {{ 1596306399891 | date: 'L' }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,13 +95,6 @@
                     <i class="fa fa-folder-open mr-2" aria-hidden="true"></i>
                     Carpetas /
                     <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
-                    <button
-                        type="button"
-                        class="btn btn-sm btn-primary"
-                        (click)="openModal(content, 'carpeta')"
-                    >
-                        Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
-                    </button>
                 </div>
             </div>
             <div class="table-responsive mt-4 content">
@@ -109,6 +124,7 @@
                     <tr
                         *ngFor="let folder of folders | filter: search"
                         (click)="getFolderContent(folder)"
+                        class="animate__animated animate__fadeIn animate__faster"
                     >
                         <td>
                             <div class="p-1">
@@ -132,7 +148,11 @@
                             ></i>
                         </td>
                     </tr>
-                    <tr *ngFor="let project of projects | filter: search">
+                    <tr
+                        *ngFor="let project of projects | filter: search"
+                        class="animate__animated animate__fadeIn animate__faster"
+                        (click)="loadProject(project)"
+                    >
                         <td>
                             <i class="fa fa-code" aria-hidden="true"></i>
                             <span class="ml-2">{{ project.name }}</span>
@@ -150,6 +170,24 @@
                             ></i>
                         </td>
                     </tr>
+                    <tr
+                        *ngIf="
+                            (folders | filter: search).length == 0 &&
+                            (projects | filter: search).length == 0
+                        "
+                        class="animate__animated animate__fadeIn animate__faster"
+                    >
+                        <td colspan="4" class="text-center">
+                            <img
+                                src="assets/images/illustrations/no_results.svg"
+                                alt=""
+                                class="no-results-img"
+                            />
+                            <div class="no-results-text">
+                                No se encontraron carpetas o proyectos
+                            </div>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -159,13 +197,6 @@
                 <div class="title">
                     <i class="fa fa-folder-open mr-2" aria-hidden="true"></i>
                     Carpetas
-                    <button
-                        type="button"
-                        class="btn btn-sm btn-primary"
-                        (click)="openModal(content, 'carpeta')"
-                    >
-                        Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
-                    </button>
                 </div>
             </div>
             <div class="col-12 pt-3">
@@ -173,7 +204,7 @@
                     <a class="nav-link" (click)="navigate()"
                         ><i class="fa fa-arrow-left"></i>...</a
                     >
-    
+
                     <div class="form-group form-inline ml-auto">
                         Buscar por nombre:
                         <input
@@ -202,24 +233,46 @@
             <div class="col-12 mt-4" *ngIf="projects.length > 0">
                 <div class="title">
                     <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
-                    <button
-                        type="button"
-                        class="btn btn-sm btn-primary"
-                        (click)="openModal(content, 'proyecto')"
-                    >
-                        Nuevo <i class="fa fa-plus ml-2" aria-hidden="true"></i>
-                    </button>
                 </div>
             </div>
 
             <div
                 class="col-lg-3 col-md-4 col-sm-6"
                 *ngFor="let project of projects | filter: search"
+                (click)="loadProject(project)"
             >
                 <div class="project-card my-3">
+                    <div class="project-card-bg"></div>
+                    <img
+                        src="assets/images/profile.png"
+                        class="project-card-img border"
+                    />
                     <div class="project-card-title">
-                        {{ project.name }}
+                        <div>{{ project.name }}</div>
+                        <div class="project-card-subtitle">
+                            <div>html css js</div>
+                            <div class="project-card-time">
+                                Fecha: {{ project.creation_date | date: 'L' }}
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <div
+                class="col-12 mt-2 text-center animate__animated animate__fadeIn animate__faster"
+                *ngIf="
+                    (folders | filter: search).length == 0 &&
+                    (projects | filter: search).length == 0
+                "
+            >
+                <img
+                    src="assets/images/illustrations/no_results.svg"
+                    alt=""
+                    class="no-results-img"
+                />
+                <div class="no-results-text">
+                    No se encontraron carpetas o proyectos
                 </div>
             </div>
         </div>
@@ -237,6 +290,7 @@
                 class="form-control"
                 name=""
                 id=""
+                [(ngModel)]="name"
                 aria-describedby="helpId"
                 [placeholder]="'Nombre ' + modalText.type"
             />
@@ -250,7 +304,11 @@
         >
             Cancelar
         </button>
-        <button type="button" class="btn btn-sm btn-primary">
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            (click)="newItem()"
+        >
             Aceptar
         </button>
     </div>
