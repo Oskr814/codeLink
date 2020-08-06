@@ -6,9 +6,9 @@ export default moment;
     name: 'date'
 })
 export class DatePipe implements PipeTransform {
-    transform(timestamp: Date, ...args: unknown[]): unknown {
+    transform(timestamp: Date, format: string = 'LLL'): unknown {
         moment.locale('es');
-        let date = moment(timestamp).format('LLL');
+        let date = moment(timestamp).format(format);
         return date;
     }
 }
