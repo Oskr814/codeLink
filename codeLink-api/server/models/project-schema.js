@@ -24,14 +24,18 @@ let ProjectSchema = new Schema({
     type: Array,
     default: [],
   },
-  code: {
-    type: {},
-    default: {
-      html: "",
-      css: "",
-      js: "",
-    },
+  html: {
+    type: String,
+    default: ""
   },
+  css: {
+    type: String,
+    default: ""
+  },
+  js: {
+    type: String,
+    default: ""
+  }
 });
 
 module.exports = ProjectSchema;
