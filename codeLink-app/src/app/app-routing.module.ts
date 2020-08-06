@@ -43,7 +43,7 @@ const routes: Routes = [
         component: PlanesComponent
     },
     {
-        path: 'proyecto',
+        path: 'project/:_id',
         component: ProyectosComponent,
         canActivate: [AuthGuard]
     },

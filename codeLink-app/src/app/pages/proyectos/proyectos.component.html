@@ -1,26 +1,33 @@
-<div class="project-container animate__animated animate__fadeIn animate__faster">
-       <gridster [options]="options">
+<div
+    class="project-container animate__animated animate__fadeIn animate__faster"
+>
+    <gridster [options]="options">
         <gridster-item [item]="dashboard[0]">
             <ngx-monaco-editor
                 [options]="editorHTML"
-                [(ngModel)]="codeHTML"
+                [(ngModel)]="project.html"
+                (ngModelChange)="renderProject()"
                 style="height: 100%;"
             ></ngx-monaco-editor>
         </gridster-item>
         <gridster-item [item]="dashboard[1]">
             <ngx-monaco-editor
                 [options]="editorCSS"
-                [(ngModel)]="codeCSS"
+                [(ngModel)]="project.css"
+                (ngModelChange)="renderProject()"
                 style="height: 100%;"
             ></ngx-monaco-editor>
         </gridster-item>
         <gridster-item [item]="dashboard[2]">
             <ngx-monaco-editor
                 [options]="editorJS"
-                [(ngModel)]="codeJS"
+                [(ngModel)]="project.js"
+                (ngModelChange)="renderProject()"
                 style="height: 100%;"
             ></ngx-monaco-editor>
         </gridster-item>
-        <gridster-item [item]="dashboard[3]"> </gridster-item>
+        <gridster-item [item]="dashboard[3]">
+            <iframe src="" frameborder="0" #iframe> </iframe>
+        </gridster-item>
     </gridster>
 </div>
