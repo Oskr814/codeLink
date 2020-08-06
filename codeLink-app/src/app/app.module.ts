@@ -30,6 +30,7 @@ import { AuthService } from './services/auth.service';
 import { FoldersService } from './services/folders.service';
 import { DatePipe } from './pipes/date.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
+import { ProjectsService } from './services/projects.service';
 
 @NgModule({
     declarations: [
@@ -75,7 +76,8 @@ import { FilterPipe } from './pipes/filter.pipe';
         AuthGuard,
         LoggedGuard,
         AuthService,
-        FoldersService
+        FoldersService,
+        ProjectsService
     ],
     bootstrap: [AppComponent]
 })
