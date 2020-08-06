@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class AuthService {
 
     async login(email: string, password: string) {
         this.http
-            .post('http://localhost:3000/login', {
+            .post(`${environment.baseUrl}/login`, {
                 email,
                 password
             })
