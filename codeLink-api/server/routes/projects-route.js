@@ -2,9 +2,15 @@ const express = require("express");
 
 const app = express();
 
-const verificarToken = require('../middlewares/auth');
+const verificarToken = require("../middlewares/auth");
 
 const UserProject = require("../models/user-model");
+
+const {
+  findUserProject,
+  updateRoot,
+  updateFolderProject,
+} = require("../functions/projects");
 
 app.post("/project/:owner", verificarToken, (req, res) => {
   let owner = req.params.owner;
@@ -12,17 +18,21 @@ app.post("/project/:owner", verificarToken, (req, res) => {
 
   UserProject.findOne({ _id: owner })
     .then((user) => {
-      let folder = user.folders.find((folder) => (folder._id = body.folder));
+      if (!body.folder) {
+        return UserProject.findOneAndUpdate(
+          { _id: owner },
+          { $push: { projects: { name: body.name } } },
+          { new: true }
+        );
+      }
+
+      let folder = user.folders.find((folder) => folder._id == body.folder);
 
       if (!folder) {
-        return res.status(422).json({
-          ok: false,
-          message: "El folder especificado no existe",
-        });
+        throw new Error('El folder especificado no existe');
       }
 
       if (folder.projects.length > 0) {
-        console.log("re");
         let project = folder.projects.find(
           (project) => project.status && project.name == body.name
         );
@@ -42,69 +52,68 @@ app.post("/project/:owner", verificarToken, (req, res) => {
       );
     })
     .then((user) => {
-      let folder = user.folders.find((folder) => (folder._id = body.folder));
-
-      res.json({ ok: true, project: folder.projects.splice(-1)[0] });
-    })
-    .catch((err) => console.log(err));
-});
-
-
-app.get("/project/:owner", verificarToken, (req, res) => {
-  let owner = req.params.owner;
-
-  let body = req.body;
-
-  UserProject.findOne({ _id: owner })
-    .then((user) => {
-      let folder = user.folders.find((folder) => folder._id == body.folder);
-
-      if (!folder) {
-        return res
-          .status(422)
-          .json({ ok: false, message: "No se encontro la carpeta" });
+      if (!user) {
+        throw new Error('El usuario proporcionado no existe');
       }
 
-      folder.projects = folder.projects.filter((project) => project.status);
+      if (!body.folder) {
+        return res.json(user.projects.splice(-1)[0]);
+      }
+      let folder = user.folders.find((folder) => (folder._id = body.folder));
 
-      res.json({ ok: true, projects: folder.projects });
+      res.json(folder.projects.splice(-1)[0]);
     })
-    .catch((err) => res.status(500).json({ ok: false, err }));
+    .catch((err) => res.status(500).json({ ok: false, err: err.message }));
 });
 
-app.put("/project/:id", verificarToken, (req, res) => {
-  let id = req.params.id;
-  let body = req.body;
+app.get("/project/:owner/:id", verificarToken, (req, res) => {
+  let owner = req.params.owner;
+  let project_id = req.params.id;
+  UserProject.findOne({ _id: owner })
+    .then((user) => {
+      if (!user) {
+        throw new Error("Usuario no encontrado");
+      }
 
-  if (!body.name) {
-    return res
-      .status(422)
-      .json({ ok: false, message: "El nombre del proyecto es requerido" });
-  }
+      const project = findUserProject(user, project_id);
+
+      res.json(project.project);
+    })
+    .catch((err) => {
+      res.status(500).json({ ok: false, err: err.message });
+    });
+});
+
+app.put("/project/:owner/:id", verificarToken, (req, res) => {
+  let owner = req.params.owner;
+  let project_id = req.params.id;
+
+  let body = req.body;
 
   body.write_date = new Date().getTime();
 
-  UserProject.findOneAndUpdate(
-    { folders: { $elemMatch: { _id: body.folder } } },
-    {
-      $set: {
-        "folders.$[i].projects.$[j].name": body.name,
-        "folders.$[i].projects.$[j].write_date": body.write_date,
-      },
-    },
-    { arrayFilters: [{ "i._id": body.folder }, { "j._id": id }], new: true }
-  )
+  UserProject.findOne({ _id: owner })
     .then((user) => {
-      let folder = user.folders.find((folder) => folder._id == body.folder);
+      if (!user) {
+        throw new Error("Usuario no encontrado");
+      }
 
-      res.json({
-        ok: true,
-        project: folder.projects.find((project) => project._id == id),
-      });
+      const { root, folder_id } = findUserProject(user, project_id);
+      if (root) {
+        return updateRoot(body, project_id);
+      }
+
+      return updateFolderProject(user._id, folder_id, body);
     })
-    .catch((err) => res.status(500).json({ ok: false, err }));
-});
+    .then((user) => {
+      const { project } = findUserProject(user, project_id);
 
+      res.json(project);
+    })
+    .catch((err) => {
+      res.status(500).json({ ok: false, err: err.message });
+    });
+});
 
 app.delete("/project/:id", verificarToken, (req, res) => {
   let id = req.params.id;

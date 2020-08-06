@@ -36,7 +36,7 @@ app.post("/folder/:owner", (req, res) => {
         { new: true }
       );
     })
-    .then((user) => res.json({ ok: true, folder: user.folders.splice(-1)[0] }))
+    .then((user) => res.json(user.folders.splice(-1)[0]))
     .catch((err) => res.status(500).json({ ok: false, err }));
 });
 
