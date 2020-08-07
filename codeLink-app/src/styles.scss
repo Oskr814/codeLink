@@ -19,7 +19,7 @@ body {
 body {
     font-family: Poppins;
     font-size: 15px;
-    background: #F5F5F7;
+    //background: #F5F5F7;
 }
 
 .form-group {
@@ -43,10 +43,7 @@ body {
 
 @keyframes modalContentIn {
     0% {
-        transform: scale(0.5);
-    }
-    75% {
-        transform: scale(1.1);
+        transform: scale(0.3);
     }
     100% {
         transform: scale(1);
