@@ -118,23 +118,56 @@ export class HomeComponent implements OnInit {
             );
 
             this._foldersService
-                .editFolder(this.user._id, {_id: item._id, name: this.name})
-                .then((folder) => {                    
+                .editFolder(this.user._id, { _id: item._id, name: this.name })
+                .then((folder) => {
                     this.folders.splice(folderInxed, 1, folder);
                     this.name = '';
                     this.modalService.dismissAll();
-                }).catch( err => console.log(err));
+                })
+                .catch((err) => console.log(err));
         } else {
-            const projectIndex = this.projects.findIndex(project => project);
+            const projectIndex = this.projects.findIndex(
+                (project) => project._id == item._id
+            );
 
-            this.projects[projectIndex].name = this.name;
             this._projectsService
-                .editProject(this.user._id, {_id: item._id, name: this.name})
+                .editProject(this.user._id, { _id: item._id, name: this.name })
                 .then((project) => {
                     this.projects.splice(projectIndex, 1, project);
                     this.name = '';
                     this.modalService.dismissAll();
-                }).catch( err => console.log(err));
+                })
+                .catch((err) => console.log(err));
+        }
+    }
+
+    deleteItem() {
+        let item = this.modalItemData.item;
+    
+        if (this.modalItemData.type == 'carpeta') {
+            const folderInxed = this.folders.findIndex(
+                (folder) => folder._id == item._id
+            );
+
+            this._foldersService
+                .deleteFolder(this.user._id, item._id)
+                .then((res) => {
+                    this.folders.splice(folderInxed, 1);
+                    this.name = '';
+                    this.modalService.dismissAll();
+                })
+                .catch((err) => console.log(err));
+        } else {
+            const projectIndex = this.projects.findIndex((project) => project._id == item._id);
+
+            this._projectsService
+                .deleteProject(this.user._id, item._id)
+                .then((res) => {
+                    this.projects.splice(projectIndex, 1);
+                    this.name = '';
+                    this.modalService.dismissAll();
+                })
+                .catch((err) => console.log(err));
         }
     }
 

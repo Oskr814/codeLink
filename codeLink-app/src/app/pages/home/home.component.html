@@ -142,17 +142,21 @@
                         <td>
                             <i
                                 (click)="
-                                    openModal(
-                                        modalEditItem,
-                                        'carpeta',
-                                        folder
-                                    );
+                                    openModal(modalEditItem, 'carpeta', folder);
                                     $event.stopPropagation()
                                 "
                                 class="fa fa-edit btn btn-ligth mr-2"
                                 aria-hidden="true"
                             ></i>
                             <i
+                                (click)="
+                                    openModal(
+                                        modalDeleteItem,
+                                        'carpeta',
+                                        folder
+                                    );
+                                    $event.stopPropagation()
+                                "
                                 class="fa fa-trash btn btn-ligth text-danger"
                                 aria-hidden="true"
                             ></i>
@@ -186,6 +190,14 @@
                                 aria-hidden="true"
                             ></i>
                             <i
+                                (click)="
+                                    openModal(
+                                        modalDeleteItem,
+                                        'proyecto',
+                                        project
+                                    );
+                                    $event.stopPropagation()
+                                "
                                 class="fa fa-trash btn btn-ligth text-danger"
                                 aria-hidden="true"
                             ></i>
@@ -379,6 +391,58 @@
             class="btn btn-sm btn-primary"
             [disabled]="name == modalItemData.item.name"
             (click)="editItem()"
+        >
+            Aceptar
+        </button>
+    </div>
+</ng-template>
+
+<!-- Editar nombre -->
+<ng-template #modalDeleteItem let-modal>
+    <div class="modal-header row border-0 pb-0">
+        <div class="col-12">
+            <h4 class="modal-title font-weight-light">
+                Eliminar {{ modalItemData.type }}
+            </h4>
+        </div>
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Se
+                eliminara {{modalItemData.type == 'carpeta' ? 'la carpeta' : 'el proyecto'}} y todo su contenido!
+                <br />
+                Ingrese
+                <b>{{ modalItemData.item.name }}</b>
+                para confirmar.
+            </div>
+        </div>
+    </div>
+    <div class="modal-body py-0">
+        <div class="form-group mt-2">
+            <input
+                type="text"
+                class="form-control"
+                name=""
+                id=""
+                [(ngModel)]="name"
+                value="2"
+                aria-describedby="helpId"
+                [placeholder]="modalItemData.item.name"
+            />
+        </div>
+    </div>
+    <div class="modal-footer border-0 pt-0">
+        <button
+            type="button"
+            class="btn btn-ligth"
+            (click)="modal.close('Close click')"
+        >
+            Cancelar
+        </button>
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            [disabled]="name != modalItemData.item.name"
+            (click)="deleteItem()"
         >
             Aceptar
         </button>

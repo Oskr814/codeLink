@@ -15,13 +15,12 @@ export class FoldersService {
     }
 
     public async newFolder(user_id: string, name: string, parent: string) {
-        return await this.http.post(
-            `${environment.baseUrl}/folder/${user_id}`,
-            {
+        return await this.http
+            .post(`${environment.baseUrl}/folder/${user_id}`, {
                 name,
                 parent
-            }
-        ).toPromise();
+            })
+            .toPromise();
     }
 
     async editFolder(user_id, folder) {
@@ -30,6 +29,12 @@ export class FoldersService {
                 `${environment.baseUrl}/folder/${user_id}/${folder._id}`,
                 folder
             )
+            .toPromise();
+    }
+
+    async deleteFolder(user_id, folder_id) {
+        return await this.http
+            .delete(`${environment.baseUrl}/folder/${user_id}/${folder_id}`)
             .toPromise();
     }
 

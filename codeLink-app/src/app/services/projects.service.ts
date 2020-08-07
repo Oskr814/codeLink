@@ -30,7 +30,11 @@ export class ProjectsService {
             .toPromise();
     }
 
-    loadPreview() {}
+    async deleteProject(user_id, project_id) {
+        return await this.http
+            .delete(`${environment.baseUrl}/project/${user_id}/${project_id}`)
+            .toPromise();
+    }
 
     loadProject(project_id) {
         this.router.navigate(['/project/' + project_id]);
