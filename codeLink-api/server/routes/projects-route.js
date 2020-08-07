@@ -55,7 +55,7 @@ app.post("/project/:owner", verificarToken, (req, res) => {
 
       res.json(folder.projects.splice(-1)[0]);
     })
-    .catch((err) => res.status(422).json({ ok: false, err: err.message }));
+    .catch((err) => res.status(422).json({ ok: false, message: err.message }));
 });
 
 app.get("/project/:owner/:id", verificarToken, (req, res) => {
@@ -72,7 +72,7 @@ app.get("/project/:owner/:id", verificarToken, (req, res) => {
       res.json(project.project);
     })
     .catch((err) => {
-      res.status(422).json({ ok: false, err: err.message });
+      res.status(422).json({ ok: false, message: err.message });
     });
 });
 
@@ -97,7 +97,7 @@ app.put("/project/:owner/:id", verificarToken, (req, res) => {
         return updateRoot(body, project_id);
       }
 
-      const folder = user.folders.find(folder => folder.id == folder_id);
+      const folder = user.folders.find((folder) => folder.id == folder_id);
 
       checkIfNameExists(body.name, folder.projects, project_id); // Raise exception
 
@@ -109,28 +109,57 @@ app.put("/project/:owner/:id", verificarToken, (req, res) => {
       res.json(project);
     })
     .catch((err) => {
-      res.status(422).json({ ok: false, err: err.message });
+      res.status(422).json({ ok: false, message: err.message });
     });
 });
 
-app.delete("/project/:id", verificarToken, (req, res) => {
-  let id = req.params.id;
+app.delete("/project/:owner/:id", verificarToken, (req, res) => {
+  let owner = req.params.owner;
+  let project_id = req.params.id;
 
-  let body = req.body;
+  UserProject.findOne({ _id: owner })
+    .then((user) => {
+      if (!user) {
+        throw new Error("Usuario no valido");
+      }
 
-  UserProject.update(
-    {
-      folders: { $elemMatch: { _id: body.folder } },
-    },
-    {
-      $set: {
-        "folders.$[i].projects.$[j].status": false,
-      },
-    },
-    { arrayFilters: [{ "i._id": body.folder }, { "j._id": id }] }
-  )
-    .then((result) => res.json({ ok: true, result }))
-    .catch((err) => res.status(422).json({ ok: false, err }));
+      const { root, folder_id } = findUserProject(user, project_id);
+
+      if (root) {
+
+        return UserProject.update(
+          { _id: owner },
+          {
+            $pull: {
+              projects: { _id: project_id },
+            },
+          }
+        );
+      }
+
+      return UserProject.update(
+        { _id: owner },
+        {
+          $pull: {
+            "folders.$[i].projects": { _id: project_id },
+          },
+        },
+        { arrayFilters: [{ "i._id": folder_id }] }
+      );
+    })
+    .then((result) => {
+      if (!result.nModified) {
+        return res
+          .status(422)
+          .json({ ok: false, message: "No se pudo eliminar el proyecto" });
+      }
+
+      res.json({
+        ok: true,
+        result,
+      });
+    })
+    .catch((err) => res.status(422).json({ ok: false, message: err.message }));
 });
 
 module.exports = app;

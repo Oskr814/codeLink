@@ -115,20 +115,23 @@ app.put("/folder/:owner/:id", (req, res) => {
     .catch((err) => {
       res.status(422).json({
         ok: false,
-        err: err.message,
+        message: err.message,
       });
     });
 });
 
-app.delete("/folder/:id", (req, res) => {
+app.delete("/folder/:owner/:id", (req, res) => {
+  let owner = req.params.owner;
   let id = req.params.id;
 
-  UserFolder.update(
-    { folders: { $elemMatch: { _id: id } } },
-    { $set: { "folders.$[i].status": false } },
-    { arrayFilters: [{ "i._id": id }] }
-  )
+  UserFolder.update({ _id: owner }, { $pull: { folders: { _id: id } } })
     .then((result) => {
+      if (!result.nModified) {
+        return res
+          .status(422)
+          .json({ ok: false, message: "No se pudo eliminar la carpeta" });
+      }
+
       res.json({
         ok: true,
         result,
