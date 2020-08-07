@@ -70,7 +70,6 @@ $boder: solid 1px rgb(230, 230, 230);
     .project-card-title,
     .project-card-subtitle,
     .project-card-time {
-        border-top: none;
         color: white;
     }
 }
@@ -94,7 +93,6 @@ $boder: solid 1px rgb(230, 230, 230);
     padding-top: 10px;
     padding-left: 20px;
     width: 100%;
-    border-top: solid 1px #cccc;
     color: #000;
     box-sizing: border-box;
     overflow: hidden;
