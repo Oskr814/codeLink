@@ -13,7 +13,7 @@ import { ProjectsService } from '../../services/projects.service';
 })
 export class HomeComponent implements OnInit {
     activeFolder: string;
-    modalText: { title: string; type: string };
+    modalItemData: { title: string; type: string; item: any };
 
     list: boolean = true;
 
@@ -91,7 +91,7 @@ export class HomeComponent implements OnInit {
     newItem() {
         const folder_id = this.navigation.slice(-1)[0]._id;
 
-        if (this.modalText.type == 'folder') {
+        if (this.modalItemData.type == 'carpeta') {
             this._foldersService
                 .newFolder(this.user._id, this.name, folder_id)
                 .then((folder) => {
@@ -100,31 +100,60 @@ export class HomeComponent implements OnInit {
                     this.modalService.dismissAll();
                 });
         } else {
-            this._projectsService.newProject(this.user._id, this.name, folder_id)
-            .then( project => {
-                this.projects.push(project)
-                this.name = '';
-                this.modalService.dismissAll();
-            })
+            this._projectsService
+                .newProject(this.user._id, this.name, folder_id)
+                .then((project) => {
+                    this.projects.push(project);
+                    this.name = '';
+                    this.modalService.dismissAll();
+                });
         }
+    }
 
+    editItem() {
+        let item = this.modalItemData.item;
+        if (this.modalItemData.type == 'carpeta') {
+            const folderInxed = this.folders.findIndex(
+                (folder) => folder._id == item._id
+            );
 
+            this._foldersService
+                .editFolder(this.user._id, {_id: item._id, name: this.name})
+                .then((folder) => {                    
+                    this.folders.splice(folderInxed, 1, folder);
+                    this.name = '';
+                    this.modalService.dismissAll();
+                }).catch( err => console.log(err));
+        } else {
+            const projectIndex = this.projects.findIndex(project => project);
+
+            this.projects[projectIndex].name = this.name;
+            this._projectsService
+                .editProject(this.user._id, {_id: item._id, name: this.name})
+                .then((project) => {
+                    this.projects.splice(projectIndex, 1, project);
+                    this.name = '';
+                    this.modalService.dismissAll();
+                }).catch( err => console.log(err));
+        }
     }
 
     active(event) {
         this.activeFolder = event.target.id;
     }
 
-    openModal(content, type) {
+    openModal(content, type, item = null) {
         if (type == 'carpeta') {
-            this.modalText = {
+            this.modalItemData = {
                 title: 'Nueva carpeta',
-                type
+                type,
+                item
             };
         } else {
-            this.modalText = {
+            this.modalItemData = {
                 title: 'Nuevo proyecto',
-                type
+                type,
+                item
             };
         }
 

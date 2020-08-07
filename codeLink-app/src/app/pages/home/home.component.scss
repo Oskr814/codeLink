@@ -15,10 +15,7 @@ $boder: solid 1px rgb(230, 230, 230);
 }
 
 .title {
-    font-weight: 600;
-    font-size: 1.7em;
-    border-bottom: solid 1px #adadad6f;
-    padding-bottom: 15px;
+    font-size: 1.8em;
 }
 
 .content {
@@ -26,7 +23,11 @@ $boder: solid 1px rgb(230, 230, 230);
     box-shadow: $shadow;
     border-radius: 5px;
     margin-top: 15px;
-    padding: 15px 10px;
+    padding: 10px 10px;
+}
+
+.folder-icon, .project-icon {
+    width: 25px;
 }
 
 .project-card {
@@ -35,9 +36,9 @@ $boder: solid 1px rgb(230, 230, 230);
     height: 200px;
     box-sizing: border-box;
     box-shadow: $shadow;
-    border: $boder;
+    //border: $boder;
     border-bottom: none;
-    background-color: white;
+    background: #f5f5f7d2;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;

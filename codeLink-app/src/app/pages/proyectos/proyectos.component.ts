@@ -122,9 +122,9 @@ export class ProyectosComponent implements OnInit {
     }
 
     //Projects
-    saveProject() {
+    editProject() {
         this._projectsService
-            .saveProject(this.user._id, this.project)
+            .editProject(this.user._id, this.project)
             .then((project) => {
                 this.project = project;
             });

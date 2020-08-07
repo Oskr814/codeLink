@@ -21,11 +21,7 @@ export class ProjectsService {
         ).toPromise();
     }
 
-    loadProject(project_id) {
-        this.router.navigate(['/project/' + project_id]);
-    }
-
-    async saveProject(user_id, project) {
+    async editProject(user_id, project) {
         return await this.http
             .put(
                 `${environment.baseUrl}/project/${user_id}/${project._id}`,
@@ -35,4 +31,8 @@ export class ProjectsService {
     }
 
     loadPreview() {}
+
+    loadProject(project_id) {
+        this.router.navigate(['/project/' + project_id]);
+    }
 }

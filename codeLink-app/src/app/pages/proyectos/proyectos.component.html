@@ -2,7 +2,7 @@
     <app-project-navbar
         [name]="project.name"
         (updateName)="(project.name = $event)"
-        (save)="saveProject()"
+        (save)="editProject()"
     ></app-project-navbar>
     <div id="project-container">
         <gridster [options]="options">

@@ -23,4 +23,15 @@ export class FoldersService {
             }
         ).toPromise();
     }
+
+    async editFolder(user_id, folder) {
+        return await this.http
+            .put(
+                `${environment.baseUrl}/folder/${user_id}/${folder._id}`,
+                folder
+            )
+            .toPromise();
+    }
+
+    loadPreview() {}
 }

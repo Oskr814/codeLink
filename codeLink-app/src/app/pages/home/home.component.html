@@ -2,19 +2,18 @@
 <div class="d-flex animate__animated animate__fadeIn animate__faster">
     <app-sidebar
         class="bg-white"
-        (createNew)="openModal(content, $event)"
+        (createNew)="openModal(modalNewItem, $event)"
     ></app-sidebar>
 
     <div
-        class="toggle-animation w-100 px-5 pb-4"
+        class="toggle-animation w-100 px-4 pb-4"
         [ngClass]="{ toggle: !toggleSidebar }"
         id="main"
     >
         <div class="row">
             <div class="col-12">
                 <div class="title">
-                    <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
-                    recientes
+                    Proyectos recientes
                 </div>
             </div>
 
@@ -73,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-4" *ngIf="deviceResolution > 576">
+        <div class="row" *ngIf="deviceResolution > 576">
             <div class="col-12">
                 <div class="text-right">
                     <span class="mr-2 text-muted text-enfasis">Vista:</span>
@@ -94,14 +93,15 @@
         <div class="row" [ngClass]="{ 'd-none': !list }">
             <div class="col-12">
                 <div class="title">
-                    <i class="fa fa-folder-open mr-2" aria-hidden="true"></i>
-                    Carpetas /
-                    <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
+                    Mi unidad
                 </div>
             </div>
-            <div class="table-responsive mt-4 content">
-                <nav class="nav" *ngIf="navigation.length >= 1">
-                    <a class="nav-link" (click)="navigate()"
+            <div class="table-responsive">
+                <nav class="nav">
+                    <a
+                        class="nav-link"
+                        *ngIf="navigation.length > 1"
+                        (click)="navigate()"
                         ><i class="fa fa-arrow-left"></i>...</a
                     >
 
@@ -130,10 +130,10 @@
                     >
                         <td>
                             <div class="p-1">
-                                <i
-                                    class="fa fa-folder text-muted"
-                                    aria-hidden="true"
-                                ></i>
+                                <img
+                                    src="assets/images/folder.svg"
+                                    class="folder-icon"
+                                />
                                 <span class="ml-2">{{ folder.name }}</span>
                             </div>
                         </td>
@@ -141,6 +141,14 @@
                         <td>{{ folder.wirte_date | date }}</td>
                         <td>
                             <i
+                                (click)="
+                                    openModal(
+                                        modalEditItem,
+                                        'carpeta',
+                                        folder
+                                    );
+                                    $event.stopPropagation()
+                                "
                                 class="fa fa-edit btn btn-ligth mr-2"
                                 aria-hidden="true"
                             ></i>
@@ -156,13 +164,24 @@
                         (click)="loadProject(project)"
                     >
                         <td>
-                            <i class="fa fa-code" aria-hidden="true"></i>
+                            <img
+                                src="assets/images/project.svg"
+                                class="project-icon"
+                            />
                             <span class="ml-2">{{ project.name }}</span>
                         </td>
                         <td>{{ project.create_date | date }}</td>
                         <td>{{ project.write_date | date }}</td>
                         <td>
                             <i
+                                (click)="
+                                    openModal(
+                                        modalEditItem,
+                                        'proyecto',
+                                        project
+                                    );
+                                    $event.stopPropagation()
+                                "
                                 class="fa fa-edit btn btn-ligth mr-2"
                                 aria-hidden="true"
                             ></i>
@@ -197,13 +216,19 @@
         <div class="row" [ngClass]="{ 'd-none': list }">
             <div class="col-12">
                 <div class="title">
-                    <i class="fa fa-folder-open mr-2" aria-hidden="true"></i>
+                    <img
+                        src="assets/images/folder-open.svg"
+                        class="folder-icon"
+                    />
                     Carpetas
                 </div>
             </div>
             <div class="col-12 pt-3">
-                <nav class="nav" *ngIf="navigation.length >= 1">
-                    <a class="nav-link" (click)="navigate()"
+                <nav class="nav">
+                    <a
+                        class="nav-link"
+                        *ngIf="navigation.length > 1"
+                        (click)="navigate()"
                         ><i class="fa fa-arrow-left"></i>...</a
                     >
 
@@ -226,15 +251,19 @@
                         class="card-body text-truncate"
                         (click)="getFolderContent(folder)"
                     >
-                        <i class="fa fa-folder mr-3" aria-hidden="true"></i
-                        >{{ folder.name }}
+                        <img
+                            src="assets/images/folder.svg"
+                            class="folder-icon"
+                        />
+                        {{ folder.name }}
                     </div>
                 </div>
             </div>
 
             <div class="col-12 mt-4" *ngIf="projects.length > 0">
                 <div class="title">
-                    <i class="fa fa-code mr-2" aria-hidden="true"></i> Proyectos
+                    <img src="assets/images/project.svg" class="project-icon" />
+                    Proyectos
                 </div>
             </div>
 
@@ -281,9 +310,9 @@
     </div>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #modalNewItem let-modal>
     <div class="modal-header border-0 pb-0">
-        <h4 class="modal-title font-weight-light">{{ modalText.title }}</h4>
+        <h4 class="modal-title font-weight-light">{{ modalItemData.title }}</h4>
     </div>
     <div class="modal-body py-0">
         <div class="form-group mt-2">
@@ -294,7 +323,7 @@
                 id=""
                 [(ngModel)]="name"
                 aria-describedby="helpId"
-                [placeholder]="'Nombre ' + modalText.type"
+                [placeholder]="'Nombre ' + modalItemData.type"
             />
         </div>
     </div>
@@ -310,6 +339,46 @@
             type="button"
             class="btn btn-sm btn-primary"
             (click)="newItem()"
+        >
+            Aceptar
+        </button>
+    </div>
+</ng-template>
+
+<!-- Editar nombre -->
+<ng-template #modalEditItem let-modal>
+    <div class="modal-header border-0 pb-0">
+        <h4 class="modal-title font-weight-light">
+            Editar nombre {{ modalItemData.type }}
+        </h4>
+    </div>
+    <div class="modal-body py-0">
+        <div class="form-group mt-2">
+            <input
+                type="text"
+                class="form-control"
+                name=""
+                id=""
+                [(ngModel)]="name"
+                value="2"
+                aria-describedby="helpId"
+                [placeholder]="modalItemData.item.name"
+            />
+        </div>
+    </div>
+    <div class="modal-footer border-0 pt-0">
+        <button
+            type="button"
+            class="btn btn-ligth"
+            (click)="modal.close('Close click')"
+        >
+            Cancelar
+        </button>
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            [disabled]="name == modalItemData.item.name"
+            (click)="editItem()"
         >
             Aceptar
         </button>
