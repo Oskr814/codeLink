@@ -22,13 +22,13 @@ app.post("/user", (req, res) => {
   user
     .save()
     .then((user) => res.json({ ok: true, user }))
-    .catch((err) => res.status(500).json({ ok: false, err }));
+    .catch((err) => res.status(422).json({ ok: false, err }));
 });
 //READ
 app.get("/user", verificarToken, (req, res) => {
   User.find({ status: true })
     .then((users) => res.json({ ok: true, users }))
-    .catch((err) => res.status(500).json({ ok: false, err }));
+    .catch((err) => res.status(422).json({ ok: false, err }));
 });
 
 app.put("/user/:id", verificarToken, (req, res) => {
@@ -50,7 +50,7 @@ app.put("/user/:id", verificarToken, (req, res) => {
         token,
       });
     })
-    .catch((err) => res.status(500).json({ ok: false, err }));
+    .catch((err) => res.status(422).json({ ok: false, err }));
 });
 
 app.delete("/user/:id", verificarToken, (req, res) => {
@@ -58,7 +58,7 @@ app.delete("/user/:id", verificarToken, (req, res) => {
 
   User.update({ _id: id }, { status: false })
     .then((result) => res.json({ ok: true, result }))
-    .catch((err) => res.status(500).json({ ok: false, err }));
+    .catch((err) => res.status(422).json({ ok: false, err }));
 });
 
 module.exports = app;

@@ -38,7 +38,7 @@ app.post("/login", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({
+      res.status(422).json({
         ok: false,
         err,
       });

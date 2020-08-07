@@ -1,5 +1,6 @@
 const UserProject = require("../models/user-model");
 
+// Obtener el proyecto solicitado
 let findUserProject = function (user, project_id) {
   let project;
   //root
@@ -21,6 +22,7 @@ let findUserProject = function (user, project_id) {
   throw new Error("El proyecto especificado no existe");
 };
 
+// Actualizar proyecto que se encuentra en la razi
 let updateRoot = function (project, project_id) {
   return UserProject.findOneAndUpdate(
     { projects: { $elemMatch: { _id: project_id } } },
@@ -37,6 +39,7 @@ let updateRoot = function (project, project_id) {
   );
 };
 
+//Actualizar proyecto que se encuntra dentro de una carpeta
 let updateFolderProject = function (user_id, folder_id, project) {
   return UserProject.findOneAndUpdate(
     { _id: user_id },
@@ -56,8 +59,24 @@ let updateFolderProject = function (user_id, folder_id, project) {
   );
 };
 
+let checkIfNameExists = function (name, projects, project_id) {
+  if (project_id) {
+    projects = projects.filter((project) => project._id != project_id);
+  }
+
+  if (projects && projects.length > 0) {
+    let project = projects.find(
+      (project) => project.name == name && project.status
+    );
+
+    if (!!project)
+      throw new Error("El nombre proporcionado se encuentra en uso");
+  }
+};
+
 module.exports = {
   findUserProject,
   updateRoot,
   updateFolderProject,
+  checkIfNameExists,
 };

@@ -10,6 +10,7 @@ const {
   findUserProject,
   updateRoot,
   updateFolderProject,
+  checkIfNameExists,
 } = require("../functions/projects");
 
 app.post("/project/:owner", verificarToken, (req, res) => {
@@ -19,6 +20,8 @@ app.post("/project/:owner", verificarToken, (req, res) => {
   UserProject.findOne({ _id: owner })
     .then((user) => {
       if (!body.folder) {
+        checkIfNameExists(body.name, user.projects); //throw exception
+
         return UserProject.findOneAndUpdate(
           { _id: owner },
           { $push: { projects: { name: body.name } } },
@@ -29,21 +32,10 @@ app.post("/project/:owner", verificarToken, (req, res) => {
       let folder = user.folders.find((folder) => folder._id == body.folder);
 
       if (!folder) {
-        throw new Error('El folder especificado no existe');
+        throw new Error("El folder especificado no existe");
       }
 
-      if (folder.projects.length > 0) {
-        let project = folder.projects.find(
-          (project) => project.status && project.name == body.name
-        );
-
-        if (project) {
-          return res.status(422).json({
-            ok: false,
-            message: "El nombre del proyecto debe ser unico",
-          });
-        }
-      }
+      checkIfNameExists(body.name, folder.projects); //throw exception
 
       return UserProject.findOneAndUpdate(
         { _id: owner },
@@ -53,7 +45,7 @@ app.post("/project/:owner", verificarToken, (req, res) => {
     })
     .then((user) => {
       if (!user) {
-        throw new Error('El usuario proporcionado no existe');
+        throw new Error("El usuario proporcionado no existe");
       }
 
       if (!body.folder) {
@@ -63,7 +55,7 @@ app.post("/project/:owner", verificarToken, (req, res) => {
 
       res.json(folder.projects.splice(-1)[0]);
     })
-    .catch((err) => res.status(500).json({ ok: false, err: err.message }));
+    .catch((err) => res.status(422).json({ ok: false, err: err.message }));
 });
 
 app.get("/project/:owner/:id", verificarToken, (req, res) => {
@@ -80,7 +72,7 @@ app.get("/project/:owner/:id", verificarToken, (req, res) => {
       res.json(project.project);
     })
     .catch((err) => {
-      res.status(500).json({ ok: false, err: err.message });
+      res.status(422).json({ ok: false, err: err.message });
     });
 });
 
@@ -100,8 +92,14 @@ app.put("/project/:owner/:id", verificarToken, (req, res) => {
 
       const { root, folder_id } = findUserProject(user, project_id);
       if (root) {
+        checkIfNameExists(body.name, user.projects, project_id); //Raise exception
+
         return updateRoot(body, project_id);
       }
+
+      const folder = user.folders.find(folder => folder.id == folder_id);
+
+      checkIfNameExists(body.name, folder.projects, project_id); // Raise exception
 
       return updateFolderProject(user._id, folder_id, body);
     })
@@ -111,7 +109,7 @@ app.put("/project/:owner/:id", verificarToken, (req, res) => {
       res.json(project);
     })
     .catch((err) => {
-      res.status(500).json({ ok: false, err: err.message });
+      res.status(422).json({ ok: false, err: err.message });
     });
 });
 
@@ -132,7 +130,7 @@ app.delete("/project/:id", verificarToken, (req, res) => {
     { arrayFilters: [{ "i._id": body.folder }, { "j._id": id }] }
   )
     .then((result) => res.json({ ok: true, result }))
-    .catch((err) => res.status(500).json({ ok: false, err }));
+    .catch((err) => res.status(422).json({ ok: false, err }));
 });
 
 module.exports = app;

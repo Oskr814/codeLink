@@ -37,7 +37,7 @@ app.post("/folder/:owner", (req, res) => {
       );
     })
     .then((user) => res.json(user.folders.splice(-1)[0]))
-    .catch((err) => res.status(500).json({ ok: false, err }));
+    .catch((err) => res.status(422).json({ ok: false, err }));
 });
 
 app.get("/folders/:owner/:id?", (req, res) => {
@@ -53,14 +53,14 @@ app.get("/folders/:owner/:id?", (req, res) => {
       let projects = [];
 
       if (!id) {
-        folders = user.folders.filter( folder => !folder.parent && folder.status);
+        folders = user.folders.filter(
+          (folder) => !folder.parent && folder.status
+        );
         projects = user.projects;
       } else {
         const folder = user.folders.find((folder) => folder._id == id);
         folders = user.folders.filter((childFolder) => {
-          
-            return childFolder.status && childFolder.parent == folder._id;
-          
+          return childFolder.status && childFolder.parent == folder._id;
         });
         projects = folder.projects;
       }
@@ -69,11 +69,12 @@ app.get("/folders/:owner/:id?", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ ok: false, err });
+      res.status(422).json({ ok: false, err });
     });
 });
 
-app.put("/folder/:id", (req, res) => {
+app.put("/folder/:owner/:id", (req, res) => {
+  let owner = req.params.owner;
   let id = req.params.id;
   let body = req.body;
 
@@ -85,26 +86,36 @@ app.put("/folder/:id", (req, res) => {
 
   body.write_date = new Date().getTime();
 
-  UserFolder.findOneAndUpdate(
-    { folders: { $elemMatch: { _id: id } } },
-    {
-      $set: {
-        "folders.$[i].name": body.name,
-        "folders.$[i].write_date": body.write_date,
-      },
-    },
-    { arrayFilters: [{ "i._id": id }], new: true }
-  )
+  UserFolder.findOne({ _id: owner })
     .then((user) => {
-      res.json({
-        ok: true,
-        folder: user.folders.find((folder) => folder._id == id),
+      const folder = user.folders.find((folder) => {
+        return folder.name == body.name && folder.status;
       });
+      if (folder) {
+        return res.status(422).json({
+          ok: false,
+          message: "El nombre de la carpeta ya esta en uso",
+        });
+      }
+
+      return UserFolder.findOneAndUpdate(
+        { _id: owner, folders: { $elemMatch: { _id: id } } },
+        {
+          $set: {
+            "folders.$[i].name": body.name,
+            "folders.$[i].write_date": body.write_date,
+          },
+        },
+        { arrayFilters: [{ "i._id": id }], new: true }
+      );
+    })
+    .then((user) => {
+      res.json(user.folders.find((folder) => folder._id == id));
     })
     .catch((err) => {
-      res.status(500).json({
+      res.status(422).json({
         ok: false,
-        err,
+        err: err.message,
       });
     });
 });
@@ -124,7 +135,7 @@ app.delete("/folder/:id", (req, res) => {
       });
     })
     .catch((err) => {
-      res.status(500).json({
+      res.status(422).json({
         ok: false,
         err,
       });
