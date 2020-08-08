@@ -259,15 +259,51 @@
                 *ngFor="let folder of folders | filter: search"
             >
                 <div class="card show-sm mt-4">
-                    <div
-                        class="card-body text-truncate"
-                        (click)="getFolderContent(folder)"
-                    >
-                        <img
-                            src="assets/images/folder.svg"
-                            class="folder-icon"
-                        />
-                        {{ folder.name }}
+                    <div class="card-body" (click)="getFolderContent(folder)">
+                        <span class="w-75 text-truncate d-inline-block">
+                            <img
+                                src="assets/images/folder.svg"
+                                class="folder-icon"
+                            />
+                            {{ folder.name }}</span
+                        >
+
+                        <div
+                            ngbDropdown 
+                            #dropDownMenu="ngbDropdown"
+                            container="body"
+                            placement="right"
+                            class="d-inline-block float-right"
+                            style="left: 5px"
+                        >
+                            <i
+                                id="dropdownNuevo"
+                                ngbDropdownToggle
+                                class="fa fa-ellipsis-v dropdown-toggle-icon"
+                                aria-hidden="true"
+                                (click)="$event.stopPropagation(); dropDownMenu.open();"
+                            ></i>
+
+                            <div
+                                ngbDropdownMenu
+                                aria-labelledby="dropdownNuevo"
+                            >
+                                <button
+                                    class="btn btn-light"
+                                    ngbDropdownItem
+                                    (click)="openModal(modalEditItem, 'carpeta', folder)"
+                                >
+                                    Editar
+                                </button>
+                                <button
+                                    class="btn btn-light"
+                                    ngbDropdownItem
+                                    (click)="openModal(modalDeleteItem, 'carpeta', folder)"
+                                >
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -285,6 +321,42 @@
                 (click)="loadProject(project)"
             >
                 <div class="project-card my-3">
+                    <div
+                    ngbDropdown 
+                    #dropDownMenu="ngbDropdown"
+                    container="body"
+                    placement="right"
+                    class="d-inline-block float-right"
+                >
+                    <i
+                        id="dropdownNuevo"
+                        ngbDropdownToggle
+                        class="fa fa-ellipsis-v dropdown-toggle-icon-project"
+                        aria-hidden="true"
+                        (click)="$event.stopPropagation(); dropDownMenu.open();"
+                    ></i>
+
+                    <div
+                        ngbDropdownMenu
+                        aria-labelledby="dropdownNuevo"
+                    >
+                        <button
+                            class="btn btn-light"
+                            ngbDropdownItem
+                            (click)="openModal(modalEditItem, 'proyecto', project)"
+                        >
+                            Editar
+                        </button>
+                        <button
+                            class="btn btn-light"
+                            ngbDropdownItem
+                            (click)="openModal(modalDeleteItem, 'proyecto', project)"
+                        >
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+
                     <div class="project-card-bg"></div>
                     <img
                         src="assets/images/profile.png"
@@ -408,7 +480,13 @@
         <div class="col-12">
             <div class="alert alert-danger" role="alert">
                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Se
-                eliminara {{modalItemData.type == 'carpeta' ? 'la carpeta' : 'el proyecto'}} y todo su contenido!
+                eliminara
+                {{
+                    modalItemData.type == 'carpeta'
+                        ? 'la carpeta'
+                        : 'el proyecto'
+                }}
+                y todo su contenido!
                 <br />
                 Ingrese
                 <b>{{ modalItemData.item.name }}</b>

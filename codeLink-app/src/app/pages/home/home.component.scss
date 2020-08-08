@@ -26,7 +26,8 @@ $boder: solid 1px rgb(230, 230, 230);
     padding: 10px 10px;
 }
 
-.folder-icon, .project-icon {
+.folder-icon,
+.project-icon {
     width: 25px;
 }
 
@@ -71,6 +72,10 @@ $boder: solid 1px rgb(230, 230, 230);
     .project-card-subtitle,
     .project-card-time {
         color: white;
+    }
+
+    .dropdown-toggle-icon, .dropdown-toggle-icon-project {
+        color: white !important;
     }
 }
 
@@ -141,7 +146,16 @@ $boder: solid 1px rgb(230, 230, 230);
 }
 
 .card-body {
-    padding: 1em;
+    padding: 10px;
+    padding-right: 0;
+    display: flex;
+    align-items: center;
+}
+
+.card-body:hover {
+    .dropdown-toggle-icon {
+        display: grid;
+    }
 }
 
 nav i {
@@ -193,4 +207,41 @@ th:hover {
     .toggle {
         margin: 0;
     }
+}
+
+.dropdown {
+    z-index: 1;
+}
+
+.dropdown-toggle::after {
+    content: none;
+}
+
+@mixin toggle-icon {
+    display: grid;
+    place-content: center;
+    font-size: 1.2em;
+    text-align: center;
+    color: #5e6c84;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dropdown-toggle-icon {
+    @include toggle-icon();
+   
+}
+.dropdown-toggle-icon-project {
+    @include toggle-icon();
+    margin: 5px 5px 0 0;
+}
+
+.dropdown-toggle-icon:hover, .dropdown-toggle-icon-project:hover {
+    background: #bcbcbe;
+}
+
+#dropdownMenuProject {
+    position: absolute;
 }
