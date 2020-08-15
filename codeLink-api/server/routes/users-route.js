@@ -22,7 +22,7 @@ app.post("/user", (req, res) => {
   user
     .save()
     .then((user) => res.json({ ok: true, user }))
-    .catch((err) => res.status(422).json({ ok: false, err }));
+    .catch((err) => res.status(422).json({ ok: false, err: err.message }));
 });
 //READ
 app.get("/user", verificarToken, (req, res) => {
