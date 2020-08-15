@@ -21,10 +21,9 @@ export class PlanesComponent implements OnInit {
             price: 'Free',
             subtitle: 'Ideal para aventureros',
             features: [
-                'Almacenamiento en la nube',
-                'Exportar proyecto',
-                'Proyectos ilimitados',
-                'Lineas de codigo ilimitadas'
+                { text: 'Almacenamiento en la nube', value: true },
+                { text: 'Exportar proyecto', value: false },
+                { text: 'Proyectos ilimitados', value: false }
             ]
         },
         {
@@ -33,10 +32,9 @@ export class PlanesComponent implements OnInit {
             price: '$3/Mes',
             subtitle: 'Ideal para entusiastas',
             features: [
-                'Almacenamiento en la nube',
-                'Exportar proyecto',
-                'Proyectos ilimitados',
-                'Lineas de codigo ilimitadas'
+                { text: 'Almacenamiento en la nube', value: true },
+                { text: 'Exportar proyecto', value: true },
+                { text: 'Proyectos ilimitados', value: false }
             ]
         },
         {
@@ -45,10 +43,9 @@ export class PlanesComponent implements OnInit {
             price: '$5/Mes',
             subtitle: 'Sin limites!',
             features: [
-                'Almacenamiento en la nube',
-                'Exportar proyecto',
-                'Proyectos ilimitados',
-                'Lineas de codigo ilimitadas'
+                { text: 'Almacenamiento en la nube', value: true },
+                { text: 'Exportar proyecto', value: true },
+                { text: 'Proyectos ilimitados', value: true }
             ]
         }
     ];
@@ -75,7 +72,7 @@ export class PlanesComponent implements OnInit {
         this._authService.user$.subscribe((user) => {
             this.user = user;
 
-            if(!user) {
+            if (!user) {
                 this.router.navigate(['/landing']);
             }
         });

@@ -1,4 +1,6 @@
-<div class="container animate__animated animate__fadeIn animate__faster">
+<div
+    class="container main__container mt-1 animate__animated animate__fadeIn animate__faster"
+>
     <div class="row">
         <div class="col-12">
             <div class="precio-title">
@@ -21,8 +23,12 @@
                 </div>
                 <div class="precio-card-body">
                     <ul>
-                        <li class="check" *ngFor="let feature of plan.features">
-                            {{ feature }}
+                        <li
+                            [ngClass]="
+                                { 'check': feature.value, 'uncheck': !feature.value }"
+                            *ngFor="let feature of plan.features"
+                        >
+                            {{ feature.text }}
                         </li>
                     </ul>
                     <button
@@ -68,9 +74,9 @@
                 }}
             </div>
             <div id="credit-card-date" class="credit-card-text">
-                {{form.get('mes').value ? form.get('mes').value : '01'}}
+                {{ form.get('mes').value ? form.get('mes').value : '01' }}
                 /
-                {{form.get('anio').value ? form.get('anio').value : '2020'}}
+                {{ form.get('anio').value ? form.get('anio').value : '2020' }}
             </div>
         </div>
     </div>
@@ -84,8 +90,8 @@
                     type="text"
                     class="form-control"
                     [ngClass]="{
-                      'is-invalid': isInvalid('number'),
-                      'is-valid': isValid('number')
+                        'is-invalid': isInvalid('number'),
+                        'is-valid': isValid('number')
                     }"
                     id="number"
                     formControlName="number"
@@ -101,8 +107,8 @@
                     type="text"
                     class="form-control"
                     [ngClass]="{
-                      'is-invalid': isInvalid('name'),
-                      'is-valid': isValid('name')
+                        'is-invalid': isInvalid('name'),
+                        'is-valid': isValid('name')
                     }"
                     id="name"
                     formControlName="name"
@@ -115,8 +121,8 @@
                     type="text"
                     class="form-control"
                     [ngClass]="{
-                      'is-invalid': isInvalid('mes'),
-                      'is-valid': isValid('mes')
+                        'is-invalid': isInvalid('mes'),
+                        'is-valid': isValid('mes')
                     }"
                     id="mes"
                     formControlName="mes"
@@ -130,8 +136,8 @@
                     type="text"
                     class="form-control"
                     [ngClass]="{
-                      'is-invalid': isInvalid('anio'),
-                      'is-valid': isValid('anio')
+                        'is-invalid': isInvalid('anio'),
+                        'is-valid': isValid('anio')
                     }"
                     id="anio"
                     formControlName="anio"
@@ -147,7 +153,7 @@
                     [ngClass]="{
                         'is-invalid': isInvalid('cvc'),
                         'is-valid': isValid('cvc')
-                      }"
+                    }"
                     id="cvc"
                     formControlName="cvc"
                     aria-describedby="helpId"
@@ -164,7 +170,11 @@
         >
             Cancelar
         </button>
-        <button type="button" class="btn btn-sm btn-primary" (click)="updatePlan(true)">
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            (click)="updatePlan(true)"
+        >
             Aceptar
         </button>
     </div>
