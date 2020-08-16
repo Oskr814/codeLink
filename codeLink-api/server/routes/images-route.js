@@ -1,8 +1,6 @@
 const express = require("express");
-const fileUpload = require("express-fileupload");
 const app = express();
 
-const fs = require("fs");
 const path = require('path');
 
 app.get("/img/:img", (req, res) => {

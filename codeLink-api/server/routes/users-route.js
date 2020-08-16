@@ -50,7 +50,7 @@ app.put("/user/:id", verificarToken, (req, res) => {
         token,
       });
     })
-    .catch((err) => res.status(422).json({ ok: false, err }));
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 app.delete("/user/:id", verificarToken, (req, res) => {
@@ -58,7 +58,7 @@ app.delete("/user/:id", verificarToken, (req, res) => {
 
   User.update({ _id: id }, { status: false })
     .then((result) => res.json({ ok: true, result }))
-    .catch((err) => res.status(422).json({ ok: false, err }));
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 module.exports = app;

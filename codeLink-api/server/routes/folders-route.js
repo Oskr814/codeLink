@@ -17,7 +17,7 @@ app.post("/folder/:owner", (req, res) => {
         return folder.name == body.name && folder.status;
       });
       if (folder) {
-        return res.status(422).json({
+        return res.status(400).json({
           ok: false,
           message: "El nombre de la carpeta debe ser unico",
         });
@@ -37,7 +37,7 @@ app.post("/folder/:owner", (req, res) => {
       );
     })
     .then((user) => res.json(user.folders.splice(-1)[0]))
-    .catch((err) => res.status(422).json({ ok: false, err }));
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 app.get("/folders/:owner/:id?", (req, res) => {
@@ -67,10 +67,7 @@ app.get("/folders/:owner/:id?", (req, res) => {
 
       res.json({ folders, projects });
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(422).json({ ok: false, err });
-    });
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 app.put("/folder/:owner/:id", (req, res) => {
@@ -109,15 +106,8 @@ app.put("/folder/:owner/:id", (req, res) => {
         { arrayFilters: [{ "i._id": id }], new: true }
       );
     })
-    .then((user) => {
-      res.json(user.folders.find((folder) => folder._id == id));
-    })
-    .catch((err) => {
-      res.status(422).json({
-        ok: false,
-        message: err.message,
-      });
-    });
+    .then((user) => res.json(user.folders.find((folder) => folder._id == id)))
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 app.delete("/folder/:owner/:id", (req, res) => {
@@ -137,12 +127,7 @@ app.delete("/folder/:owner/:id", (req, res) => {
         result,
       });
     })
-    .catch((err) => {
-      res.status(422).json({
-        ok: false,
-        err,
-      });
-    });
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 module.exports = app;

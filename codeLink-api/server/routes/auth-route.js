@@ -37,13 +37,7 @@ app.post("/login", (req, res) => {
         token,
       });
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(422).json({
-        ok: false,
-        err,
-      });
-    });
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 app.post("/change-password/:id", (req, res) => {
@@ -72,7 +66,7 @@ app.post("/change-password/:id", (req, res) => {
 
       res.json({ message: "Contraseña actualizada con exito" });
     })
-    .catch((err) => res.status(422).json({ message: err.message }));
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 module.exports = app;

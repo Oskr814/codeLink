@@ -55,7 +55,7 @@ app.post("/project/:owner", verificarToken, (req, res) => {
 
       res.json(folder.projects.splice(-1)[0]);
     })
-    .catch((err) => res.status(422).json({ ok: false, message: err.message }));
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 app.get("/project/:owner/:id", verificarToken, (req, res) => {
@@ -71,9 +71,7 @@ app.get("/project/:owner/:id", verificarToken, (req, res) => {
 
       res.json(project.project);
     })
-    .catch((err) => {
-      res.status(422).json({ ok: false, message: err.message });
-    });
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 app.put("/project/:owner/:id", verificarToken, (req, res) => {
@@ -108,9 +106,7 @@ app.put("/project/:owner/:id", verificarToken, (req, res) => {
 
       res.json(project);
     })
-    .catch((err) => {
-      res.status(422).json({ ok: false, message: err.message });
-    });
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 app.delete("/project/:owner/:id", verificarToken, (req, res) => {
@@ -126,7 +122,6 @@ app.delete("/project/:owner/:id", verificarToken, (req, res) => {
       const { root, folder_id } = findUserProject(user, project_id);
 
       if (root) {
-
         return UserProject.update(
           { _id: owner },
           {
@@ -159,7 +154,7 @@ app.delete("/project/:owner/:id", verificarToken, (req, res) => {
         result,
       });
     })
-    .catch((err) => res.status(422).json({ ok: false, message: err.message }));
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
 module.exports = app;
