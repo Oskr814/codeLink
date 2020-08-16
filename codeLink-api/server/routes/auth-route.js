@@ -24,12 +24,12 @@ app.post("/login", (req, res) => {
         });
       }
 
+      delete user.folders;
+      delete user.projects;
+
       let token = jwt.sign({ data: user }, process.env.SEED, {
         expiresIn: process.env.JWTEXP,
       });
-
-      delete user.folders;
-      delete user.projects;
 
       res.json({
         ok: true,
@@ -49,8 +49,6 @@ app.post("/login", (req, res) => {
 app.post("/change-password/:id", (req, res) => {
   const user_id = req.params.id;
   let body = req.body;
-
-  console.log(body);
 
   User.findOne({ _id: user_id })
     .then((user) => {
@@ -74,10 +72,7 @@ app.post("/change-password/:id", (req, res) => {
 
       res.json({ message: "Contraseña actualizada con exito" });
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(422).json({ message: err.message });
-    });
+    .catch((err) => res.status(422).json({ message: err.message }));
 });
 
 module.exports = app;
