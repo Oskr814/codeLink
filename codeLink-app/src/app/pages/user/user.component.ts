@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../../interfaces/user.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from '../../services/toastr.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-user',
@@ -16,11 +17,13 @@ export class UserComponent implements OnInit {
     form: FormGroup;
     passwordForm: FormGroup;
 
+    imgChangePreview;
+
     constructor(
         private formBuilder: FormBuilder,
         private _authService: AuthService,
         private _toastrService: ToastrService,
-        private httpCliente: HttpClient,
+        private http: HttpClient,
         private modalService: NgbModal
     ) {
         this._authService.user$.subscribe((user) => {
@@ -41,7 +44,7 @@ export class UserComponent implements OnInit {
         });
     }
 
-    open(content) {
+    openModal(content) {
         this.modalService.open(content);
     }
 
@@ -64,7 +67,7 @@ export class UserComponent implements OnInit {
 
     actualizarUsuario() {
         if (this.validForm(this.form)) {
-            this.httpCliente
+            this.http
                 .put(`http://localhost:3000/${this.user._id}`, {
                     name: this.form.get('name').value
                 })
@@ -97,5 +100,39 @@ export class UserComponent implements OnInit {
                     })
                 );
         }
+    }
+
+    changeImg(image) {
+        const formData = new FormData();
+
+        formData.append('image', image);
+
+        this.http
+            .put(
+                `${environment.baseUrl}/upload/images/user-profile/${this.user._id}`,
+                formData,
+                { headers: { enctype: 'multipart/form-data' } }
+            )
+            .toPromise()
+            .then((token) => {
+                this._authService.setToken(token);
+                this.modalService.dismissAll();
+
+                this._toastrService.show({
+                    message: 'Imagen actualizada con exito!'
+                });
+
+                this.imgChangePreview = null;
+            });
+    }
+
+    preview(file) {
+        const fileReader = new FileReader();
+
+        fileReader.readAsDataURL(file);
+
+        fileReader.onload = (_event) => {
+            this.imgChangePreview = fileReader.result;
+        };
     }
 }

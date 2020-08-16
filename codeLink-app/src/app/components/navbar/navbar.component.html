@@ -1,4 +1,7 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-white shadow-sm fixed-top"  *ngIf="!actualRoute.includes('/project')">
+<nav
+    class="navbar navbar-expand-sm navbar-light bg-white shadow-sm fixed-top"
+    *ngIf="!actualRoute.includes('/project')"
+>
     <button
         type="button"
         class="mr-2"
@@ -40,7 +43,8 @@
                     ngbDropdownToggle
                     role="button"
                     tabindex="0"
-                    [src]="user.img ? user.img : 'assets/images/default-user.svg'"
+                    [src]="user.img"
+                    onerror="this.src='assets/images/default-user.svg'"
                     class="border"
                 />
 
@@ -50,14 +54,19 @@
                     class="dropdown-menu"
                 >
                     <a ngbDropdownItem href="#" [routerLink]="['/user']"
-                        ><img src="assets/images/user.svg" class="icon mr-2"> Perfil</a
+                        ><img src="assets/images/user.svg" class="icon mr-2" />
+                        Perfil</a
                     >
                     <a
                         ngbDropdownItem
                         href="#"
                         ngbDropdownItem
                         (click)="logOut()"
-                        ><img src="assets/images/logout.svg" class="icon mr-2"> Salir</a
+                        ><img
+                            src="assets/images/logout.svg"
+                            class="icon mr-2"
+                        />
+                        Salir</a
                     >
                 </div>
             </li>

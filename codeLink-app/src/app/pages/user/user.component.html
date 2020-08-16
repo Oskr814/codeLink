@@ -7,13 +7,16 @@
             <h4 class="my-4">Imagen de perfil</h4>
             <div id="img-perfil-container">
                 <img
-                    [src]="
-                        user.img ? user.img : 'assets/images/default-user.svg'
-                    "
+                    [src]="user.img"
+                    onerror="this.src='assets/images/default-user.svg'"
                     alt=""
                     class="img-pefil img-thumbnail mb-3 shadow-sm"
                 />
-                <button type="button" id="btn-img-perfil">
+                <button
+                    type="button"
+                    id="btn-img-perfil"
+                    (click)="openModal(imageModal)"
+                >
                     <i class="fa fa-camera w-100" aria-hidden="true"></i>
                 </button>
             </div>
@@ -53,7 +56,7 @@
                             <button
                                 type="button"
                                 class="btn btn-sm btn-block btn-light"
-                                (click)="open(content)"
+                                (click)="openModal(passwordModal)"
                             >
                                 <i
                                     class="fa fa-lock mr-2"
@@ -109,7 +112,7 @@
     </div>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #passwordModal let-modal>
     <div class="modal-header border-0 pb-0">
         <h4 class="modal-title font-weight-light">Cambiar contraseña</h4>
     </div>
@@ -176,6 +179,52 @@
                 passwordForm.get('oldPassword').value ===
                 passwordForm.get('password').value
             "
+        >
+            Aceptar
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #imageModal let-modal>
+    <div class="modal-header border-0 pb-0">
+        <h4 class="modal-title font-weight-light">Cambiar imagen</h4>
+    </div>
+    <div class="modal-body container mt-3 py-0">
+        <div class="row">
+            <img
+                [src]="imgChangePreview"
+                alt=""
+                class="img-pefil mx-auto img-thumbnail mb-3 shadow-sm"
+                *ngIf="imgChangePreview"
+            />
+        </div>
+        <form class="row">
+            <div class="form-group ml-4">
+                <label for="">Seleccionar imagen</label>
+                <input
+                    type="file"
+                    class="form-control-file"
+                    accept="image/*"
+                    aria-describedby="fileHelpId"
+                    (change)="preview(image.files[0])"
+                    #image
+                />
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer border-0 pt-2">
+        <button
+            type="button"
+            class="btn btn-ligth"
+            (click)="modal.close('Close click')"
+        >
+            Cancelar
+        </button>
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            (click)="changeImg(image.files[0])"
+            [disabled]="!imgChangePreview"
         >
             Aceptar
         </button>

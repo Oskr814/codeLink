@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../interfaces/user.interface';
 import { SidebarService } from '../../services/sidebar.service';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
     selector: 'app-navbar',
@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
     user: User;
     logoUrl = 'assets/images/logo-dark.png';
     actualRoute: string = '';
+
     constructor(
         private _authService: AuthService,
         private _sidebarService: SidebarService,
@@ -23,7 +24,7 @@ export class NavbarComponent implements OnInit {
         });
 
         this.router.events.subscribe((event: NavigationEnd) => {
-            if (event.url) {                
+            if (event.url) {
                 this.actualRoute = event.url;
             }
         });
