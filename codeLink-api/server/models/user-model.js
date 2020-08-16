@@ -56,4 +56,12 @@ userSchema.methods.toJSON = function () {
   return userObject;
 };
 
+userSchema.post('save', function(error, res, next) {
+  if (error.name === 'MongoError' && error.code === 11000) {
+    next(new Error('El correo electronico ya esta en uso'));
+  } else {
+    next();
+  }
+});
+
 module.exports = moongose.model("user", userSchema);
