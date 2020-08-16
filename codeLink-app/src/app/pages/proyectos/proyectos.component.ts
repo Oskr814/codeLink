@@ -145,24 +145,59 @@ export class ProyectosComponent implements OnInit {
         iframe.document =
             iframe.contentWindow.document || iframe.contentDocument;
 
-        const iframeSource = `
-            <html>
-                <head>
-                <script>
-                    ${this.project.js}
-                </script>
-                <style>
-                    ${this.project.css}
-                </style>
-                </head>
-                <body>
-                    ${this.project.html || ''}
-                </body>
-            </html>
-        `;
-
         iframe.document.open();
-        iframe.document.writeln(iframeSource);
+        iframe.document.writeln(this.getSourceCode());
         iframe.document.close();
+    }
+
+    exportProject(type = '') {
+        const sourceCode = this.getSourceCode(type);
+        const file = new Blob([sourceCode], { type: `text/${type || 'html'}` });
+
+        const fileURL = URL.createObjectURL(file);
+
+        const link = document.createElement('a');
+
+        link.download =
+            this.project.name + `${type ? ' ' + type.toUpperCase() : ''}`;
+
+        link.href = fileURL;
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        this.editProject();
+    }
+
+    getSourceCode(type?) {
+        switch (type) {
+            case 'html':
+                return this.project.html;
+
+            case 'css':
+                return this.project.css;
+
+            case 'js':
+                return this.project.js;
+            default:
+                return `
+                <html>
+                    <head>
+                    <script>
+                        ${this.project.js}
+                    </script>
+                    <style>
+                        ${this.project.css}
+                    </style>
+                    </head>
+                    <body>
+                        ${this.project.html || ''}
+                    </body>
+                </html>
+            `;
+        }
     }
 }

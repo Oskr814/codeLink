@@ -3,13 +3,14 @@
         [name]="project.name"
         (updateName)="(project.name = $event)"
         (save)="editProject()"
+        (export)="exportProject()"
     ></app-project-navbar>
     <div id="project-container">
         <gridster [options]="options">
             <gridster-item [item]="dashboard[0]">
                 <div class="title">
                     <span>HTML</span>
-                    <a class="nav-link p-0 download"
+                    <a class="nav-link p-0 download" (click)="exportProject('html')"
                         ><i class="fa fa-download" aria-hidden="true"></i
                     ></a>
                 </div>
@@ -23,7 +24,7 @@
             <gridster-item [item]="dashboard[1]">
                 <div class="title">
                     <span>CSS</span>
-                    <a class="nav-link p-0 download"
+                    <a class="nav-link p-0 download" (click)="exportProject('css')"
                         ><i class="fa fa-download" aria-hidden="true"></i
                     ></a>
                 </div>
@@ -37,7 +38,7 @@
             <gridster-item [item]="dashboard[2]">
                 <div class="title">
                     <span>JS</span>
-                    <a class="nav-link p-0 download"
+                    <a class="nav-link p-0 download" (click)="exportProject('js')"
                         ><i class="fa fa-download" aria-hidden="true"></i
                     ></a>
                 </div>

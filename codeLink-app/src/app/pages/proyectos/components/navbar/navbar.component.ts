@@ -9,6 +9,7 @@ export class NavbarProjectComponent implements OnInit {
   @Input() name: string;
   @Output() updateName = new EventEmitter<string>();
   @Output() save = new EventEmitter<void>();
+  @Output() export = new EventEmitter<void>();
 
   deviceResolution: number;
 
