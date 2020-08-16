@@ -1,5 +1,7 @@
 <app-navbar></app-navbar>
-<div class="container main__container animate__animated animate__fadeIn animate__faster">
+<div
+    class="container main__container animate__animated animate__fadeIn animate__faster"
+>
     <div class="row">
         <div class="col-lg-3 col-md-6">
             <h4 class="my-4">Imagen de perfil</h4>
@@ -27,8 +29,8 @@
                         id="name"
                         class="form-control"
                         [ngClass]="{
-                            'is-invalid': isInvalid('name'),
-                            'is-valid': isValid('name')
+                            'is-invalid': isInvalid('name', form),
+                            'is-valid': isValid('name', form)
                         }"
                         placeholder="Nombre"
                         formControlName="name"
@@ -37,7 +39,7 @@
                     <small
                         id="helpId"
                         class="text-danger"
-                        *ngIf="isInvalid('name')"
+                        *ngIf="isInvalid('name', form)"
                         >Debe proporcionar su nombre</small
                     >
                 </div>
@@ -112,26 +114,49 @@
         <h4 class="modal-title font-weight-light">Cambiar contraseña</h4>
     </div>
     <div class="modal-body container py-0">
-        <form class="row">
+        <form class="row" [formGroup]="passwordForm">
             <div class="col-12">
                 <label for="old-password">Contraseña actual</label>
                 <input
                     type="password"
                     class="form-control"
+                    [ngClass]="{
+                        'is-invalid': isInvalid('oldPassword', passwordForm),
+                        'is-valid': isValid('oldPassword', passwordForm)
+                    }"
                     id="old-password"
+                    formControlName="oldPassword"
                     aria-describedby="helpId"
                     placeholder=""
                 />
+                <small
+                    id="helpId"
+                    class="text-danger"
+                    *ngIf="isInvalid('oldPassword', passwordForm)"
+                    >Debe ingresar la contraseña actual</small
+                >
             </div>
             <div class="col-12">
                 <label for="new-password">Nueva contraseña</label>
                 <input
                     type="password"
                     class="form-control"
+                    [ngClass]="{
+                        'is-invalid': isInvalid('password', passwordForm),
+                        'is-valid': isValid('password', passwordForm)
+                    }"
                     id="new-password"
+                    formControlName="password"
                     aria-describedby="helpId"
                     placeholder=""
                 />
+                <small
+                    id="helpId"
+                    class="text-danger"
+                    *ngIf="isInvalid('password', passwordForm)"
+                    >La nueva contraseña debe tener un minimo de 8
+                    caracteres</small
+                >
             </div>
         </form>
     </div>
@@ -143,7 +168,15 @@
         >
             Cancelar
         </button>
-        <button type="button" class="btn btn-sm btn-primary">
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            (click)="changePassword()"
+            [disabled]="
+                passwordForm.get('oldPassword').value ===
+                passwordForm.get('password').value
+            "
+        >
             Aceptar
         </button>
     </div>

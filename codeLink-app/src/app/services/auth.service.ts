@@ -48,6 +48,14 @@ export class AuthService {
         this.router.navigate(['/']);
     }
 
+    async changePassword(data) {
+        const user = this.authUser();
+
+        return await this.http
+            .post(`${environment.baseUrl}/change-password/${user._id}`, data)
+            .toPromise();
+    }
+
     authUser(): User {
         let token = localStorage.getItem('token');
 
