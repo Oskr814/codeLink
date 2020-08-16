@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -7,7 +8,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { GridsterModule } from 'angular-gridster2';
 import { MonacoEditorModule, MONACO_PATH } from '@materia-ui/ngx-monaco-editor';
 import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
 
 //Components
 import { AppComponent } from './app.component';
@@ -34,6 +38,11 @@ import { FoldersService } from './services/folders.service';
 import { DatePipe } from './pipes/date.pipe';
 import { FilterPipe } from './pipes/filter.pipe';
 import { ProjectsService } from './services/projects.service';
+import { LoaderComponent } from './components/loader/loader.component';
+import { LoaderService } from './services/loader.service';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { ToastrComponent } from './components/toastr/toastr.component';
+import { ToastrService } from './services/toastr.service';
 
 @NgModule({
     declarations: [
@@ -52,10 +61,13 @@ import { ProjectsService } from './services/projects.service';
         NavbarProjectComponent,
         FooterProjectComponent,
         DatePipe,
-        FilterPipe
+        FilterPipe,
+        LoaderComponent,
+        ToastrComponent
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         AppRoutingModule,
         ReactiveFormsModule,
         FormsModule,
@@ -71,8 +83,14 @@ import { ProjectsService } from './services/projects.service';
                 disallowedRoutes: ['localhost:3000/login'],
                 headerName: 'token'
             }
+        }),
+        NgxSpinnerModule,
+        ToastrModule.forRoot({
+            positionClass: 'toast-bottom-full-width',
+            progressBar: true
         })
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
         {
             provide: MONACO_PATH,
@@ -82,7 +100,10 @@ import { ProjectsService } from './services/projects.service';
         LoggedGuard,
         AuthService,
         FoldersService,
-        ProjectsService
+        ProjectsService,
+        LoaderService,
+        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+        ToastrService
     ],
     bootstrap: [AppComponent]
 })

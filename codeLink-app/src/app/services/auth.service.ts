@@ -4,7 +4,7 @@ import { User } from '../interfaces/user.interface';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-
+import { ToastrService } from './toastr.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +13,8 @@ export class AuthService {
     user$ = new BehaviorSubject<User>(this.authUser());
     constructor(
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient,
+        private _toastrService: ToastrService
     ) {}
 
     async login(email: string, password: string) {
@@ -25,14 +26,18 @@ export class AuthService {
             .subscribe(
                 (res: any) => {
                     if (res.ok) {
-                        this.setToken(res.token)
+                        this.setToken(res.token);
 
                         this.user$.next(res.user);
 
                         this.router.navigate(['home']);
                     }
                 },
-                (err) => console.log(err.error.message)
+                (err) =>
+                    this._toastrService.show({
+                        message: err.error.message,
+                        type: 'error'
+                    })
             );
     }
 
@@ -44,7 +49,7 @@ export class AuthService {
     }
 
     authUser(): User {
-        let token = localStorage.getItem('token');      
+        let token = localStorage.getItem('token');
 
         if (token) {
             const base64URL = token.split('.')[1];

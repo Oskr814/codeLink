@@ -12,7 +12,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 export class NavbarComponent implements OnInit {
     user: User;
     logoUrl = 'assets/images/logo-dark.png';
-    actualRoute: string;
+    actualRoute: string = '';
     constructor(
         private _authService: AuthService,
         private _sidebarService: SidebarService,

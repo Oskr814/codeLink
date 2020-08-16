@@ -5,6 +5,7 @@ import { User } from '../../interfaces/user.interface';
 import { AuthService } from '../../services/auth.service';
 import { FoldersService } from '../../services/folders.service';
 import { ProjectsService } from '../../services/projects.service';
+import { ToastrService } from '../../services/toastr.service';
 
 @Component({
     selector: 'app-home',
@@ -43,7 +44,8 @@ export class HomeComponent implements OnInit {
         private _sidebarService: SidebarService,
         private _authService: AuthService,
         private _foldersService: FoldersService,
-        private _projectsService: ProjectsService
+        private _projectsService: ProjectsService,
+        private _toastrService: ToastrService
     ) {
         this._sidebarService.hideSidebar.subscribe(
             (toggle) => (this.toggleSidebar = toggle)
@@ -123,8 +125,17 @@ export class HomeComponent implements OnInit {
                     this.folders.splice(folderInxed, 1, folder);
                     this.name = '';
                     this.modalService.dismissAll();
+
+                    this._toastrService.show({
+                        message: 'Carpeta editada con exito!'
+                    });
                 })
-                .catch((err) => console.log(err));
+                .catch((err) =>
+                    this._toastrService.show({
+                        message: err.error.message,
+                        type: 'error'
+                    })
+                );
         } else {
             const projectIndex = this.projects.findIndex(
                 (project) => project._id == item._id
@@ -136,14 +147,23 @@ export class HomeComponent implements OnInit {
                     this.projects.splice(projectIndex, 1, project);
                     this.name = '';
                     this.modalService.dismissAll();
+
+                    this._toastrService.show({
+                        message: 'Proyecto editado con exito!'
+                    });
                 })
-                .catch((err) => console.log(err));
+                .catch((err) =>
+                    this._toastrService.show({
+                        message: err.error.message,
+                        type: 'error'
+                    })
+                );
         }
     }
 
     deleteItem() {
         let item = this.modalItemData.item;
-    
+
         if (this.modalItemData.type == 'carpeta') {
             const folderInxed = this.folders.findIndex(
                 (folder) => folder._id == item._id
@@ -155,10 +175,20 @@ export class HomeComponent implements OnInit {
                     this.folders.splice(folderInxed, 1);
                     this.name = '';
                     this.modalService.dismissAll();
+                    this._toastrService.show({
+                        message: 'Carpeta eliminada con exito!'
+                    });
                 })
-                .catch((err) => console.log(err));
+                .catch((err) =>
+                    this._toastrService.show({
+                        message: err.error.message,
+                        type: 'error'
+                    })
+                );
         } else {
-            const projectIndex = this.projects.findIndex((project) => project._id == item._id);
+            const projectIndex = this.projects.findIndex(
+                (project) => project._id == item._id
+            );
 
             this._projectsService
                 .deleteProject(this.user._id, item._id)
@@ -166,8 +196,16 @@ export class HomeComponent implements OnInit {
                     this.projects.splice(projectIndex, 1);
                     this.name = '';
                     this.modalService.dismissAll();
+                    this._toastrService.show({
+                        message: 'Proyecto eliminado con exito!'
+                    });
                 })
-                .catch((err) => console.log(err));
+                .catch((err) =>
+                    this._toastrService.show({
+                        message: err.error.message,
+                        type: 'error'
+                    })
+                );
         }
     }
 

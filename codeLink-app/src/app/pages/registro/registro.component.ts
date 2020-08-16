@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserModel } from '../../models/user.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from '../../services/toastr.service';
 
 @Component({
     selector: 'app-registro',
@@ -19,9 +19,9 @@ export class RegistroComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private router: Router,
         private httpClient: HttpClient,
-        private _authService: AuthService
+        private _authService: AuthService,
+        private _toastrService: ToastrService
     ) {
         this.initForm();
     }
@@ -79,13 +79,18 @@ export class RegistroComponent implements OnInit {
                     email,
                     password
                 })
-                .subscribe((res: any) => {
+                .toPromise()
+                .then((res: any) => {
                     if (res.ok) {
                         this._authService.login(email, password);
                     }
-                });
-
-            //this.router.navigate(['/plans']);
+                })
+                .catch((err) =>
+                    this._toastrService.show({
+                        message: err.error.message,
+                        type: 'error'
+                    })
+                );
         }
     }
 }

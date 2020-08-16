@@ -33,6 +33,8 @@
         "monaco-editor": "^0.20.0",
         "monaco-themes": "^0.3.3",
         "ngx-scrollbar": "^7.2.3",
+        "ngx-spinner": "^10.0.1",
+        "ngx-toastr": "^13.0.0",
         "rxjs": "~6.5.5",
         "tslib": "^2.0.0",
         "zone.js": "~0.10.3"

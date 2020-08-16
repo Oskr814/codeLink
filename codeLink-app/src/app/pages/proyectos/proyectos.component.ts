@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { ProjectsService } from '../../services/projects.service';
 import { User } from '../../interfaces/user.interface';
+import { ToastrService } from '../../services/toastr.service';
 
 declare const monaco: any;
 @Component({
@@ -20,11 +21,11 @@ export class ProyectosComponent implements OnInit {
         theme: 'vs-dark',
         wordWrap: 'on',
         tabCompletion: true
-    }
+    };
 
     editorHTML = this.editarBaseOptions;
 
-    editorCSS = { theme: 'vs-dark', language: 'css', };
+    editorCSS = { theme: 'vs-dark', language: 'css' };
     editorJS = { theme: 'vs-dark', language: 'javascript' };
 
     options: GridsterConfig;
@@ -38,9 +39,9 @@ export class ProyectosComponent implements OnInit {
         private route: ActivatedRoute,
         private _authService: AuthService,
         private _projectsService: ProjectsService,
+        private _toastrService: ToastrService,
         private http: HttpClient
     ) {
-
         this.editorHTML['language'] = 'html';
 
         this.route.paramMap.subscribe(async (params) => {
@@ -80,7 +81,6 @@ export class ProyectosComponent implements OnInit {
     }
 
     setLayout(layout) {
-
         this.dashboard = [];
         switch (layout) {
             case 'left':
@@ -118,7 +118,7 @@ export class ProyectosComponent implements OnInit {
 
             default:
                 break;
-        }        
+        }
     }
 
     //Projects
@@ -127,7 +127,16 @@ export class ProyectosComponent implements OnInit {
             .editProject(this.user._id, this.project)
             .then((project) => {
                 this.project = project;
-            });
+                this._toastrService.show({
+                    message: 'Cambios guardados con exito!'
+                });
+            })
+            .catch((err) =>
+                this._toastrService.show({
+                    message: err.error.message,
+                    type: 'error'
+                })
+            );
     }
 
     renderProject() {
