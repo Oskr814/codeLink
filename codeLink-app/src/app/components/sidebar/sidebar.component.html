@@ -1,6 +1,11 @@
 <div [ngClass]="{ toggle: toggleSidebar }" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
-        <div ngbDropdown container="body" placement="right" class="d-inline-block w-75 mx-auto">
+        <div
+            ngbDropdown
+            container="body"
+            placement="right"
+            class="d-inline-block w-75 mx-auto"
+        >
             <button
                 class="btn btn-light btn-block my-4"
                 id="dropdownNuevo"
@@ -26,8 +31,54 @@
             </div>
         </div>
         <ng-scrollbar id="tree">
-            <div class="ml-4 mb-3 text-muted text-enfasis border-bottom w-75"><i class="fa fa-home text-muted mr-1" aria-hidden="true"></i> Directorio raiz</div>
-            <app-folder-tree-view></app-folder-tree-view>
+            <div class="ml-4 mb-3 text-muted text-enfasis border-bottom w-75">
+                <i class="fa fa-home text-muted mr-1" aria-hidden="true"></i>
+                Carpetas
+            </div>
+            <ul id="menu">
+                <!-- Root -->
+                <li *ngFor="let folder of folders" (click)="active($event)">
+                    <input
+                        type="checkbox"
+                        name="list"
+                        [id]="folder._id"
+                    /><label
+                        [for]="folder._id"
+                        class="position-relative"
+                        [ngClass]="{ 'text-white': activeFolder == folder._id }"
+                    >
+                        <span
+                            [ngClass]="{ active: activeFolder == folder._id }"
+                        ></span>
+                        <span class="ml-2">{{ folder.name }}</span>
+                    </label>
+
+                    <!-- Childs
+                    <ul class="interior" *ngFor="let item of ['a', 'b', 'c']">
+                        <li (click)="active($event)">
+                            <input
+                                type="checkbox"
+                                name="list"
+                                [id]="item"
+                            /><label
+                                [for]="item"
+                                class="position-relative"
+                                [ngClass]="{
+                                    'text-primary': activeFolder == item
+                                }"
+                            >
+                                <span
+                                    [ngClass]="{ active: activeFolder == item }"
+                                ></span>
+                                <span class="ml-2">Folder name</span>
+                            </label>
+                            <ul class="interior">
+                                . . . . .
+                            </ul>
+                        </li>
+                    </ul> -->
+                </li>
+            </ul>
         </ng-scrollbar>
     </div>
 </div>

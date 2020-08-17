@@ -28,7 +28,6 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { UserComponent } from './pages/user/user.component';
 import { ProyectosComponent } from './pages/proyectos/proyectos.component';
-import { FolderTreeViewComponent } from './components/folder-tree-view/folder-tree-view.component';
 import { PlanesComponent } from './pages/planes/planes.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -55,7 +54,6 @@ import { ToastrService } from './services/toastr.service';
         UserComponent,
         ProyectosComponent,
         FooterComponent,
-        FolderTreeViewComponent,
         PlanesComponent,
         SidebarComponent,
         NavbarProjectComponent,

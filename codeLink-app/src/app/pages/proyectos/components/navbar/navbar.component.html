@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark py-0">
-    <a class="navbar-brand" id="go-back" [routerLink]="['/home']"
+    <a class="navbar-brand" id="go-back" (click)="goBack()"
         ><i class="fa fa-arrow-left"></i
     ></a>
     <input type="text" placeholder="name" [(ngModel)]="name" (keyup)="setName(name)" />

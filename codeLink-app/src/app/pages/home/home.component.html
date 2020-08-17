@@ -1,6 +1,8 @@
 <div class="d-flex animate__animated animate__fadeIn animate__faster">
     <app-sidebar
         class="bg-white"
+        [folders]="folders"
+        (navigate)="getFolderContent($event)"
         (createNew)="openModal(modalNewItem, $event)"
     ></app-sidebar>
 
@@ -8,14 +10,18 @@
         class="main__container toggle-animation w-100 px-4 pb-4"
         [ngClass]="{ toggle: !toggleSidebar }"
     >
-        <div class="row">
+        <div class="row" *ngIf="recentProjects.length > 0">
             <div class="col-12">
                 <div class="title">
                     Proyectos recientes
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+            <div
+                class="col-lg-4 col-md-4 col-sm-6 col-12"
+                *ngFor="let project of recentProjects"
+                (click)="loadProject(project)"
+            >
                 <div class="project-card my-3">
                     <div class="project-card-bg"></div>
                     <img
@@ -23,47 +29,11 @@
                         class="project-card-img"
                     />
                     <div class="project-card-title">
-                        <div>Proyecto2</div>
+                        <div>{{ project.name }}</div>
                         <div class="project-card-subtitle">
                             <div>html css js</div>
                             <div class="project-card-time">
-                                Fecha: {{ 1596306399891 | date: 'L' }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <div class="project-card my-3">
-                    <div class="project-card-bg"></div>
-                    <img
-                        src="assets/images/profile.png"
-                        class="project-card-img"
-                    />
-                    <div class="project-card-title">
-                        <div>Proyecto2</div>
-                        <div class="project-card-subtitle">
-                            <div>html css js</div>
-                            <div class="project-card-time">
-                                Fecha: {{ 1596306399891 | date: 'L' }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <div class="project-card my-3">
-                    <div class="project-card-bg"></div>
-                    <img
-                        src="assets/images/profile.png"
-                        class="project-card-img"
-                    />
-                    <div class="project-card-title">
-                        <div>Proyecto2</div>
-                        <div class="project-card-subtitle">
-                            <div>html css js</div>
-                            <div class="project-card-time">
-                                Fecha: {{ 1596306399891 | date: 'L' }}
+                                Fecha: {{ project.write_date | date: 'L' }}
                             </div>
                         </div>
                     </div>
@@ -98,7 +68,7 @@
                 <nav class="nav">
                     <a
                         class="nav-link"
-                        *ngIf="navigation.length > 1"
+                        *ngIf="actualRoute !== '/home'"
                         (click)="navigate()"
                         ><i class="fa fa-arrow-left"></i>...</a
                     >
@@ -123,7 +93,7 @@
                     </tr>
                     <tr
                         *ngFor="let folder of folders | filter: search"
-                        (click)="getFolderContent(folder)"
+                        (click)="getFolderContent(folder._id)"
                         class="animate__animated animate__fadeIn animate__faster"
                     >
                         <td>
@@ -237,7 +207,7 @@
                 <nav class="nav">
                     <a
                         class="nav-link"
-                        *ngIf="navigation.length > 1"
+                        *ngIf="actualRoute !== '/home'"
                         (click)="navigate()"
                         ><i class="fa fa-arrow-left"></i>...</a
                     >
@@ -257,7 +227,10 @@
                 *ngFor="let folder of folders | filter: search"
             >
                 <div class="card show-sm mt-4">
-                    <div class="card-body" (click)="getFolderContent(folder)">
+                    <div
+                        class="card-body"
+                        (click)="getFolderContent(folder._id)"
+                    >
                         <span class="w-75 text-truncate d-inline-block">
                             <img
                                 src="assets/images/folder.svg"
@@ -267,19 +240,22 @@
                         >
 
                         <div
-                            ngbDropdown 
+                            ngbDropdown
                             #dropDownMenu="ngbDropdown"
                             container="body"
                             placement="right"
                             class="d-inline-block float-right"
-                            style="position: absolute; right: 5px"
+                            style="position: absolute; right: 5px;"
                         >
                             <i
                                 id="dropdownNuevo"
                                 ngbDropdownToggle
                                 class="fa fa-ellipsis-v dropdown-toggle-icon"
                                 aria-hidden="true"
-                                (click)="$event.stopPropagation(); dropDownMenu.open();"
+                                (click)="
+                                    $event.stopPropagation();
+                                    dropDownMenu.open()
+                                "
                             ></i>
 
                             <div
@@ -289,14 +265,26 @@
                                 <button
                                     class="btn btn-light"
                                     ngbDropdownItem
-                                    (click)="openModal(modalEditItem, 'carpeta', folder)"
+                                    (click)="
+                                        openModal(
+                                            modalEditItem,
+                                            'carpeta',
+                                            folder
+                                        )
+                                    "
                                 >
                                     Editar
                                 </button>
                                 <button
                                     class="btn btn-light"
                                     ngbDropdownItem
-                                    (click)="openModal(modalDeleteItem, 'carpeta', folder)"
+                                    (click)="
+                                        openModal(
+                                            modalDeleteItem,
+                                            'carpeta',
+                                            folder
+                                        )
+                                    "
                                 >
                                     Eliminar
                                 </button>
@@ -320,40 +308,51 @@
             >
                 <div class="project-card my-3">
                     <div
-                    ngbDropdown 
-                    #dropDownMenu="ngbDropdown"
-                    container="body"
-                    placement="right"
-                    class="d-inline-block float-right"
-                >
-                    <i
-                        id="dropdownNuevo"
-                        ngbDropdownToggle
-                        class="fa fa-ellipsis-v dropdown-toggle-icon-project"
-                        aria-hidden="true"
-                        (click)="$event.stopPropagation(); dropDownMenu.open();"
-                    ></i>
-
-                    <div
-                        ngbDropdownMenu
-                        aria-labelledby="dropdownNuevo"
+                        ngbDropdown
+                        #dropDownMenu="ngbDropdown"
+                        container="body"
+                        placement="right"
+                        class="d-inline-block float-right"
                     >
-                        <button
-                            class="btn btn-light"
-                            ngbDropdownItem
-                            (click)="openModal(modalEditItem, 'proyecto', project)"
-                        >
-                            Editar
-                        </button>
-                        <button
-                            class="btn btn-light"
-                            ngbDropdownItem
-                            (click)="openModal(modalDeleteItem, 'proyecto', project)"
-                        >
-                            Eliminar
-                        </button>
+                        <i
+                            id="dropdownNuevo"
+                            ngbDropdownToggle
+                            class="fa fa-ellipsis-v dropdown-toggle-icon-project"
+                            aria-hidden="true"
+                            (click)="
+                                $event.stopPropagation(); dropDownMenu.open()
+                            "
+                        ></i>
+
+                        <div ngbDropdownMenu aria-labelledby="dropdownNuevo">
+                            <button
+                                class="btn btn-light"
+                                ngbDropdownItem
+                                (click)="
+                                    openModal(
+                                        modalEditItem,
+                                        'proyecto',
+                                        project
+                                    )
+                                "
+                            >
+                                Editar
+                            </button>
+                            <button
+                                class="btn btn-light"
+                                ngbDropdownItem
+                                (click)="
+                                    openModal(
+                                        modalDeleteItem,
+                                        'proyecto',
+                                        project
+                                    )
+                                "
+                            >
+                                Eliminar
+                            </button>
+                        </div>
                     </div>
-                </div>
 
                     <div class="project-card-bg"></div>
                     <img

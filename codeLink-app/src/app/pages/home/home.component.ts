@@ -6,6 +6,8 @@ import { AuthService } from '../../services/auth.service';
 import { FoldersService } from '../../services/folders.service';
 import { ProjectsService } from '../../services/projects.service';
 import { ToastrService } from '../../services/toastr.service';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-home',
@@ -28,12 +30,11 @@ export class HomeComponent implements OnInit {
 
     projects = [];
 
-    navigation = [
-        {
-            _id: null,
-            name: '/'
-        }
-    ];
+    recentProjects = [];
+
+    actualRoute;
+
+    folder_id: string;
 
     name: string = '';
 
@@ -45,20 +46,16 @@ export class HomeComponent implements OnInit {
         private _authService: AuthService,
         private _foldersService: FoldersService,
         private _projectsService: ProjectsService,
-        private _toastrService: ToastrService
+        private _toastrService: ToastrService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private location: Location
     ) {
         this._sidebarService.hideSidebar.subscribe(
             (toggle) => (this.toggleSidebar = toggle)
         );
 
-        this.user = this._authService.authUser();
-
-        this._foldersService
-            .getFolderContent(this.user._id)
-            .then((folder: any) => {
-                this.folders = folder.folders;
-                this.projects = folder.projects;
-            });
+        this.init();
     }
 
     ngOnInit(): void {
@@ -67,22 +64,45 @@ export class HomeComponent implements OnInit {
         this.list = this.deviceResolution > 576;
     }
 
-    navigate() {
-        console.log('nav');
+    init() {
+        this.user = this._authService.authUser();
 
-        if (this.navigation.length > 1) this.navigation.pop();
-        const folder = this.navigation.splice(-1)[0];
-        this.getFolderContent(folder);
+        this._projectsService
+            .getRecentsProjects(this.user._id)
+            .then((projects: any) => (this.recentProjects = projects));
+
+        this.route.queryParams.subscribe((params) => {
+            this.folder_id = params['folder'] || '';
+            this.getFolderContent(this.folder_id);
+        });
+
+        this.router.events.subscribe((event: NavigationEnd) => {
+            if (event.url) {
+                this.actualRoute = event.url;
+            }
+        });
     }
 
-    getFolderContent(folder) {
-        this.navigation.push({ _id: folder._id, name: folder.name });
+    navigate() {
+        this.location.back();
+    }
 
+    getFolderContent(folder_id) {
         this._foldersService
-            .getFolderContent(this.user._id, folder._id || '')
+            .getFolderContent(this.user._id, folder_id || '')
             .then((folder: any) => {
                 this.folders = folder.folders;
                 this.projects = folder.projects;
+
+                if (folder_id) {
+                    this.router.navigate([], {
+                        relativeTo: this.route,
+                        queryParams: {
+                            folder: folder_id
+                        },
+                        queryParamsHandling: 'merge'
+                    });
+                }
             });
     }
 
@@ -91,11 +111,9 @@ export class HomeComponent implements OnInit {
     }
 
     newItem() {
-        const folder_id = this.navigation.slice(-1)[0]._id;
-
         if (this.modalItemData.type == 'carpeta') {
             this._foldersService
-                .newFolder(this.user._id, this.name, folder_id)
+                .newFolder(this.user._id, this.name, this.folder_id)
                 .then((folder) => {
                     this.folders.push(folder);
                     this.name = '';
@@ -103,7 +121,7 @@ export class HomeComponent implements OnInit {
                 });
         } else {
             this._projectsService
-                .newProject(this.user._id, this.name, folder_id)
+                .newProject(this.user._id, this.name, this.folder_id)
                 .then((project) => {
                     this.projects.push(project);
                     this.name = '';

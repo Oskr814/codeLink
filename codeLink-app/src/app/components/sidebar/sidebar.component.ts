@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
@@ -8,7 +8,10 @@ import { SidebarService } from '../../services/sidebar.service';
 })
 export class SidebarComponent implements OnInit {
     @Output() createNew = new EventEmitter<string>();
+    @Output() navigate = new EventEmitter<string>();
+    @Input() folders = [];
     toggleSidebar: boolean;
+    activeFolder: string;
 
     constructor(private _sidebarService: SidebarService) {
         this._sidebarService.hideSidebar.subscribe(
@@ -20,5 +23,13 @@ export class SidebarComponent implements OnInit {
 
     new(type: string) {
         this.createNew.emit(type);
+    }
+
+    active(event) {
+        if (event.target.id) {
+            this.activeFolder = event.target.id;
+
+            this.navigate.emit(this.activeFolder);
+        }
     }
 }

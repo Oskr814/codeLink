@@ -12,13 +12,12 @@ export class ProjectsService {
     constructor(private router: Router, private http: HttpClient) {}
 
     public async newProject(user_id: string, name: string, folder: string) {
-        return await this.http.post(
-            `${environment.baseUrl}/project/${user_id}`,
-            {
+        return await this.http
+            .post(`${environment.baseUrl}/project/${user_id}`, {
                 name,
                 folder
-            }
-        ).toPromise();
+            })
+            .toPromise();
     }
 
     async editProject(user_id, project) {
@@ -38,5 +37,11 @@ export class ProjectsService {
 
     loadProject(project_id) {
         this.router.navigate(['/project/' + project_id]);
+    }
+
+    async getRecentsProjects(user_id: string) {
+        return await this.http
+            .get(`${environment.baseUrl}/recents/${user_id}`)
+            .toPromise();
     }
 }
