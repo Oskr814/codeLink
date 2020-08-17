@@ -7,7 +7,6 @@ const ProjectSchema = require("./project-schema");
 let FolderSchema = new Schema({
   name: {
     type: String,
-    unique: true,
     required: [true, "El nombre de la carpeta es requerido"],
   },
   create_date: {

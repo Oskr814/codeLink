@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 let ProjectSchema = new Schema({
   name: {
     type: String,
-    unique: true,
     required: [true, "Debe ingresar el nombre"]
   },
   create_date: {
