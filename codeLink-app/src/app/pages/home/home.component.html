@@ -1,8 +1,9 @@
 <div class="d-flex animate__animated animate__fadeIn animate__faster">
     <app-sidebar
         class="bg-white"
-        [folders]="folders"
+        [folders]="root"
         (navigate)="getFolderContent($event)"
+        (root)="getFolderContent()"
         (createNew)="openModal(modalNewItem, $event)"
     ></app-sidebar>
 
@@ -179,11 +180,11 @@
                         class="animate__animated animate__fadeIn animate__faster"
                     >
                         <td colspan="4" class="text-center">
-                            <img
+                            <!-- <img
                                 src="assets/images/illustrations/no_results.svg"
                                 alt=""
                                 class="no-results-img"
-                            />
+                            /> -->
                             <div class="no-results-text">
                                 No se encontraron carpetas o proyectos
                             </div>
@@ -378,11 +379,11 @@
                     (projects | filter: search).length == 0
                 "
             >
-                <img
+                <!-- <img
                     src="assets/images/illustrations/no_results.svg"
                     alt=""
                     class="no-results-img"
-                />
+                /> -->
                 <div class="no-results-text">
                     No se encontraron carpetas o proyectos
                 </div>

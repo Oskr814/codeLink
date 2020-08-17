@@ -9,6 +9,7 @@ import { SidebarService } from '../../services/sidebar.service';
 export class SidebarComponent implements OnInit {
     @Output() createNew = new EventEmitter<string>();
     @Output() navigate = new EventEmitter<string>();
+    @Output() root = new EventEmitter<void>();
     @Input() folders = [];
     toggleSidebar: boolean;
     activeFolder: string;

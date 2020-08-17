@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarService } from '../../services/sidebar.service';
 import { User } from '../../interfaces/user.interface';
@@ -25,6 +25,8 @@ export class HomeComponent implements OnInit {
     toggleSidebar: boolean;
 
     user: User;
+
+    root = [];
 
     folders = [];
 
@@ -87,7 +89,7 @@ export class HomeComponent implements OnInit {
         this.location.back();
     }
 
-    getFolderContent(folder_id) {
+    getFolderContent(folder_id?) {
         this._foldersService
             .getFolderContent(this.user._id, folder_id || '')
             .then((folder: any) => {
@@ -102,6 +104,8 @@ export class HomeComponent implements OnInit {
                         },
                         queryParamsHandling: 'merge'
                     });
+                } else {
+                    this.root = folder.folders;
                 }
             });
     }
@@ -116,6 +120,10 @@ export class HomeComponent implements OnInit {
                 .newFolder(this.user._id, this.name, this.folder_id)
                 .then((folder) => {
                     this.folders.push(folder);
+
+                    if (!this.folder_id) {
+                        this.root = this.folders;
+                    }
                     this.name = '';
                     this.modalService.dismissAll();
                 });
@@ -141,6 +149,11 @@ export class HomeComponent implements OnInit {
                 .editFolder(this.user._id, { _id: item._id, name: this.name })
                 .then((folder) => {
                     this.folders.splice(folderInxed, 1, folder);
+
+                    if (!this.folder_id) {
+                        this.root = this.folders;
+                    }
+
                     this.name = '';
                     this.modalService.dismissAll();
 
@@ -191,6 +204,11 @@ export class HomeComponent implements OnInit {
                 .deleteFolder(this.user._id, item._id)
                 .then((res) => {
                     this.folders.splice(folderInxed, 1);
+
+                    if (!this.folder_id) {
+                        this.root = this.folders;
+                    }
+
                     this.name = '';
                     this.modalService.dismissAll();
                     this._toastrService.show({

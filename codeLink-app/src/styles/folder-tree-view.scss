@@ -1,23 +1,14 @@
 @import 'variables.scss';
 
-.active {
-  position: absolute;
-  background-color: #6e7685;
-  height: 110%;
-  width: 170%;
-  border-radius: 0 10px 10px 0;
-  top: 0;
-  left: -50%;
-  z-index: -1;
-
-  animation: slide 0.25s;
-}
-
 ul,
 li {
   font-size: 1em;
   color: #6D767D;
   list-style: none;
+}
+
+li:focus {
+  outline: none;
 }
 
 label:hover {
