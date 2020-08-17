@@ -5,12 +5,14 @@ const app = express();
 const verificarToken = require("../middlewares/auth");
 
 const UserProject = require("../models/user-model");
+const RecentProject = require("../models/recent-project-model");
 
 const {
   findUserProject,
   updateRoot,
   updateFolderProject,
   checkIfNameExists,
+  setRecentProject,
 } = require("../functions/projects");
 
 app.post("/project/:owner", verificarToken, (req, res) => {
@@ -51,7 +53,7 @@ app.post("/project/:owner", verificarToken, (req, res) => {
       if (!body.folder) {
         return res.json(user.projects.splice(-1)[0]);
       }
-      let folder = user.folders.find((folder) => (folder._id = body.folder));
+      let folder = user.folders.find((folder) => folder._id == body.folder);
 
       res.json(folder.projects.splice(-1)[0]);
     })
@@ -67,9 +69,31 @@ app.get("/project/:owner/:id", verificarToken, (req, res) => {
         throw new Error("Usuario no encontrado");
       }
 
-      const project = findUserProject(user, project_id);
+      const { project } = findUserProject(user, project_id);
 
-      res.json(project.project);
+      setRecentProject(owner, project);
+
+      res.json(project);
+    })
+    .catch((err) => res.status(500).json({ ok: false, message: err.message }));
+});
+
+app.get("/recents/:owner", (req, res) => {
+  const owner = req.params.owner;
+
+  RecentProject.find({ owner })
+    .sort({ write_date: "desc" })
+    .limit(3)
+    .then((projects) => {
+      const recentProjects = projects.map((project) => {
+        return {
+          name: project.name,
+          _id: project.project_id,
+          write_date: project.write_date,
+        };
+      });
+
+      res.json(recentProjects);
     })
     .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });

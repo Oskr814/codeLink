@@ -1,4 +1,5 @@
 const UserProject = require("../models/user-model");
+const RecentProject = require("../models/recent-project-model");
 
 // Obtener el proyecto solicitado
 let findUserProject = function (user, project_id) {
@@ -74,9 +75,30 @@ let checkIfNameExists = function (name, projects, project_id) {
   }
 };
 
+let setRecentProject = function (owner, project) {
+  RecentProject.findOne({ project_id: project._id })
+    .then((recentProject) => {
+      if (recentProject) {
+        recentProject.write_date = new Date().getTime();
+
+        return recentProject.save();
+      }
+
+      return new RecentProject({
+        name: project.name,
+        project_id: project._id,
+        owner,
+      }).save();
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};
+
 module.exports = {
   findUserProject,
   updateRoot,
   updateFolderProject,
   checkIfNameExists,
+  setRecentProject,
 };

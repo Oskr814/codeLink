@@ -1,9 +1,9 @@
-const moongose = require("mongoose");
+const mongoose = require("mongoose");
 
-const FolderSchema = require('./folder-schema');
+const FolderSchema = require("./folder-schema");
 const ProjectSchema = require("./project-schema");
 
-let Schema = moongose.Schema;
+let Schema = mongoose.Schema;
 
 let userSchema = new Schema({
   name: {
@@ -36,14 +36,14 @@ let userSchema = new Schema({
   },
   paymentMethod: {
     type: Boolean,
-    default: false
+    default: false,
   },
   status: {
     type: Boolean,
     default: true,
   },
   folders: [FolderSchema],
-  projects: [ProjectSchema]
+  projects: [ProjectSchema],
 });
 
 userSchema.methods.toJSON = function () {
@@ -56,12 +56,12 @@ userSchema.methods.toJSON = function () {
   return userObject;
 };
 
-userSchema.post('save', function(error, res, next) {
-  if (error.name === 'MongoError' && error.code === 11000) {
-    next(new Error('El correo electronico ya esta en uso'));
+userSchema.post("save", function (error, res, next) {
+  if (error.name === "MongoError" && error.code === 11000) {
+    next(new Error("El correo electronico ya esta en uso"));
   } else {
     next();
   }
 });
 
-module.exports = moongose.model("user", userSchema);
+module.exports = mongoose.model("user", userSchema);
