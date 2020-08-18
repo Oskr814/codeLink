@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 
 const verificarToken = require("../middlewares/auth");
+const checkPlan = require("../middlewares/plan");
 
 const UserProject = require("../models/user-model");
 const RecentProject = require("../models/recent-project-model");
@@ -15,7 +16,7 @@ const {
   setRecentProject,
 } = require("../functions/projects");
 
-app.post("/project/:owner", verificarToken, (req, res) => {
+app.post("/project/:owner", [verificarToken, checkPlan], (req, res) => {
   let owner = req.params.owner;
   let body = req.body;
 
