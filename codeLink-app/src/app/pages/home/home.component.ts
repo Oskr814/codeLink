@@ -8,6 +8,9 @@ import { ProjectsService } from '../../services/projects.service';
 import { ToastrService } from '../../services/toastr.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
+import { SnippetsService } from '../../services/snippets.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MonacoLanguages } from '../../models/monaco-languages.model';
 
 @Component({
     selector: 'app-home',
@@ -24,6 +27,15 @@ export class HomeComponent implements OnInit {
 
     toggleSidebar: boolean;
 
+    editor = {
+        theme: 'vs',
+        wordWrap: 'on',
+        tabCompletion: true,
+        language: ''
+    };
+
+    monacoLanguages = new MonacoLanguages();
+
     user: User;
 
     root = [];
@@ -31,6 +43,10 @@ export class HomeComponent implements OnInit {
     folders = [];
 
     projects = [];
+
+    snippets = [];
+
+    snippet: FormGroup;
 
     recentProjects = [];
 
@@ -48,7 +64,9 @@ export class HomeComponent implements OnInit {
         private _authService: AuthService,
         private _foldersService: FoldersService,
         private _projectsService: ProjectsService,
+        private _snippetsService: SnippetsService,
         private _toastrService: ToastrService,
+        private formBuilder: FormBuilder,
         private router: Router,
         private route: ActivatedRoute,
         private location: Location
@@ -83,6 +101,15 @@ export class HomeComponent implements OnInit {
                 this.actualRoute = event.url;
             }
         });
+
+        this.snippet = this.formBuilder.group({
+            _id: [''],
+            name: ['', Validators.required],
+            code: ['', Validators.required],
+            language: [this.monacoLanguages.languages[0], Validators.required]
+        });
+
+        this.setEditorLanguage();
     }
 
     navigate() {
@@ -95,6 +122,7 @@ export class HomeComponent implements OnInit {
             .then((folder: any) => {
                 this.folders = folder.folders;
                 this.projects = folder.projects;
+                this.snippets = folder.snippets;
 
                 if (folder_id) {
                     this.router.navigate([], {
@@ -114,6 +142,28 @@ export class HomeComponent implements OnInit {
         this._projectsService.loadProject(project._id);
     }
 
+    active(event) {
+        this.activeFolder = event.target.id;
+    }
+
+    openModal(content, type, item = null) {
+        if (type == 'carpeta') {
+            this.modalItemData = {
+                title: 'Nueva carpeta',
+                type,
+                item
+            };
+        } else {
+            this.modalItemData = {
+                title: 'Nuevo proyecto',
+                type,
+                item
+            };
+        }
+
+        this.modalService.open(content, { centered: true });
+    }
+
     newItem() {
         if (this.modalItemData.type == 'carpeta') {
             this._foldersService
@@ -126,7 +176,17 @@ export class HomeComponent implements OnInit {
                     }
                     this.name = '';
                     this.modalService.dismissAll();
-                });
+
+                    this._toastrService.show({
+                        message: 'Carpeta creada con exito!'
+                    });
+                })
+                .catch((err) =>
+                    this._toastrService.show({
+                        message: err.error.message,
+                        type: 'error'
+                    })
+                );
         } else {
             this._projectsService
                 .newProject(this.user._id, this.name, this.folder_id)
@@ -134,7 +194,17 @@ export class HomeComponent implements OnInit {
                     this.projects.push(project);
                     this.name = '';
                     this.modalService.dismissAll();
-                });
+
+                    this._toastrService.show({
+                        message: 'Proyecto creado con exito!'
+                    });
+                })
+                .catch((err) =>
+                    this._toastrService.show({
+                        message: err.error.message,
+                        type: 'error'
+                    })
+                );
         }
     }
 
@@ -193,78 +263,156 @@ export class HomeComponent implements OnInit {
     }
 
     deleteItem() {
-        let item = this.modalItemData.item;
+        const item = this.modalItemData.item;
+        const type = this.modalItemData.type;
 
-        if (this.modalItemData.type == 'carpeta') {
-            const folderInxed = this.folders.findIndex(
-                (folder) => folder._id == item._id
-            );
-
-            this._foldersService
-                .deleteFolder(this.user._id, item._id)
-                .then((res) => {
-                    this.folders.splice(folderInxed, 1);
-
-                    if (!this.folder_id) {
-                        this.root = this.folders;
-                    }
-
-                    this.name = '';
-                    this.modalService.dismissAll();
-                    this._toastrService.show({
-                        message: 'Carpeta eliminada con exito!'
-                    });
-                })
-                .catch((err) =>
-                    this._toastrService.show({
-                        message: err.error.message,
-                        type: 'error'
-                    })
+        switch (type) {
+            case 'carpeta':
+                const folderInxed = this.folders.findIndex(
+                    (folder) => folder._id == item._id
                 );
-        } else {
-            const projectIndex = this.projects.findIndex(
-                (project) => project._id == item._id
-            );
 
-            this._projectsService
-                .deleteProject(this.user._id, item._id)
-                .then((res) => {
-                    this.projects.splice(projectIndex, 1);
-                    this.name = '';
-                    this.modalService.dismissAll();
-                    this._toastrService.show({
-                        message: 'Proyecto eliminado con exito!'
-                    });
-                })
-                .catch((err) =>
-                    this._toastrService.show({
-                        message: err.error.message,
-                        type: 'error'
+                this._foldersService
+                    .deleteFolder(this.user._id, item._id)
+                    .then((res) => {
+                        this.folders.splice(folderInxed, 1);
+
+                        if (!this.folder_id) {
+                            this.root = this.folders;
+                        }
+
+                        this.name = '';
+                        this.modalService.dismissAll();
+                        this._toastrService.show({
+                            message: 'Carpeta eliminada con exito!'
+                        });
                     })
+                    .catch((err) =>
+                        this._toastrService.show({
+                            message: err.error.message,
+                            type: 'error'
+                        })
+                    );
+                break;
+            case 'proyecto':
+                const projectIndex = this.projects.findIndex(
+                    (project) => project._id == item._id
                 );
+
+                this._projectsService
+                    .deleteProject(this.user._id, item._id)
+                    .then((res) => {
+                        this.projects.splice(projectIndex, 1);
+                        this.name = '';
+                        this.modalService.dismissAll();
+                        this._toastrService.show({
+                            message: 'Proyecto eliminado con exito!'
+                        });
+                    })
+                    .catch((err) =>
+                        this._toastrService.show({
+                            message: err.error.message,
+                            type: 'error'
+                        })
+                    );
+                break;
+            case 'snippet':
+                const snippetIndex = this.snippets.findIndex(
+                    (snippet) => snippet._id == item._id
+                );
+
+                this._snippetsService
+                    .deleteSnippet(this.user._id, item._id)
+                    .then((res) => {
+                        this.snippets.splice(snippetIndex, 1);
+                        this.snippet.reset();
+                        this.modalService.dismissAll();
+                        this._toastrService.show({
+                            message: 'Snippet eliminado con exito!'
+                        });
+                    })
+                    .catch((err) =>
+                        this._toastrService.show({
+                            message: err.error.message,
+                            type: 'error'
+                        })
+                    );
+                break;
+
+            default:
+                break;
         }
     }
 
-    active(event) {
-        this.activeFolder = event.target.id;
-    }
+    openModalSnippet(content, type, item = null) {
+        this.modalItemData = {
+            title: 'Nuevo snippet',
+            type,
+            item
+        };
 
-    openModal(content, type, item = null) {
-        if (type == 'carpeta') {
-            this.modalItemData = {
-                title: 'Nueva carpeta',
-                type,
-                item
-            };
-        } else {
-            this.modalItemData = {
-                title: 'Nuevo proyecto',
-                type,
-                item
-            };
+        if (item) {
+            this.snippet.setValue({
+                _id: item._id,
+                name: item.name,
+                language: item.language,
+                code: item.code
+            });
+
+            this.setEditorLanguage();
         }
 
-        this.modalService.open(content, { centered: true });
+        this.modalService.open(content, { centered: true, size: 'xl' });
+    }
+
+    newSnippet() {
+        if (this.snippet.valid) {
+            this._snippetsService
+                .newSnippet(this.user._id, this.snippet.value, this.folder_id)
+                .then((snippet) => {
+                    this.snippets.push(snippet);
+
+                    this.snippet.reset();
+
+                    this.modalService.dismissAll();
+
+                    this._toastrService.show({
+                        message: 'Snippet creado con exito!'
+                    });
+                });
+        }
+    }
+
+    editSnippet() {
+        if (this.snippet.valid) {
+            const snippetIndex = this.snippets.findIndex(
+                (snippet) => snippet == this.snippet.get('_id').value
+            );
+            this._snippetsService
+                .editSnippet(this.user._id, this.snippet.value)
+                .then((snippet) => {
+                    this.snippets.splice(snippetIndex, 1, snippet);
+
+                    this.modalService.dismissAll();
+
+                    this.snippet.reset();
+
+                    this._toastrService.show({
+                        message: 'Snippet editado con exito!'
+                    });
+                });
+        }
+    }
+
+    setEditorLanguage() {
+        const language = this.snippet.get('language').value;
+
+        this.editor = {
+            theme: 'vs-dark',
+            wordWrap: 'on',
+            tabCompletion: true,
+            language
+        };
     }
 
     @HostListener('window:resize', ['$event'])

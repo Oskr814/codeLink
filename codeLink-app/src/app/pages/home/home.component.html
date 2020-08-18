@@ -5,6 +5,7 @@
         (navigate)="getFolderContent($event)"
         (root)="getFolderContent()"
         (createNew)="openModal(modalNewItem, $event)"
+        (createNewSnippet)="openModalSnippet(modalNewSnippet, 'snippet')"
     ></app-sidebar>
 
     <div
@@ -25,10 +26,18 @@
             >
                 <div class="project-card my-3">
                     <div class="project-card-bg"></div>
-                    <img
-                        src="assets/images/profile.png"
-                        class="project-card-img"
-                    />
+                    <span class="project-card-img ml-3 pt-3" id="circle-project"
+                        ><img src="assets/images/project.svg" class="w-75"
+                    /></span>
+                    <span class="project-card-img" id="circle-html"
+                        ><img src="assets/images/html.svg" class="w-50"
+                    /></span>
+                    <span class="project-card-img" id="circle-css"
+                        ><img src="assets/images/css.svg" class="w-50"
+                    /></span>
+                    <span class="project-card-img" id="circle-js"
+                        ><img src="assets/images/js.svg" class="w-50"
+                    /></span>
                     <div class="project-card-title">
                         <div>{{ project.name }}</div>
                         <div class="project-card-subtitle">
@@ -49,11 +58,13 @@
                         class="btn btn-light shadow-sm fa fa-list mr-2"
                         aria-hidden="true"
                         (click)="list = true"
+                        ngFyRipple
                     ></i>
                     <i
                         class="btn btn-light shadow-sm fa fa-th"
                         aria-hidden="true"
                         (click)="list = false"
+                        ngFyRipple
                     ></i>
                 </div>
             </div>
@@ -74,11 +85,12 @@
                         ><i class="fa fa-arrow-left"></i>...</a
                     >
 
-                    <div class="form-group form-inline ml-auto">
-                        Buscar por nombre:
+                    <div class="form-group form-inline ml-auto mr-2">
                         <input
                             class="form-control ml-2"
+                            id="search"
                             type="text"
+                            placeholder="Buscar por nombre"
                             [(ngModel)]="search"
                         />
                     </div>
@@ -86,6 +98,7 @@
                 <table class="table">
                     <tr>
                         <th scope="col">Nombre</th>
+                        <th scope="col">Tipo</th>
                         <th scope="col">Fecha creacion</th>
                         <th scope="col">
                             Fecha de modificacion
@@ -106,6 +119,13 @@
                                 <span class="ml-2">{{ folder.name }}</span>
                             </div>
                         </td>
+                        <td>
+                            <span
+                                class="badge badge-light text-white mt-1"
+                                style="background-color: #ff076f;"
+                                >Carpeta</span
+                            >
+                        </td>
                         <td>{{ folder.create_date | date }}</td>
                         <td>{{ folder.wirte_date | date }}</td>
                         <td>
@@ -114,8 +134,9 @@
                                     openModal(modalEditItem, 'carpeta', folder);
                                     $event.stopPropagation()
                                 "
-                                class="fa fa-edit btn btn-ligth mr-2"
+                                class="btn btn-light fa fa-edit mr-2"
                                 aria-hidden="true"
+                                ngFyRipple
                             ></i>
                             <i
                                 (click)="
@@ -126,8 +147,9 @@
                                     );
                                     $event.stopPropagation()
                                 "
-                                class="fa fa-trash btn btn-ligth text-danger"
+                                class="btn btn-light fa fa-trash text-danger"
                                 aria-hidden="true"
+                                ngFyRipple
                             ></i>
                         </td>
                     </tr>
@@ -142,6 +164,11 @@
                                 class="project-icon"
                             />
                             <span class="ml-2">{{ project.name }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-success mt-1"
+                                >Proyecto</span
+                            >
                         </td>
                         <td>{{ project.create_date | date }}</td>
                         <td>{{ project.write_date | date }}</td>
@@ -173,18 +200,66 @@
                         </td>
                     </tr>
                     <tr
+                        *ngFor="let snippet of snippets | filter: search"
+                        class="animate__animated animate__fadeIn animate__faster"
+                        (click)="
+                            openModalSnippet(
+                                modalNewSnippet,
+                                'snippet',
+                                snippet
+                            )
+                        "
+                    >
+                        <td>
+                            <img
+                                src="assets/images/file.svg"
+                                class="project-icon"
+                            />
+                            <span class="ml-2">{{ snippet.name }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-info mt-1"
+                                >Snippet: {{ snippet.language }}</span
+                            >
+                        </td>
+                        <td>{{ snippet.create_date | date }}</td>
+                        <td>{{ snippet.write_date | date }}</td>
+                        <td>
+                            <i
+                                (click)="
+                                    openModalSnippet(
+                                        modalNewSnippet,
+                                        'snippet',
+                                        snippet
+                                    );
+                                    $event.stopPropagation()
+                                "
+                                class="fa fa-edit btn btn-ligth mr-2"
+                                aria-hidden="true"
+                            ></i>
+                            <i
+                                (click)="
+                                    openModal(
+                                        modalDeleteItem,
+                                        'snippet',
+                                        snippet
+                                    );
+                                    $event.stopPropagation()
+                                "
+                                class="fa fa-trash btn btn-ligth text-danger"
+                                aria-hidden="true"
+                            ></i>
+                        </td>
+                    </tr>
+                    <tr
                         *ngIf="
                             (folders | filter: search).length == 0 &&
-                            (projects | filter: search).length == 0
+                            (projects | filter: search).length == 0 &&
+                            (snippets | filter: search).length == 0
                         "
                         class="animate__animated animate__fadeIn animate__faster"
                     >
                         <td colspan="4" class="text-center">
-                            <!-- <img
-                                src="assets/images/illustrations/no_results.svg"
-                                alt=""
-                                class="no-results-img"
-                            /> -->
                             <div class="no-results-text">
                                 No se encontraron carpetas o proyectos
                             </div>
@@ -214,9 +289,9 @@
                     >
 
                     <div class="form-group form-inline ml-auto">
-                        Buscar por nombre:
                         <input
                             class="form-control ml-2"
+                            placeholder="Buscar por nombre"
                             type="text"
                             [(ngModel)]="search"
                         />
@@ -231,6 +306,7 @@
                     <div
                         class="card-body"
                         (click)="getFolderContent(folder._id)"
+                        ngFyRipple
                     >
                         <span class="w-75 text-truncate d-inline-block">
                             <img
@@ -323,6 +399,7 @@
                             (click)="
                                 $event.stopPropagation(); dropDownMenu.open()
                             "
+                            ngFyRipple
                         ></i>
 
                         <div ngbDropdownMenu aria-labelledby="dropdownNuevo">
@@ -356,10 +433,18 @@
                     </div>
 
                     <div class="project-card-bg"></div>
-                    <img
-                        src="assets/images/profile.png"
-                        class="project-card-img"
-                    />
+                    <span class="project-card-img ml-3 pt-3" id="circle-project"
+                        ><img src="assets/images/project.svg" class="w-75"
+                    /></span>
+                    <span class="project-card-img" id="circle-html"
+                        ><img src="assets/images/html.svg" class="w-50"
+                    /></span>
+                    <span class="project-card-img" id="circle-css"
+                        ><img src="assets/images/css.svg" class="w-50"
+                    /></span>
+                    <span class="project-card-img" id="circle-js"
+                        ><img src="assets/images/js.svg" class="w-50"
+                    /></span>
                     <div class="project-card-title">
                         <div>{{ project.name }}</div>
                         <div class="project-card-subtitle">
@@ -376,14 +461,10 @@
                 class="col-12 mt-2 text-center animate__animated animate__fadeIn animate__faster"
                 *ngIf="
                     (folders | filter: search).length == 0 &&
-                    (projects | filter: search).length == 0
+                    (projects | filter: search).length == 0 &&
+                    (snippets | filter: search).length == 0
                 "
             >
-                <!-- <img
-                    src="assets/images/illustrations/no_results.svg"
-                    alt=""
-                    class="no-results-img"
-                /> -->
                 <div class="no-results-text">
                     No se encontraron carpetas o proyectos
                 </div>
@@ -414,6 +495,7 @@
             type="button"
             class="btn btn-ligth"
             (click)="modal.close('Close click')"
+            ngFyRipple
         >
             Cancelar
         </button>
@@ -421,6 +503,8 @@
             type="button"
             class="btn btn-sm btn-primary"
             (click)="newItem()"
+            [disabled]="name == ''"
+            ngFyRipple
         >
             Aceptar
         </button>
@@ -453,6 +537,7 @@
             type="button"
             class="btn btn-ligth"
             (click)="modal.close('Close click')"
+            ngFyRipple
         >
             Cancelar
         </button>
@@ -461,6 +546,7 @@
             class="btn btn-sm btn-primary"
             [disabled]="name == modalItemData.item.name"
             (click)="editItem()"
+            ngFyRipple
         >
             Aceptar
         </button>
@@ -511,6 +597,7 @@
             type="button"
             class="btn btn-ligth"
             (click)="modal.close('Close click')"
+            ngFyRipple
         >
             Cancelar
         </button>
@@ -519,6 +606,67 @@
             class="btn btn-sm btn-primary"
             [disabled]="name != modalItemData.item.name"
             (click)="deleteItem()"
+            ngFyRipple
+        >
+            Aceptar
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #modalNewSnippet let-modal>
+    <div class="modal-header border-0 pb-0">
+        <h4 class="modal-title font-weight-light">{{ modalItemData.item ? 'Editar snippet' : modalItemData.title }}</h4>
+    </div>
+    <div class="modal-body py-0">
+        <form [formGroup]="snippet">
+            <input
+                type="text"
+                class="form-control my-4"
+                name=""
+                id=""
+                formControlName="name"
+                aria-describedby="helpId"
+                [placeholder]="'Nombre ' + modalItemData.type"
+            />
+
+            <select
+                formControlName="language"
+                class="custom-select my-4"
+                (change)="setEditorLanguage()"
+            >
+                <option
+                    [value]="language"
+                    *ngFor="
+                        let language of monacoLanguages.languages;
+                        let i = index
+                    "
+                    >{{ language }}</option
+                >
+            </select>
+
+            <ngx-monaco-editor
+                [options]="editor"
+                formControlName="code"
+                style="height: 300px;"
+            ></ngx-monaco-editor>
+        </form>
+    </div>
+
+    <div class="modal-footer border-0 pt-0">
+        <button
+            type="button"
+            class="btn btn-ligth"
+            (click)="modal.close('Close click')"
+            ngFyRipple
+        >
+            Cancelar
+        </button>
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            (click)="snippet.get('_id').value ? editSnippet() : newSnippet()"
+            [disabled]="snippet.invalid"
+            ngFyRipple
         >
             Aceptar
         </button>

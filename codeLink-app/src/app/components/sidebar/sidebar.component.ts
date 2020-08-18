@@ -8,6 +8,7 @@ import { SidebarService } from '../../services/sidebar.service';
 })
 export class SidebarComponent implements OnInit {
     @Output() createNew = new EventEmitter<string>();
+    @Output() createNewSnippet = new EventEmitter<void>();
     @Output() navigate = new EventEmitter<string>();
     @Output() root = new EventEmitter<void>();
     @Input() folders = [];
@@ -24,6 +25,10 @@ export class SidebarComponent implements OnInit {
 
     new(type: string) {
         this.createNew.emit(type);
+    }
+
+    newSnippet() {
+        this.createNewSnippet.emit();
     }
 
     active(event) {

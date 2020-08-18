@@ -1,5 +1,5 @@
 @import 'variables.scss';
-$shadow: 0 0.1rem 1px rgba(0, 0, 0, 0.175);
+$shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 $boder: solid 1px rgb(230, 230, 230);
 
 #main {
@@ -16,6 +16,7 @@ $boder: solid 1px rgb(230, 230, 230);
 
 .title {
     font-size: 1.8em;
+    font-weight: 600;
 }
 
 .content {
@@ -36,36 +37,60 @@ $boder: solid 1px rgb(230, 230, 230);
     width: 100%;
     height: 200px;
     box-sizing: border-box;
-    box-shadow: $shadow;
     //border: $boder;
-    border-bottom: none;
-    background: #f5f5f7d2;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
+    box-shadow: $shadow;
+    //background: #f5f5f7d2;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .project-card:hover {
     cursor: pointer;
+
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
     .project-card-bg {
         height: 100%;
         transition: height 0.5s;
         transition: all 0.25s;
     }
 
-    .project-card-img {
-        width: 100px;
-        height: 100px;
+    #circle-html {
         top: unset;
-        bottom: 20px;
+        right: 50px;
+        bottom: 65px;
+        opacity: 0.95;
+        font-weight: bold;
         transition: all 0.5s;
     }
 
-    .project-card-title {
-        font-size: 1.2em;
+    #circle-css {
         top: unset;
-        bottom: 130px;
-        transition: all 0.5s, color 0;
+        bottom: 15px;
+        right: 20px;
+        opacity: 0.95;
+        font-weight: bold;
+        transition: all 0.5s;
+    }
+
+    #circle-js {
+        top: unset;
+        right: 85px;
+        bottom: 15px;
+        opacity: 0.95;
+        font-weight: bold;
+        transition: all 0.5s;
+    }
+
+    #circle-project {
+        display: none;
+        transition: display 0.2s;
+    }
+
+    .project-card-title {
+        font-size: 1.35em;
+        top: unset;
+        bottom: 110px;
+        transition: all 0.5s, color 0.25;
     }
 
     .project-card-title,
@@ -74,17 +99,15 @@ $boder: solid 1px rgb(230, 230, 230);
         color: white;
     }
 
-    .dropdown-toggle-icon, .dropdown-toggle-icon-project {
+    .dropdown-toggle-icon,
+    .dropdown-toggle-icon-project {
         color: white !important;
     }
 }
 
 .project-card-bg {
     position: absolute;
-    background-color: #797f8a;
-    background-image: linear-gradient(to top, #48c6ef 0%, #6f86d6 100%);
     background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
-    opacity: 0.8;
     width: 100%;
     bottom: 0;
     z-index: 0;
@@ -101,7 +124,7 @@ $boder: solid 1px rgb(230, 230, 230);
     color: #000;
     box-sizing: border-box;
     overflow: hidden;
-    font-size: 1.1em;
+    font-size: 1.3em;
     font-weight: 600;
     transition: all 0.25s;
 }
@@ -112,7 +135,7 @@ $boder: solid 1px rgb(230, 230, 230);
     color: #797f8a;
     box-sizing: border-box;
     overflow: hidden;
-    font-size: 0.7em;
+    font-size: 0.8em;
     font-weight: 400;
 }
 .project-card-time {
@@ -122,14 +145,43 @@ $boder: solid 1px rgb(230, 230, 230);
 }
 
 .project-card-img {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+    height: 75px;
+    //background: #fff;
     border-radius: 50%;
-    top: 20px;
-    left: 20px;
     z-index: 2;
+}
+
+#circle-html {
+    position: absolute;
+    opacity: 0;
+    right: 20px;
+    bottom: 50px;
+    background-color: #ffffff80;
+    z-index: 4;
+    transition: all 0.25s;
+}
+
+#circle-css {
+    position: absolute;
+    opacity: 0;
+    right: 20px;
+    bottom: 10px;
+    background-color: #ffffff91;
+    z-index: 5;
+    transition: all 0.25s;
+}
+
+#circle-js {
+    position: absolute;
+    opacity: 0;
+    right: 20px;
+    bottom: 10px;
+    background-color: #ffffff91;
+    z-index: 6;
     transition: all 0.25s;
 }
 
@@ -192,10 +244,6 @@ th:hover {
     cursor: default;
 }
 
-.no-results-img {
-    width: 150px;
-}
-
 .no-results-text {
     margin-top: 10px;
     color: #5e6c84;
@@ -230,17 +278,23 @@ th:hover {
 
 .dropdown-toggle-icon {
     @include toggle-icon();
-   
 }
 .dropdown-toggle-icon-project {
     @include toggle-icon();
     margin: 5px 5px 0 0;
 }
 
-.dropdown-toggle-icon:hover, .dropdown-toggle-icon-project:hover {
+.dropdown-toggle-icon:hover,
+.dropdown-toggle-icon-project:hover {
     background: #bcbcbe;
 }
 
 #dropdownMenuProject {
     position: absolute;
+}
+
+input:focus {
+    border: solid 1px #fff;
+    border-left: none;
+    outline: none !important;
 }
