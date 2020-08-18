@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { NgFyRippleModule } from 'ng-fy-ripple';
 
 //Components
 import { AppComponent } from './app.component';
@@ -42,6 +43,7 @@ import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { ToastrComponent } from './components/toastr/toastr.component';
 import { ToastrService } from './services/toastr.service';
+import { SnippetsService } from './services/snippets.service';
 
 @NgModule({
     declarations: [
@@ -86,7 +88,8 @@ import { ToastrService } from './services/toastr.service';
         ToastrModule.forRoot({
             positionClass: 'toast-bottom-full-width',
             progressBar: true
-        })
+        }),
+        NgFyRippleModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
@@ -99,6 +102,7 @@ import { ToastrService } from './services/toastr.service';
         AuthService,
         FoldersService,
         ProjectsService,
+        SnippetsService,
         LoaderService,
         { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
         ToastrService

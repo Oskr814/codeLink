@@ -3,15 +3,18 @@ nav {
 }
 
 input {
+    position: absolute;
+    left: 45px;
     width: 50%;
     padding-left: 10px;
     background: #414850;
     border: none;
-    color: #ffffffAf
+    color: #ffffffaf;
 }
 
 #go-back {
-    color: #ffffff8f
+    position: absolute;
+    color: #ffffff8f;
 }
 
 a.button:hover {

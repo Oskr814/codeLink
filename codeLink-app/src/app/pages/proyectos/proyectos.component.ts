@@ -17,13 +17,12 @@ declare const monaco: any;
 export class ProyectosComponent implements OnInit {
     @ViewChild('iframe') iframe: ElementRef;
 
-    editarBaseOptions = {
+    editorHTML = {
         theme: 'vs-dark',
         wordWrap: 'on',
-        tabCompletion: true
+        tabCompletion: true,
+        language: 'html'
     };
-
-    editorHTML = this.editarBaseOptions;
 
     editorCSS = { theme: 'vs-dark', language: 'css' };
     editorJS = { theme: 'vs-dark', language: 'javascript' };
