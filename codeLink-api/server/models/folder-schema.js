@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ProjectSchema = require("./project-schema");
+const SnippetSchema = require("./snippet-schema");
 
 let FolderSchema = new Schema({
   name: {
@@ -26,6 +27,7 @@ let FolderSchema = new Schema({
     default: true,
   },
   projects: [ProjectSchema],
+  snippets: [SnippetSchema]
 });
 
 module.exports = FolderSchema;

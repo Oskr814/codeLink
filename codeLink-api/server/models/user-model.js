@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const FolderSchema = require("./folder-schema");
 const ProjectSchema = require("./project-schema");
+const SnippetSchema = require("./snippet-schema");
 
 let Schema = mongoose.Schema;
 
@@ -44,6 +45,7 @@ let userSchema = new Schema({
   },
   folders: [FolderSchema],
   projects: [ProjectSchema],
+  snippets: [SnippetSchema],
 });
 
 userSchema.methods.toJSON = function () {

@@ -2,10 +2,18 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-let ProjectSchema = new Schema({
+let SnippetSchema = new Schema({
   name: {
     type: String,
     required: [true, "Debe ingresar el nombre"]
+  },
+  code: {
+    type: String,
+    required: true
+  },
+  language: {
+      type: String,
+      required: true
   },
   create_date: {
     type: Number,
@@ -18,19 +26,7 @@ let ProjectSchema = new Schema({
   status: {
     type: Boolean,
     default: true,
-  },
-  html: {
-    type: String,
-    default: ""
-  },
-  css: {
-    type: String,
-    default: ""
-  },
-  js: {
-    type: String,
-    default: ""
   }
 });
 
-module.exports = ProjectSchema;
+module.exports = SnippetSchema;

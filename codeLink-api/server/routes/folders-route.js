@@ -19,7 +19,7 @@ app.post("/folder/:owner", (req, res) => {
       if (folder) {
         return res.status(400).json({
           ok: false,
-          message: "El nombre de la carpeta debe ser unico",
+          message: "El nombre de la carpeta ya esta en uso",
         });
       }
 
@@ -51,21 +51,24 @@ app.get("/folders/:owner/:id?", (req, res) => {
     .then((user) => {
       let folders = [];
       let projects = [];
+      let snippets = [];
 
       if (!id) {
         folders = user.folders.filter(
           (folder) => !folder.parent && folder.status
         );
         projects = user.projects;
+        snippets = user.snippets;
       } else {
         const folder = user.folders.find((folder) => folder._id == id);
         folders = user.folders.filter((childFolder) => {
           return childFolder.status && childFolder.parent == folder._id;
         });
         projects = folder.projects;
+        snippets = folder.snippets;
       }
 
-      res.json({ folders, projects });
+      res.json({ folders, projects, snippets });
     })
     .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
