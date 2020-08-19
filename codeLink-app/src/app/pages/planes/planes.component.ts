@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../interfaces/user.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-planes',
@@ -137,7 +138,7 @@ export class PlanesComponent implements OnInit {
         }
 
         this.httpCliente
-            .put(`http://localhost:3000/user/${this.user._id}`, data)
+            .put(`${environment.baseUrl}/user/${this.user._id}`, data)
             .subscribe(
                 (res: any) => {
                     if (res.ok) {

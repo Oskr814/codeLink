@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from '../../services/toastr.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-registro',
@@ -74,7 +75,7 @@ export class RegistroComponent implements OnInit {
             const email = this.form.get('email').value;
             const password = this.form.get('password').value;
             this.httpClient
-                .post('http://localhost:3000/user ', {
+                .post(`${environment.baseUrl}/user`, {
                     name: this.form.get('name').value,
                     email,
                     password

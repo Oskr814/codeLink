@@ -68,7 +68,7 @@ export class UserComponent implements OnInit {
     actualizarUsuario() {
         if (this.validForm(this.form)) {
             this.http
-                .put(`http://localhost:3000/${this.user._id}`, {
+                .put(`${environment.baseUrl}/${this.user._id}`, {
                     name: this.form.get('name').value
                 })
                 .subscribe(

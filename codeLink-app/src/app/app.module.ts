@@ -44,6 +44,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { ToastrComponent } from './components/toastr/toastr.component';
 import { ToastrService } from './services/toastr.service';
 import { SnippetsService } from './services/snippets.service';
+import { environment } from '../environments/environment.prod';
 
 @NgModule({
     declarations: [
@@ -79,8 +80,8 @@ import { SnippetsService } from './services/snippets.service';
         JwtModule.forRoot({
             config: {
                 tokenGetter: () => localStorage.getItem('token'),
-                allowedDomains: ['localhost:3000'],
-                disallowedRoutes: ['localhost:3000/login'],
+                allowedDomains: [environment.baseUrl],
+                disallowedRoutes: [environment.baseUrl],
                 headerName: 'token'
             }
         }),
