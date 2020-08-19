@@ -1,9 +1,12 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light shadow-sm fixed-top">
+<nav
+    class="navbar navbar-expand-sm navbar-light bg-white shadow-sm fixed-top"
+    *ngIf="!actualRoute.includes('/project')"
+>
     <button
         type="button"
         class="mr-2"
         id="btn-sidebar-toggle"
-        *ngIf="actualRoute === '/home'"
+        *ngIf="actualRoute.includes('/home') && !user.pre"
         (click)="toggleSidebar()"
     >
         <i class="fa fa-bars" aria-hidden="true"></i>
@@ -11,8 +14,8 @@
     <a class="navbar-brand" [routerLink]="[user ? '/home' : '/']">
         <img [src]="logoUrl" alt="" id="img-logo" />
     </a>
-    <div class="collapse navbar-collapse" id="collapsibleNavId">
-        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+    <div class="ml-auto">
+        <ul class="navbar-nav mt-2 mt-lg-0">
             <li
                 class="nav-item"
                 ngbDropdown
@@ -22,8 +25,9 @@
             >
                 <button
                     type="button"
-                    class="btn btn-sm btn-outline-primary"
+                    class="btn btn-outline-primary"
                     [routerLink]="['login']"
+                    *ngIf="actualRoute !== '/login' && !user"
                 >
                     Login
                 </button>
@@ -39,7 +43,8 @@
                     ngbDropdownToggle
                     role="button"
                     tabindex="0"
-                    [src]="user.photoURL"
+                    [src]="user.img"
+                    onerror="this.src='assets/images/default-user.svg'"
                     class="border"
                 />
 
@@ -48,15 +53,17 @@
                     aria-labelledby="navbarDropdown3"
                     class="dropdown-menu"
                 >
-                    <a ngbDropdownItem href="#" [routerLink]="['user']"
-                        >Perfil</a
+                    <a ngbDropdownItem href="#" [routerLink]="['/user']">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        Perfil</a
                     >
                     <a
                         ngbDropdownItem
                         href="#"
                         ngbDropdownItem
                         (click)="logOut()"
-                        >logOut</a
+                        ><i class="fa fa-sign-out" aria-hidden="true"></i>
+                        Salir</a
                     >
                 </div>
             </li>

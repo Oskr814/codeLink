@@ -1,12 +1,24 @@
 /*Fonts*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import '~highlight.js/scss/monokai.scss';
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
+/* Toastr */
+@import '~ngx-toastr/toastr';
+
+.toast-bottom-full-width {
+    bottom: 0;
+    right: 0;
+    width: 25%;
+}
+
 /* FontAwesome*/
 @import '~font-awesome/scss/font-awesome.scss';
+
+/* Animated CSS*/
+@import '~animate.css/animate.min.css';
 
 html,
 body {
@@ -14,14 +26,23 @@ body {
     height: 100%;
 }
 
+.main__container {
+    padding-top: 80px !important;
+}
+
 body {
     font-family: Poppins;
     font-size: 15px;
-    padding-top: 60px;
+    //background: #F5F5F7;
 }
 
 .form-group {
     height: 45px;
+}
+
+.text-enfasis {
+    font-size: 0.9em;
+    font-weight: 500;
 }
 
 /* modal animation */
@@ -36,12 +57,13 @@ body {
 
 @keyframes modalContentIn {
     0% {
-        transform: scale(0.5);
-    }
-    75% {
-        transform: scale(1.1);
+        transform: scale(0.3);
     }
     100% {
         transform: scale(1);
     }
+}
+
+.btn:focus {
+    box-shadow: none !important;
 }

@@ -1,8 +1,10 @@
-const moongose = require("mongoose");
+const mongoose = require("mongoose");
 
-let Schema = moongose.Schema;
+const FolderSchema = require("./folder-schema");
+const ProjectSchema = require("./project-schema");
+const SnippetSchema = require("./snippet-schema");
 
-const roles = ["ADMIN_ROLE", "USER_ROLE"];
+let Schema = mongoose.Schema;
 
 let userSchema = new Schema({
   name: {
@@ -21,19 +23,29 @@ let userSchema = new Schema({
   img: {
     type: String,
   },
-  role: {
-    type: String,
-    default: "USER_ROLE",
-    enum: roles,
+  pre: {
+    //Preregistro
+    type: Boolean,
+    default: true,
   },
   plan: {
     type: String,
-    required: [true, "El plan es requerido"],
+  },
+  creditCard: {
+    type: Object,
+    default: {},
+  },
+  paymentMethod: {
+    type: Boolean,
+    default: false,
   },
   status: {
-      type: Boolean,
-      default: true
-  }
+    type: Boolean,
+    default: true,
+  },
+  folders: [FolderSchema],
+  projects: [ProjectSchema],
+  snippets: [SnippetSchema],
 });
 
 userSchema.methods.toJSON = function () {
@@ -41,8 +53,17 @@ userSchema.methods.toJSON = function () {
   let userObject = user.toObject();
 
   delete userObject.password;
+  delete userObject.creditCard;
 
   return userObject;
 };
 
-module.exports = moongose.model("user", userSchema);
+userSchema.post("save", function (error, res, next) {
+  if (error.name === "MongoError" && error.code === 11000) {
+    next(new Error("El correo electronico ya esta en uso"));
+  } else {
+    next();
+  }
+});
+
+module.exports = mongoose.model("user", userSchema);

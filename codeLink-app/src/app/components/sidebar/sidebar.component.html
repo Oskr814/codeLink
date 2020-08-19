@@ -1,32 +1,77 @@
-<div [ngClass]="{ toggle: toggleSidebar }" class="shadow" id="sidebar-wrapper">
+<div [ngClass]="{ toggle: toggleSidebar }" id="sidebar-wrapper">
     <div class="list-group list-group-flush">
-        <div ngbDropdown placement="right" class="d-inline-block mx-auto">
-            <button
-                class="btn btn-primary rounded-pill my-4"
-                id="dropdownNuevo"
-                ngbDropdownToggle
-            >
-                <i class="fa fa-plus mr-2" aria-hidden="true"></i> Nuevo
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownNuevo">
-                <button
-                    class="btn btn-light"
-                    ngbDropdownItem
-                    (click)="new('carpeta')"
-                >
-                    Carpeta
-                </button>
-                <button
-                    class="btn btn-light"
-                    ngbDropdownItem
-                    (click)="new('proyecto')"
-                >
-                    Proyecto
-                </button>
+        <div
+            ngbDropdown
+            container="body"
+            placement="right"
+            class="d-inline-block w-75 mx-auto"
+        >
+            <div class="mt-3 text-muted title">
+                <i class="fa fa-plus mr-2 mb-2" aria-hidden="true"></i> Crear
+                nuevo
             </div>
+            <a class="item-btn text-muted" (click)="new('carpeta')" ngFyRipple>
+                <span class="name">Carpeta</span>
+                <div class="btn-icon folder">
+                    <i class="fa fa-folder-o" aria-hidden="true"></i>
+                </div>
+            </a>
+            <a class="item-btn text-muted" (click)="new('proyecto')" ngFyRipple>
+                <span class="name">Proyecto</span>
+                <div class="btn-icon project">
+                    <i class="fa fa-code" aria-hidden="true"></i>
+                </div>
+            </a>
+            <a class="item-btn text-muted" (click)="newSnippet()" ngFyRipple>
+                <span class="name">Snippet</span>
+                <div class="btn-icon snippet">
+                    <i class="fa fa-file-code-o mr-1" aria-hidden="true"></i>
+                </div>
+            </a>
+        </div>
+        <div class="mt-2 ml-4 mb-3 text-muted title w-75">
+            Directorio raiz
         </div>
         <ng-scrollbar id="tree">
-            <app-folder-tree-view></app-folder-tree-view>
+            <ul id="menu">
+                <!-- Root -->
+                <li [routerLink]="['/home']">
+                    <input
+                        type="checkbox"
+                        name="list"
+                        id="main"
+                        checked
+                        disabled
+                    /><label for="main" class="position-relative">
+                        <span class="ml-2">Mi unidad</span>
+                    </label>
+
+                    <ul class="interior" *ngFor="let folder of folders">
+                        <li (click)="active($event)">
+                            <input
+                                type="checkbox"
+                                name="list"
+                                [id]="folder._id"
+                            /><label
+                                [for]="folder._id"
+                                class="position-relative"
+                            >
+                                <span class="ml-2">{{ folder.name }}</span>
+                            </label>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </ng-scrollbar>
+
+        <div class="ml-4 mt-4 text-muted text-enfasis text-center w-75">
+            <button
+                type="button"
+                class="btn btn-light text-muted "
+                [routerLink]="['/plans']"
+            >
+                <i class="fa fa-credit-card" aria-hidden="true"></i> Actualizar plan
+            </button>
+        </div>
     </div>
 </div>

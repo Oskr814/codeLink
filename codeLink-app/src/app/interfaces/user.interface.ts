@@ -1,11 +1,13 @@
 export interface User {
-  uid?: string;
+  _id?: string;
   name?: string;
   email?: string;
-  telefono?: string;
-  photoURL?: string;
-  lastSingIn?: string;
-  creationTime?: string;
+  pre: boolean;
+  img?: string;
   status?: boolean;
-  admin?: boolean;
+  plan?: string,
+  creditCard?: Object,
+  paymentMethod: boolean,
+  folders: [],
+  projects: []
 }

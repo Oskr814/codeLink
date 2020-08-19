@@ -9,7 +9,7 @@ export class UserModel {
         localStorage.setItem('user', JSON.stringify(user));
     }
 
-    getUser(): User {
+    authUser(): User {
         return JSON.parse(localStorage.getItem('user'));
     }
 }

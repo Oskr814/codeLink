@@ -1,73 +1,269 @@
-<div class="d-flex">
-    <app-sidebar (createNew)="showModal(content, $event)"></app-sidebar>
+<div class="d-flex animate__animated animate__fadeIn animate__faster">
+    <app-sidebar
+        class="bg-white"
+        [folders]="root"
+        (navigate)="getFolderContent($event)"
+        (root)="getFolderContent()"
+        (createNew)="openModal(modalNewItem, $event)"
+        (createNewSnippet)="openModalSnippet(modalNewSnippet, 'snippet')"
+    ></app-sidebar>
 
-    <div class="container">
-        <div class="row title">
+    <div
+        class="main__container toggle-animation w-100 px-4 pb-4"
+        [ngClass]="{ toggle: !toggleSidebar }"
+    >
+        <div class="row" *ngIf="recentProjects.length > 0">
             <div class="col-12">
-                Proyectos recientes
+                <div class="title">
+                    Proyectos recientes
+                </div>
+            </div>
+
+            <div
+                class="col-lg-4 col-md-4 col-sm-6 col-12"
+                *ngFor="let project of recentProjects"
+                (click)="loadProject(project)"
+            >
+                <div class="project-card my-3">
+                    <div class="project-card-bg"></div>
+                    <span class="project-card-img ml-3 pt-3" id="circle-project"
+                        ><img src="assets/images/project.svg" class="w-75"
+                    /></span>
+                    <span class="project-card-img" id="circle-html"
+                        ><img src="assets/images/html.svg" class="w-50"
+                    /></span>
+                    <span class="project-card-img" id="circle-css"
+                        ><img src="assets/images/css.svg" class="w-50"
+                    /></span>
+                    <span class="project-card-img" id="circle-js"
+                        ><img src="assets/images/js.svg" class="w-50"
+                    /></span>
+                    <div class="project-card-title">
+                        <div>{{ project.name }}</div>
+                        <div class="project-card-subtitle">
+                            <div>html css js</div>
+                            <div class="project-card-time">
+                                Fecha: {{ project.write_date | date: 'L' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <div class="project-card p-2 my-3">
-                    Proyecto1
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <div class="project-card p-2 my-3">
-                    Proyecto2
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <div class="project-card p-2 my-3">
-                    Proyecto3
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4" *ngIf="deviceResolution > 576">
+        <div class="row" *ngIf="deviceResolution > 576">
             <div class="col-12">
                 <div class="text-right">
+                    <span class="mr-2 text-muted text-enfasis">Vista:</span>
                     <i
-                        class="btn btn-light fa fa-list text-muted mr-2"
+                        class="btn btn-light shadow-sm fa fa-list mr-2"
                         aria-hidden="true"
                         (click)="list = true"
+                        ngFyRipple
                     ></i>
                     <i
-                        class="btn btn-light fa fa-th text-muted"
+                        class="btn btn-light shadow-sm fa fa-th"
                         aria-hidden="true"
                         (click)="list = false"
+                        ngFyRipple
                     ></i>
                 </div>
             </div>
         </div>
 
         <div class="row" [ngClass]="{ 'd-none': !list }">
-            <div class="table-responsive mt-3">
+            <div class="col-12">
+                <div class="title">
+                    Mi unidad
+                </div>
+            </div>
+            <div class="table-responsive">
+                <nav class="nav">
+                    <a
+                        class="nav-link"
+                        *ngIf="actualRoute !== '/home'"
+                        (click)="navigate()"
+                        ><i class="fa fa-arrow-left"></i>...</a
+                    >
+
+                    <div class="form-group form-inline ml-auto mr-2">
+                        <input
+                            class="form-control ml-2"
+                            id="search"
+                            type="text"
+                            placeholder="Buscar por nombre"
+                            [(ngModel)]="search"
+                        />
+                    </div>
+                </nav>
                 <table class="table">
                     <tr>
-                        <td scope="col">Nombre</td>
-                        <td scope="col">Fecha creacion</td>
-                        <td scope="col">
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Fecha creacion</th>
+                        <th scope="col">
                             Fecha de modificacion
-                        </td>
+                        </th>
+                        <th>Acciones</th>
                     </tr>
-                    <tr *ngFor="let item of [1, 2]">
+                    <tr
+                        *ngFor="let folder of folders | filter: search"
+                        (click)="getFolderContent(folder._id)"
+                        class="animate__animated animate__fadeIn animate__faster"
+                    >
                         <td>
                             <div class="p-1">
-                                <i class="fa fa-folder" aria-hidden="true"></i>
-                                <span class="ml-2">Folder name</span>
+                                <img
+                                    src="assets/images/folder.svg"
+                                    class="folder-icon"
+                                />
+                                <span class="ml-2">{{ folder.name }}</span>
                             </div>
                         </td>
-                        <td>20 Julio 2020 10:02 AM</td>
-                        <td>20 Julio 2020 01:02 PM</td>
-                    </tr>
-                    <tr>
                         <td>
-                            <i class="fa fa-code" aria-hidden="true"></i>
-                            <span class="ml-2">Nombre proyecto</span>
+                            <span
+                                class="badge badge-light text-white mt-1"
+                                style="background-color: #ff076f;"
+                                >Carpeta</span
+                            >
                         </td>
-                        <td>20 Julio 2020 10:02 AM</td>
-                        <td>20 Julio 2020 01:02 PM</td>
+                        <td>{{ folder.create_date | date }}</td>
+                        <td>{{ folder.wirte_date | date }}</td>
+                        <td>
+                            <i
+                                (click)="
+                                    openModal(modalEditItem, 'carpeta', folder);
+                                    $event.stopPropagation()
+                                "
+                                class="btn btn-light fa fa-edit mr-2"
+                                aria-hidden="true"
+                                ngFyRipple
+                            ></i>
+                            <i
+                                (click)="
+                                    openModal(
+                                        modalDeleteItem,
+                                        'carpeta',
+                                        folder
+                                    );
+                                    $event.stopPropagation()
+                                "
+                                class="btn btn-light fa fa-trash text-danger"
+                                aria-hidden="true"
+                                ngFyRipple
+                            ></i>
+                        </td>
+                    </tr>
+                    <tr
+                        *ngFor="let project of projects | filter: search"
+                        class="animate__animated animate__fadeIn animate__faster"
+                        (click)="loadProject(project)"
+                    >
+                        <td>
+                            <img
+                                src="assets/images/project.svg"
+                                class="project-icon"
+                            />
+                            <span class="ml-2">{{ project.name }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-success mt-1"
+                                >Proyecto</span
+                            >
+                        </td>
+                        <td>{{ project.create_date | date }}</td>
+                        <td>{{ project.write_date | date }}</td>
+                        <td>
+                            <i
+                                (click)="
+                                    openModal(
+                                        modalEditItem,
+                                        'proyecto',
+                                        project
+                                    );
+                                    $event.stopPropagation()
+                                "
+                                class="fa fa-edit btn btn-ligth mr-2"
+                                aria-hidden="true"
+                            ></i>
+                            <i
+                                (click)="
+                                    openModal(
+                                        modalDeleteItem,
+                                        'proyecto',
+                                        project
+                                    );
+                                    $event.stopPropagation()
+                                "
+                                class="fa fa-trash btn btn-ligth text-danger"
+                                aria-hidden="true"
+                            ></i>
+                        </td>
+                    </tr>
+                    <tr
+                        *ngFor="let snippet of snippets | filter: search"
+                        class="animate__animated animate__fadeIn animate__faster"
+                        (click)="
+                            openModalSnippet(
+                                modalNewSnippet,
+                                'snippet',
+                                snippet
+                            )
+                        "
+                    >
+                        <td>
+                            <img
+                                src="assets/images/file.svg"
+                                class="project-icon"
+                            />
+                            <span class="ml-2">{{ snippet.name }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-info mt-1"
+                                >Snippet: {{ snippet.language }}</span
+                            >
+                        </td>
+                        <td>{{ snippet.create_date | date }}</td>
+                        <td>{{ snippet.write_date | date }}</td>
+                        <td>
+                            <i
+                                (click)="
+                                    openModalSnippet(
+                                        modalNewSnippet,
+                                        'snippet',
+                                        snippet
+                                    );
+                                    $event.stopPropagation()
+                                "
+                                class="fa fa-edit btn btn-ligth mr-2"
+                                aria-hidden="true"
+                            ></i>
+                            <i
+                                (click)="
+                                    openModal(
+                                        modalDeleteItem,
+                                        'snippet',
+                                        snippet
+                                    );
+                                    $event.stopPropagation()
+                                "
+                                class="fa fa-trash btn btn-ligth text-danger"
+                                aria-hidden="true"
+                            ></i>
+                        </td>
+                    </tr>
+                    <tr
+                        *ngIf="
+                            (folders | filter: search).length == 0 &&
+                            (projects | filter: search).length == 0 &&
+                            (snippets | filter: search).length == 0
+                        "
+                        class="animate__animated animate__fadeIn animate__faster"
+                    >
+                        <td colspan="4" class="text-center">
+                            <div class="no-results-text">
+                                No se encontraron carpetas o proyectos
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -75,40 +271,211 @@
 
         <div class="row" [ngClass]="{ 'd-none': list }">
             <div class="col-12">
-                Carpetas
+                <div class="title">
+                    <img
+                        src="assets/images/folder-open.svg"
+                        class="folder-icon"
+                    />
+                    Carpetas
+                </div>
             </div>
+            <div class="col-12">
+                <nav class="nav">
+                    <a
+                        class="nav-link"
+                        *ngIf="actualRoute !== '/home'"
+                        (click)="navigate()"
+                        ><i class="fa fa-arrow-left"></i>...</a
+                    >
 
+                    <div class="form-group form-inline ml-auto">
+                        <input
+                            class="form-control ml-2"
+                            placeholder="Buscar por nombre"
+                            type="text"
+                            [(ngModel)]="search"
+                        />
+                    </div>
+                </nav>
+            </div>
             <div
                 class="col-lg-3 col-md-4 col-6"
-                *ngFor="let item of [1, 2, 3, 4, 5]"
+                *ngFor="let folder of folders | filter: search"
             >
-                <div class="card mt-4">
-                    <div class="card-body text-truncate">
-                        <i class="fa fa-folder mr-3" aria-hidden="true"></i
-                        >Folder Name
+                <div class="card show-sm mt-4">
+                    <div
+                        class="card-body"
+                        (click)="getFolderContent(folder._id)"
+                        ngFyRipple
+                    >
+                        <span class="w-75 text-truncate d-inline-block">
+                            <img
+                                src="assets/images/folder.svg"
+                                class="folder-icon"
+                            />
+                            {{ folder.name }}</span
+                        >
+
+                        <div
+                            ngbDropdown
+                            #dropDownMenu="ngbDropdown"
+                            container="body"
+                            placement="right"
+                            class="d-inline-block float-right"
+                            style="position: absolute; right: 5px;"
+                        >
+                            <i
+                                id="dropdownNuevo"
+                                ngbDropdownToggle
+                                class="fa fa-ellipsis-v dropdown-toggle-icon"
+                                aria-hidden="true"
+                                (click)="
+                                    $event.stopPropagation();
+                                    dropDownMenu.open()
+                                "
+                            ></i>
+
+                            <div
+                                ngbDropdownMenu
+                                aria-labelledby="dropdownNuevo"
+                            >
+                                <button
+                                    class="btn btn-light"
+                                    ngbDropdownItem
+                                    (click)="
+                                        openModal(
+                                            modalEditItem,
+                                            'carpeta',
+                                            folder
+                                        )
+                                    "
+                                >
+                                    Editar
+                                </button>
+                                <button
+                                    class="btn btn-light"
+                                    ngbDropdownItem
+                                    (click)="
+                                        openModal(
+                                            modalDeleteItem,
+                                            'carpeta',
+                                            folder
+                                        )
+                                    "
+                                >
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 mt-4">
-                Proyectos
+            <div class="col-12 mt-4" *ngIf="projects.length > 0">
+                <div class="title">
+                    <img src="assets/images/project.svg" class="project-icon" />
+                    Proyectos
+                </div>
             </div>
 
             <div
                 class="col-lg-3 col-md-4 col-sm-6"
-                *ngFor="let item of [1, 2, 3, 4, 5]"
+                *ngFor="let project of projects | filter: search"
+                (click)="loadProject(project)"
             >
-                <div class="project-card p-2 my-3">
-                    Proyecto1
+                <div class="project-card my-3">
+                    <div
+                        ngbDropdown
+                        #dropDownMenu="ngbDropdown"
+                        container="body"
+                        placement="right"
+                        class="d-inline-block float-right"
+                    >
+                        <i
+                            id="dropdownNuevo"
+                            ngbDropdownToggle
+                            class="fa fa-ellipsis-v dropdown-toggle-icon-project"
+                            aria-hidden="true"
+                            (click)="
+                                $event.stopPropagation(); dropDownMenu.open()
+                            "
+                            ngFyRipple
+                        ></i>
+
+                        <div ngbDropdownMenu aria-labelledby="dropdownNuevo">
+                            <button
+                                class="btn btn-light"
+                                ngbDropdownItem
+                                (click)="
+                                    openModal(
+                                        modalEditItem,
+                                        'proyecto',
+                                        project
+                                    )
+                                "
+                            >
+                                Editar
+                            </button>
+                            <button
+                                class="btn btn-light"
+                                ngbDropdownItem
+                                (click)="
+                                    openModal(
+                                        modalDeleteItem,
+                                        'proyecto',
+                                        project
+                                    )
+                                "
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="project-card-bg"></div>
+                    <span class="project-card-img ml-3 pt-3" id="circle-project"
+                        ><img src="assets/images/project.svg" class="w-75"
+                    /></span>
+                    <span class="project-card-img" id="circle-html"
+                        ><img src="assets/images/html.svg" class="w-50"
+                    /></span>
+                    <span class="project-card-img" id="circle-css"
+                        ><img src="assets/images/css.svg" class="w-50"
+                    /></span>
+                    <span class="project-card-img" id="circle-js"
+                        ><img src="assets/images/js.svg" class="w-50"
+                    /></span>
+                    <div class="project-card-title">
+                        <div>{{ project.name }}</div>
+                        <div class="project-card-subtitle">
+                            <div>html css js</div>
+                            <div class="project-card-time">
+                                Fecha: {{ project.creation_date | date: 'L' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="col-12 mt-2 text-center animate__animated animate__fadeIn animate__faster"
+                *ngIf="
+                    (folders | filter: search).length == 0 &&
+                    (projects | filter: search).length == 0 &&
+                    (snippets | filter: search).length == 0
+                "
+            >
+                <div class="no-results-text">
+                    No se encontraron carpetas o proyectos
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #modalNewItem let-modal>
     <div class="modal-header border-0 pb-0">
-        <h4 class="modal-title font-weight-light">{{ modalText.title }}</h4>
+        <h4 class="modal-title font-weight-light">{{ modalItemData.title }}</h4>
     </div>
     <div class="modal-body py-0">
         <div class="form-group mt-2">
@@ -117,8 +484,9 @@
                 class="form-control"
                 name=""
                 id=""
+                [(ngModel)]="name"
                 aria-describedby="helpId"
-                [placeholder]="'Nombre ' + modalText.type"
+                [placeholder]="'Nombre ' + modalItemData.type"
             />
         </div>
     </div>
@@ -127,10 +495,179 @@
             type="button"
             class="btn btn-ligth"
             (click)="modal.close('Close click')"
+            ngFyRipple
         >
             Cancelar
         </button>
-        <button type="button" class="btn btn-sm btn-primary">
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            (click)="newItem()"
+            [disabled]="name == ''"
+            ngFyRipple
+        >
+            Aceptar
+        </button>
+    </div>
+</ng-template>
+
+<!-- Editar nombre -->
+<ng-template #modalEditItem let-modal>
+    <div class="modal-header border-0 pb-0">
+        <h4 class="modal-title font-weight-light">
+            Editar nombre {{ modalItemData.type }}
+        </h4>
+    </div>
+    <div class="modal-body py-0">
+        <div class="form-group mt-2">
+            <input
+                type="text"
+                class="form-control"
+                name=""
+                id=""
+                [(ngModel)]="name"
+                value="2"
+                aria-describedby="helpId"
+                [placeholder]="modalItemData.item.name"
+            />
+        </div>
+    </div>
+    <div class="modal-footer border-0 pt-0">
+        <button
+            type="button"
+            class="btn btn-ligth"
+            (click)="modal.close('Close click')"
+            ngFyRipple
+        >
+            Cancelar
+        </button>
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            [disabled]="name == modalItemData.item.name"
+            (click)="editItem()"
+            ngFyRipple
+        >
+            Aceptar
+        </button>
+    </div>
+</ng-template>
+
+<!-- Editar nombre -->
+<ng-template #modalDeleteItem let-modal>
+    <div class="modal-header row border-0 pb-0">
+        <div class="col-12">
+            <h4 class="modal-title font-weight-light">
+                Eliminar {{ modalItemData.type }}
+            </h4>
+        </div>
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Se
+                eliminara
+                {{
+                    modalItemData.type == 'carpeta'
+                        ? 'la carpeta'
+                        : 'el proyecto'
+                }}
+                y todo su contenido!
+                <br />
+                Ingrese
+                <b>{{ modalItemData.item.name }}</b>
+                para confirmar.
+            </div>
+        </div>
+    </div>
+    <div class="modal-body py-0">
+        <div class="form-group mt-2">
+            <input
+                type="text"
+                class="form-control"
+                name=""
+                id=""
+                [(ngModel)]="name"
+                value="2"
+                aria-describedby="helpId"
+                [placeholder]="modalItemData.item.name"
+            />
+        </div>
+    </div>
+    <div class="modal-footer border-0 pt-0">
+        <button
+            type="button"
+            class="btn btn-ligth"
+            (click)="modal.close('Close click')"
+            ngFyRipple
+        >
+            Cancelar
+        </button>
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            [disabled]="name != modalItemData.item.name"
+            (click)="deleteItem()"
+            ngFyRipple
+        >
+            Aceptar
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #modalNewSnippet let-modal>
+    <div class="modal-header border-0 pb-0">
+        <h4 class="modal-title font-weight-light">{{ modalItemData.item ? 'Editar snippet' : modalItemData.title }}</h4>
+    </div>
+    <div class="modal-body py-0">
+        <form [formGroup]="snippet">
+            <input
+                type="text"
+                class="form-control my-4"
+                name=""
+                id=""
+                formControlName="name"
+                aria-describedby="helpId"
+                [placeholder]="'Nombre ' + modalItemData.type"
+            />
+
+            <select
+                formControlName="language"
+                class="custom-select my-4"
+                (change)="setEditorLanguage()"
+            >
+                <option
+                    [value]="language"
+                    *ngFor="
+                        let language of monacoLanguages.languages;
+                        let i = index
+                    "
+                    >{{ language }}</option
+                >
+            </select>
+
+            <ngx-monaco-editor
+                [options]="editor"
+                formControlName="code"
+                style="height: 300px;"
+            ></ngx-monaco-editor>
+        </form>
+    </div>
+
+    <div class="modal-footer border-0 pt-0">
+        <button
+            type="button"
+            class="btn btn-ligth"
+            (click)="modal.close('Close click')"
+            ngFyRipple
+        >
+            Cancelar
+        </button>
+        <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            (click)="snippet.get('_id').value ? editSnippet() : newSnippet()"
+            [disabled]="snippet.invalid"
+            ngFyRipple
+        >
             Aceptar
         </button>
     </div>

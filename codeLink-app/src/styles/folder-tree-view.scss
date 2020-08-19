@@ -1,33 +1,24 @@
 @import 'variables.scss';
 
-.active {
-  position: absolute;
-  background-color: #2176ffff;
-  width: 250%;
-  height: 100%;
-  color: white;
-  border-radius: 0 10px 10px 0;
-  top: 0;
-  right: -40px;
-  z-index: -1;
-}
-
 ul,
 li {
   font-size: 1em;
-  color: #5f6368;
+  color: #6D767D;
   list-style: none;
+}
+
+li:focus {
+  outline: none;
 }
 
 label:hover {
   cursor: pointer;
-  color: $blue-crayola;
-  font-weight: 500;
+  color: #4c576b;
 }
 
 #menu {
   padding-left: 20px;
-  height: 400px;
+  height: 288px;
 }
 
 #menu li {
@@ -42,13 +33,13 @@ label:hover {
 #menu label:before {
   content: "\f054 \00a0 \00a0 \00a0 \f07b";
   font-family: fontawesome;
-  font-size: 1em;
+  font-size: 1.2em;
   margin-right: 4px;
 }
 
 #menu input:checked ~ label:before {
-  content: "\f078 \00a0 \00a0 \00a0 \f07c";
-  font-family: fontawesome;
+  // content: "\f078 \00a0 \00a0 \00a0 \f07c";
+  // font-family: fontawesome;
 }
 
 #menu .interior {
@@ -56,4 +47,9 @@ label:hover {
 }
 #menu input:checked ~ ul {
   display: block;
+}
+
+@keyframes slide {
+  from { width: 0;}
+  to { width: 170%;}
 }

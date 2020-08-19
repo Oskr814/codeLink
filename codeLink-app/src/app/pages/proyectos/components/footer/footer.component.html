@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark py-0">
+    <a class="nav-link position-absolute" id="logo">codeLink - 2020</a>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav ml-auto mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" id="snippets">
+                    <i class="fa fa-keyboard-o" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" ngFyRipple (click)="setLayout('left')">
+                    <img src="assets/images/layout/left.svg" class="layout-icon">
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" ngFyRipple (click)="setLayout('top')">
+                    <img src="assets/images/layout/top.svg" class="layout-icon">
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" ngFyRipple (click)="setLayout('bottom')">
+                    <img src="assets/images/layout/bottom.svg" class="layout-icon">
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" ngFyRipple (click)="setLayout('right')">
+                    <img src="assets/images/layout/right.svg" class="layout-icon">
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

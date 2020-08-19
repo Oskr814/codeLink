@@ -1,0 +1,23 @@
+nav {
+    height: 40px;
+}
+
+input {
+    position: absolute;
+    left: 45px;
+    width: 50%;
+    padding-left: 10px;
+    background: #414850;
+    border: none;
+    color: #ffffffaf;
+}
+
+#go-back {
+    position: absolute;
+    color: #ffffff8f;
+}
+
+a.button:hover {
+    cursor: pointer;
+    background: #ffffff3b;
+}
