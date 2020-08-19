@@ -1,9 +1,5 @@
 let moongose = require("mongoose");
 
-let db = "codeLink";
-let port = "27017";
-let host = "localhost";
-
 class Database {
   constructor() {
     this.dbConnect();
@@ -11,7 +7,7 @@ class Database {
 
   dbConnect() {
     moongose
-      .connect(`mongodb://${host}:${port}/${db}`, {
+      .connect(process.env.URLDB, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })

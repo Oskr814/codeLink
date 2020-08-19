@@ -7,7 +7,7 @@ const plans = [
   },
   {
     code: "estandar",
-    limit: 2,
+    limit: 10,
   },
   {
     code: "premium",
