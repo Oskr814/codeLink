@@ -44,7 +44,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { ToastrComponent } from './components/toastr/toastr.component';
 import { ToastrService } from './services/toastr.service';
 import { SnippetsService } from './services/snippets.service';
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environment';
 
 @NgModule({
     declarations: [
@@ -80,14 +80,14 @@ import { environment } from '../environments/environment.prod';
         JwtModule.forRoot({
             config: {
                 tokenGetter: () => localStorage.getItem('token'),
-                allowedDomains: [environment.baseUrl],
-                disallowedRoutes: [environment.baseUrl],
+                allowedDomains: [environment.domain],
+                disallowedRoutes: [`${environment.domain}/login`],
                 headerName: 'token'
             }
         }),
         NgxSpinnerModule,
         ToastrModule.forRoot({
-            positionClass: 'toast-bottom-full-width',
+            positionClass: 'toast-bottom-right',
             progressBar: true
         }),
         NgFyRippleModule

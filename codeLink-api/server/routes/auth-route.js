@@ -61,7 +61,7 @@ app.post("/change-password/:id", (req, res) => {
       if (!result.nModified) {
         return res
           .status(422)
-          .json({ ok: false, message: "No se pudo eliminar la carpeta" });
+          .json({ ok: false, message: "No se pudo actualizar la contraseña" });
       }
 
       res.json({ message: "Contraseña actualizada con exito" });

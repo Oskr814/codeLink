@@ -21,11 +21,23 @@ export class ProyectosComponent implements OnInit {
         theme: 'vs-dark',
         wordWrap: 'on',
         tabCompletion: true,
-        language: 'html'
+        language: 'html',
     };
 
-    editorCSS = { theme: 'vs-dark', language: 'css' };
-    editorJS = { theme: 'vs-dark', language: 'javascript' };
+    editorCSS = {
+        theme: 'vs-dark',
+        wordWrap: 'on',
+        tabCompletion: true,
+        language: 'css',
+        snippetSuggestions: { enabled: false }
+    };
+    editorJS = {
+        theme: 'vs-dark',
+        wordWrap: 'on',
+        tabCompletion: true,
+        language: 'javascript',
+        snippetSuggestions: { enabled: false }
+    };
 
     options: GridsterConfig;
     dashboard: Array<GridsterItem>;
@@ -41,8 +53,6 @@ export class ProyectosComponent implements OnInit {
         private _toastrService: ToastrService,
         private http: HttpClient
     ) {
-        this.editorHTML['language'] = 'html';
-
         this.route.paramMap.subscribe(async (params) => {
             const _id = params.get('_id');
 
