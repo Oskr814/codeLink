@@ -23,8 +23,8 @@ export class PlanesComponent implements OnInit {
             subtitle: 'Ideal para aventureros',
             features: [
                 { text: 'Almacenamiento en la nube', value: true },
-                { text: 'Exportar proyecto', value: false },
-                { text: 'Proyectos ilimitados', value: false }
+                { text: 'Exportar proyecto', value: true },
+                { text: 'Proyectos ilimitados', value: false, limit: 5 }
             ]
         },
         {
@@ -35,7 +35,7 @@ export class PlanesComponent implements OnInit {
             features: [
                 { text: 'Almacenamiento en la nube', value: true },
                 { text: 'Exportar proyecto', value: true },
-                { text: 'Proyectos ilimitados', value: false }
+                { text: 'Proyectos ilimitados', value: false, limit: 10 }
             ]
         },
         {
@@ -64,7 +64,13 @@ export class PlanesComponent implements OnInit {
     ) {
         this.form = this.formBuilder.group({
             name: ['', Validators.required],
-            number: ['', [Validators.required, Validators.minLength(19)]],
+            number: [
+                '',
+                [
+                    Validators.required,
+                    Validators.pattern('([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4})')
+                ]
+            ],
             mes: ['', [Validators.required, Validators.minLength(2)]],
             anio: ['', [Validators.required, Validators.minLength(4)]],
             cvc: ['', [Validators.required, Validators.minLength(3)]]

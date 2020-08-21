@@ -2,6 +2,7 @@
     <app-sidebar
         class="bg-white"
         [folders]="root"
+        [plan]="user.plan"
         (navigate)="getFolderContent($event)"
         (root)="getFolderContent()"
         (createNew)="openModal(modalNewItem, $event)"
@@ -50,51 +51,49 @@
                 </div>
             </div>
         </div>
-        <div class="row" *ngIf="deviceResolution > 576">
-            <div class="col-12">
-                <div class="text-right">
-                    <span class="mr-2 text-muted text-enfasis">Vista:</span>
-                    <i
-                        class="btn btn-light shadow-sm fa fa-list mr-2"
-                        aria-hidden="true"
-                        (click)="list = true"
-                        ngFyRipple
-                    ></i>
-                    <i
-                        class="btn btn-light shadow-sm fa fa-th"
-                        aria-hidden="true"
-                        (click)="list = false"
-                        ngFyRipple
-                    ></i>
-                </div>
-            </div>
-        </div>
 
-        <div class="row" [ngClass]="{ 'd-none': !list }">
-            <div class="col-12">
-                <div class="title">
-                    Mi unidad
+        <div class="row">
+            <div class="col-12 mt-2">
+                <div>
+                    <span class="title">Mi unidad</span>
+                    <span class="float-right" *ngIf="deviceResolution > 576">
+                        <span class="mr-2 text-muted text-enfasis">Vista:</span>
+                        <i
+                            class="btn btn-light fa fa-list mr-2"
+                            aria-hidden="true"
+                            (click)="list = true"
+                            ngFyRipple
+                        ></i>
+                        <i
+                            class="btn btn-light fa fa-th"
+                            aria-hidden="true"
+                            (click)="list = false"
+                            ngFyRipple
+                        ></i>
+                    </span>
                 </div>
-            </div>
-            <div class="table-responsive">
                 <nav class="nav">
                     <a
-                        class="nav-link"
+                        class="nav-link text-secondary"
                         *ngIf="actualRoute !== '/home'"
                         (click)="navigate()"
                         ><i class="fa fa-arrow-left"></i>...</a
                     >
 
-                    <div class="form-group form-inline ml-auto mr-2">
+                    <div class="form-group form-inline ml-auto">
                         <input
                             class="form-control ml-2"
-                            id="search"
-                            type="text"
                             placeholder="Buscar por nombre"
+                            type="text"
                             [(ngModel)]="search"
                         />
                     </div>
                 </nav>
+            </div>
+        </div>
+
+        <div class="row" [ngClass]="{ 'd-none': !list }">
+            <div class="table-responsive">
                 <table class="table">
                     <tr>
                         <th scope="col">Nombre</th>
@@ -226,8 +225,15 @@
                         <td>{{ snippet.write_date | date }}</td>
                         <td>
                             <i
+                                (click)="
+                                    openModalSnippet(
+                                        modalNewSnippet,
+                                        'snippet',
+                                        snippet
+                                    );
+                                    $event.stopPropagation()
+                                "
                                 class="fa fa-edit btn btn-ligth mr-2"
-                                style="color: transparent;"
                                 aria-hidden="true"
                             ></i>
                             <i
@@ -244,45 +250,12 @@
                             ></i>
                         </td>
                     </tr>
-                    <tr
-                        *ngIf="
-                            (folders | filter: search).length == 0 &&
-                            (projects | filter: search).length == 0 &&
-                            (snippets | filter: search).length == 0
-                        "
-                        class="animate__animated animate__fadeIn animate__faster"
-                    >
-                        <td colspan="4" class="text-center">
-                            <div class="no-results-text">
-                                No se encontraron carpetas o proyectos
-                            </div>
-                        </td>
-                    </tr>
                 </table>
             </div>
         </div>
 
         <div class="row" [ngClass]="{ 'd-none': list }">
-            <div class="col-12 mt-2">
-                <nav class="nav">
-                    <a
-                        class="nav-link"
-                        *ngIf="actualRoute !== '/home'"
-                        (click)="navigate()"
-                        ><i class="fa fa-arrow-left"></i>...</a
-                    >
-
-                    <div class="form-group form-inline ml-auto">
-                        <input
-                            class="form-control ml-2"
-                            placeholder="Buscar por nombre"
-                            type="text"
-                            [(ngModel)]="search"
-                        />
-                    </div>
-                </nav>
-            </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="(folders | filter: search).length > 0">
                 <div class="title">
                     Carpetas
                 </div>
@@ -360,7 +333,10 @@
                 </div>
             </div>
 
-            <div class="col-12 mt-4" *ngIf="projects.length > 0">
+            <div
+                class="col-12 mt-4"
+                *ngIf="(projects | filter: search).length > 0"
+            >
                 <div class="title">
                     Proyectos
                 </div>
@@ -435,7 +411,10 @@
                 </div>
             </div>
 
-            <div class="col-12 mt-4" *ngIf="snippets.length > 0">
+            <div
+                class="col-12 mt-4"
+                *ngIf="(snippets | filter: search).length > 0"
+            >
                 <div class="title">
                     Snippets
                 </div>
@@ -500,19 +479,18 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div
-                class="col-12 mt-2 text-center animate__animated animate__fadeIn animate__faster"
-                *ngIf="
-                    (folders | filter: search).length == 0 &&
-                    (projects | filter: search).length == 0 &&
-                    (snippets | filter: search).length == 0
-                "
-            >
-                <div class="no-results-text">
-                    No se encontraron carpetas o proyectos
-                </div>
-            </div>
+        <div
+            class="no-results-text mt-2"
+            *ngIf="
+                (folders | filter: search).length == 0 &&
+                (projects | filter: search).length == 0 &&
+                (snippets | filter: search).length == 0
+            "
+            class="text-center text-muted animate__animated animate__fadeIn animate__faster"
+        >
+            No se encontraron carpetas, proyectos o snippets
         </div>
     </div>
 </div>
@@ -529,6 +507,7 @@
                 name=""
                 id=""
                 [(ngModel)]="name"
+                (keydown.enter)="newItem()"
                 aria-describedby="helpId"
                 [placeholder]="'Nombre ' + modalItemData.type"
             />
@@ -570,6 +549,7 @@
                 name=""
                 id=""
                 [(ngModel)]="name"
+                (keydown.enter)="editItem()"
                 value="2"
                 aria-describedby="helpId"
                 [placeholder]="modalItemData.item.name"
@@ -630,6 +610,7 @@
                 name=""
                 id=""
                 [(ngModel)]="name"
+                (keydown.enter)="deleteItem()"
                 value="2"
                 aria-describedby="helpId"
                 [placeholder]="modalItemData.item.name"
@@ -667,7 +648,7 @@
         <form [formGroup]="snippet">
             <input
                 type="text"
-                class="form-control my-4"
+                class="form-control my-2"
                 name=""
                 id=""
                 formControlName="name"
@@ -677,7 +658,7 @@
 
             <select
                 formControlName="language"
-                class="custom-select my-4"
+                class="custom-select my-2"
                 (change)="setEditorLanguage()"
             >
                 <option
@@ -694,6 +675,7 @@
                 [options]="editor"
                 formControlName="code"
                 style="height: 300px;"
+                class="bg-editor my-2"
             ></ngx-monaco-editor>
         </form>
     </div>
@@ -714,7 +696,7 @@
             [disabled]="snippet.invalid"
             ngFyRipple
         >
-            Aceptar
+            Guardar
         </button>
     </div>
 </ng-template>

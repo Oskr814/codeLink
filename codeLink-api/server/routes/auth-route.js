@@ -26,6 +26,7 @@ app.post("/login", (req, res) => {
 
       delete user.folders;
       delete user.projects;
+      delete user.snippets;
 
       let token = jwt.sign({ data: user }, process.env.SEED, {
         expiresIn: process.env.JWTEXP,

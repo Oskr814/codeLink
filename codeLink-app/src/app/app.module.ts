@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -18,7 +19,6 @@ import { NgFyRippleModule } from 'ng-fy-ripple';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { FooterComponent } from './components/footer/footer.component';
 //Projects
 import { NavbarProjectComponent } from './pages/proyectos/components/navbar/navbar.component';
 import { FooterProjectComponent } from './pages/proyectos/components/footer/footer.component';
@@ -56,7 +56,6 @@ import { environment } from '../environments/environment';
         HomeComponent,
         UserComponent,
         ProyectosComponent,
-        FooterComponent,
         PlanesComponent,
         SidebarComponent,
         NavbarProjectComponent,
@@ -90,13 +89,20 @@ import { environment } from '../environments/environment';
             positionClass: 'toast-bottom-right',
             progressBar: true
         }),
-        NgFyRippleModule
+        NgFyRippleModule,
+        HighlightModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
         {
             provide: MONACO_PATH,
             useValue: 'https://unpkg.com/monaco-editor@0.18.1/min/vs'
+        },
+        {
+            provide: HIGHLIGHT_OPTIONS,
+            useValue: {
+                fullLibraryLoader: () => import('highlight.js')
+            }
         },
         AuthGuard,
         LoggedGuard,
@@ -105,7 +111,11 @@ import { environment } from '../environments/environment';
         ProjectsService,
         SnippetsService,
         LoaderService,
-        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoaderInterceptor,
+            multi: true
+        },
         ToastrService
     ],
     bootstrap: [AppComponent]

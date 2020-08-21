@@ -43,13 +43,17 @@ app.post("/snippet/:owner", verificarToken, (req, res) => {
         throw new Error("El folder especificado no existe");
       }
 
-      checkIfNameExists(body.name, folder.snippets); //throw exception
+      checkIfNameExists(body.snippet.name, folder.snippets); //throw exception
 
       return UserProject.findOneAndUpdate(
         { _id: owner },
         {
           $push: {
-            "folders.$[i].snippets": { name: body.name, code: body.code },
+            "folders.$[i].snippets": {
+              name: body.snippet.name,
+              code: body.snippet.code,
+              language: body.snippet.language,
+            },
           },
         },
         { arrayFilters: [{ "i._id": folder._id }], new: true }

@@ -32,8 +32,19 @@ export class RegistroComponent implements OnInit {
     initForm() {
         this.form = this.formBuilder.group(
             {
-                name: ['', Validators.required],
-                email: ['', [Validators.required, Validators.email]],
+                name: [
+                    '',
+                    [Validators.required, Validators.pattern('[a-zA-Z ]*')]
+                ],
+                email: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.pattern(
+                            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+                        )
+                    ]
+                ],
                 password: ['', [Validators.required, Validators.minLength(8)]],
                 repassword: ['', [Validators.required]]
             },

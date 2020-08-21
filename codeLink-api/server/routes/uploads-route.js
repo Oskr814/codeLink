@@ -48,10 +48,8 @@ app.put("/upload/images/user-profile/:user_id", function (req, res) {
         if (user.img) {
           const imgPath = path.resolve(
             __dirname,
-            `../../uploads/${user.img.replace(`${resourcePath}/`, '')}`
+            `../../uploads/${user.img.replace(`${resourcePath}/`, "")}`
           );
-
-          console.log(imgPath);
 
           if (fs.existsSync(imgPath)) {
             fs.unlinkSync(imgPath);
@@ -60,7 +58,11 @@ app.put("/upload/images/user-profile/:user_id", function (req, res) {
 
         user.img = `${resourcePath}/${fileName}`;
 
-        return user.save();
+        return User.findOneAndUpdate(
+          { _id: user._id },
+          { img: user.img },
+          { new: true }
+        );
       })
       .then((user) => {
         delete user.folders;

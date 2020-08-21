@@ -12,6 +12,7 @@ export class SidebarComponent implements OnInit {
     @Output() navigate = new EventEmitter<string>();
     @Output() root = new EventEmitter<void>();
     @Input() folders = [];
+    @Input() plan = '';
     toggleSidebar: boolean;
     activeFolder: string;
 

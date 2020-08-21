@@ -43,9 +43,11 @@ export class AuthService {
 
     logOut() {
         localStorage.removeItem('token');
-        this.user$.next(null);
 
-        this.router.navigate(['/']);
+        setTimeout(() => {
+            this.user$.next(null);
+        }, 3000);
+        this.router.navigate(['/langing']);
     }
 
     async changePassword(data) {

@@ -326,6 +326,7 @@ export class HomeComponent implements OnInit {
                     .then((res) => {
                         this.snippets.splice(snippetIndex, 1);
                         this.snippet.reset();
+                        this.snippet.get('language').setValue('javascript');
                         this.modalService.dismissAll();
                         this._toastrService.show({
                             message: 'Snippet eliminado con exito!'

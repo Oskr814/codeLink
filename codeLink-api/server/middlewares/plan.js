@@ -8,11 +8,7 @@ const plans = [
   {
     code: "estandar",
     limit: 10,
-  },
-  {
-    code: "premium",
-    limit: 0,
-  },
+  }
 ];
 
 let checkPlan = (req, res, next) => {
@@ -24,6 +20,10 @@ let checkPlan = (req, res, next) => {
         return res
           .status(400)
           .json({ ok: false, message: "Usuario no valido" });
+      }
+
+      if (user.plan == "premium") {
+        return next();
       }
 
       let total = 0;
