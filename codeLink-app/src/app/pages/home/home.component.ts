@@ -87,9 +87,7 @@ export class HomeComponent implements OnInit {
     init() {
         this.user = this._authService.authUser();
 
-        this._projectsService
-            .getRecentsProjects(this.user._id)
-            .then((projects: any) => (this.recentProjects = projects));
+        this.getRecentProject();
 
         this.route.queryParams.subscribe((params) => {
             this.folder_id = params['folder'] || '';
@@ -114,6 +112,12 @@ export class HomeComponent implements OnInit {
 
     navigate() {
         this.location.back();
+    }
+
+    getRecentProject() {
+        this._projectsService
+            .getRecentsProjects(this.user._id)
+            .then((projects: any) => (this.recentProjects = projects));
     }
 
     getFolderContent(folder_id?) {
@@ -249,6 +253,8 @@ export class HomeComponent implements OnInit {
                     this.name = '';
                     this.modalService.dismissAll();
 
+                    this.getRecentProject();
+
                     this._toastrService.show({
                         message: 'Proyecto editado con exito!'
                     });
@@ -283,6 +289,7 @@ export class HomeComponent implements OnInit {
 
                         this.name = '';
                         this.modalService.dismissAll();
+                        this.getRecentProject();
                         this._toastrService.show({
                             message: 'Carpeta eliminada con exito!'
                         });
@@ -305,6 +312,9 @@ export class HomeComponent implements OnInit {
                         this.projects.splice(projectIndex, 1);
                         this.name = '';
                         this.modalService.dismissAll();
+
+                        this.getRecentProject();
+
                         this._toastrService.show({
                             message: 'Proyecto eliminado con exito!'
                         });
