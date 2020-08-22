@@ -25,7 +25,6 @@ app.post("/user", (req, res) => {
     .catch((err) => res.status(422).json({ ok: false, message: err.message }));
 });
 
-
 app.put("/user/:id", verificarToken, (req, res) => {
   let id = req.params.id;
   let body = req.body;
@@ -36,12 +35,20 @@ app.put("/user/:id", verificarToken, (req, res) => {
 
   User.findOneAndUpdate({ _id: id }, body, { runValidators: true, new: true })
     .then((user) => {
+      const userData = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        plan: user.plan,
+        creditCard: user.creditCard,
+        status: user.status,
+        pre: user.pre,
+        paymentMethod: user.paymentMethod,
+        creditCard: user.creditCard,
+        img: user.img,
+      };
 
-      delete user.folders;
-      delete user.projects;
-      delete user.snippets;
-
-      const token = jwt.sign({ data: user }, process.env.SEED, {
+      const token = jwt.sign({ data: userData }, process.env.SEED, {
         expiresIn: process.env.JWTEXP,
       });
 

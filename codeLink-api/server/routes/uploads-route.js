@@ -65,10 +65,20 @@ app.put("/upload/images/user-profile/:user_id", function (req, res) {
         );
       })
       .then((user) => {
-        delete user.folders;
-        delete user.projects;
+        const userData = {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          plan: user.plan,
+          creditCard: user.creditCard,
+          status: user.status,
+          pre: user.pre,
+          paymentMethod: user.paymentMethod,
+          creditCard: user.creditCard,
+          img: user.img,
+        };
 
-        let token = jwt.sign({ data: user }, process.env.SEED, {
+        let token = jwt.sign({ data: userData }, process.env.SEED, {
           expiresIn: process.env.JWTEXP,
         });
 

@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 
 const UserFolder = require("../models/user-model");
+const RecentProject = require("../models/recent-project-model");
 
 const verificarToken = require("../middlewares/auth");
 
@@ -12,15 +13,28 @@ app.post("/folder/:owner", (req, res) => {
   let body = req.body;
 
   UserFolder.findOne({ _id: owner })
-    .then((user) => {
+    .then(async (user) => {
       const folder = user.folders.find((folder) => {
-        return folder.name == body.name && folder.status;
+        return folder.name === body.name && folder.parent === body.parent;
       });
+
       if (folder) {
-        return res.status(400).json({
-          ok: false,
-          message: "El nombre de la carpeta ya esta en uso",
+        const parentFolder = await UserFolder.findOne({
+          "folders._id": folder.parent,
         });
+
+        if (parentFolder) {
+          return res.status(422).json({
+            ok: false,
+            message: "El nombre de la carpeta ya esta en uso",
+          });
+        } else {
+          //Eliminar folder
+          await UserFolder.update(
+            { _id: owner },
+            { $pull: { folders: { _id: folder._id } } }
+          );
+        }
       }
 
       return UserFolder.findOneAndUpdate(
@@ -91,13 +105,13 @@ app.put("/folder/:owner/:id", (req, res) => {
       const folder = user.folders.find((folder) => {
         return folder.name == body.name && folder.status;
       });
+
       if (folder) {
         return res.status(422).json({
           ok: false,
           message: "El nombre de la carpeta ya esta en uso",
         });
       }
-
       return UserFolder.findOneAndUpdate(
         { _id: owner, folders: { $elemMatch: { _id: id } } },
         {
@@ -113,9 +127,30 @@ app.put("/folder/:owner/:id", (req, res) => {
     .catch((err) => res.status(500).json({ ok: false, message: err.message }));
 });
 
-app.delete("/folder/:owner/:id", (req, res) => {
+app.delete("/folder/:owner/:id", async (req, res) => {
   let owner = req.params.owner;
   let id = req.params.id;
+
+  const user = await UserFolder.findOne({ _id: owner });
+
+  //Eliminar hijos
+  let parent = id;
+  for (const folder of user.folders) {
+    //Eliminar proyecto reciente
+    for (const project of folder.projects) {
+      await RecentProject.deleteOne({ project_id: project._id });
+    }
+    if (folder.parent == parent) {
+      await UserFolder.update(
+        { _id: owner },
+        { $pull: { folders: { _id: folder._id } } }
+      );
+
+      parent = folder._id;
+    }
+  }
+
+  //Eliminar padre
 
   UserFolder.update({ _id: owner }, { $pull: { folders: { _id: id } } })
     .then((result) => {

@@ -80,6 +80,7 @@ let setRecentProject = function (owner, project) {
     .then((recentProject) => {
       if (recentProject) {
         recentProject.write_date = new Date().getTime();
+        recentProject.name = project.name;
 
         return recentProject.save();
       }

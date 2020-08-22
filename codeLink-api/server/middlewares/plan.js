@@ -30,7 +30,7 @@ let checkPlan = (req, res, next) => {
 
       total += user.projects.length;
 
-      for (const folder in user.folders) {
+      for (const folder of user.folders) {
         if (folder.projects) {
           total += folder.projects.length;
         }
