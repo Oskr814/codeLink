@@ -26,6 +26,7 @@ app.post("/login", (req, res) => {
 
       delete user.folders;
       delete user.projects;
+      delete user.snippets;
 
       let token = jwt.sign({ data: user }, process.env.SEED, {
         expiresIn: process.env.JWTEXP,
@@ -61,7 +62,7 @@ app.post("/change-password/:id", (req, res) => {
       if (!result.nModified) {
         return res
           .status(422)
-          .json({ ok: false, message: "No se pudo eliminar la carpeta" });
+          .json({ ok: false, message: "No se pudo actualizar la contraseña" });
       }
 
       res.json({ message: "Contraseña actualizada con exito" });

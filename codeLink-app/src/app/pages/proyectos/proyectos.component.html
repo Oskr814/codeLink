@@ -7,7 +7,7 @@
     ></app-project-navbar>
     <div id="project-container">
         <gridster [options]="options">
-            <gridster-item [item]="dashboard[0]">
+            <gridster-item [item]="dashboard[0]" class="bg-editor">
                 <div class="title">
                     <span>HTML</span>
                     <a class="nav-link p-0 download" ngFyRipple (click)="exportProject('html')"
@@ -21,7 +21,7 @@
                     style="height: 100%;"
                 ></ngx-monaco-editor>
             </gridster-item>
-            <gridster-item [item]="dashboard[1]">
+            <gridster-item [item]="dashboard[1]" class="bg-editor">
                 <div class="title">
                     <span>CSS</span>
                     <a class="nav-link p-0 download" ngFyRipple (click)="exportProject('css')"
@@ -35,7 +35,7 @@
                     style="height: 100%;"
                 ></ngx-monaco-editor>
             </gridster-item>
-            <gridster-item [item]="dashboard[2]">
+            <gridster-item [item]="dashboard[2]" class="bg-editor">
                 <div class="title">
                     <span>JS</span>
                     <a class="nav-link p-0 download" ngFyRipple (click)="exportProject('js')"

@@ -24,12 +24,6 @@ app.post("/user", (req, res) => {
     .then((user) => res.json({ ok: true, user }))
     .catch((err) => res.status(422).json({ ok: false, message: err.message }));
 });
-//READ
-app.get("/user", verificarToken, (req, res) => {
-  User.find({ status: true })
-    .then((users) => res.json({ ok: true, users }))
-    .catch((err) => res.status(422).json({ ok: false, err }));
-});
 
 app.put("/user/:id", verificarToken, (req, res) => {
   let id = req.params.id;
@@ -41,7 +35,20 @@ app.put("/user/:id", verificarToken, (req, res) => {
 
   User.findOneAndUpdate({ _id: id }, body, { runValidators: true, new: true })
     .then((user) => {
-      const token = jwt.sign({ data: user }, process.env.SEED, {
+      const userData = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        plan: user.plan,
+        creditCard: user.creditCard,
+        status: user.status,
+        pre: user.pre,
+        paymentMethod: user.paymentMethod,
+        creditCard: user.creditCard,
+        img: user.img,
+      };
+
+      const token = jwt.sign({ data: userData }, process.env.SEED, {
         expiresIn: process.env.JWTEXP,
       });
 

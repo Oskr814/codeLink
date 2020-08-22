@@ -129,6 +129,8 @@ app.put("/project/:owner/:id", verificarToken, (req, res) => {
     .then((user) => {
       const { project } = findUserProject(user, project_id);
 
+      setRecentProject(owner, project);
+
       res.json(project);
     })
     .catch((err) => res.status(500).json({ ok: false, message: err.message }));
@@ -167,12 +169,14 @@ app.delete("/project/:owner/:id", verificarToken, (req, res) => {
         { arrayFilters: [{ "i._id": folder_id }] }
       );
     })
-    .then((result) => {
+    .then(async (result) => {
       if (!result.nModified) {
         return res
           .status(422)
           .json({ ok: false, message: "No se pudo eliminar el proyecto" });
       }
+
+      await RecentProject.deleteOne({project_id});
 
       res.json({
         ok: true,

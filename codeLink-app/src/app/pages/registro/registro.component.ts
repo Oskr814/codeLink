@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from '../../services/toastr.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-registro',
@@ -31,8 +32,19 @@ export class RegistroComponent implements OnInit {
     initForm() {
         this.form = this.formBuilder.group(
             {
-                name: ['', Validators.required],
-                email: ['', [Validators.required, Validators.email]],
+                name: [
+                    '',
+                    [Validators.required, Validators.pattern('[a-zA-Z ]*')]
+                ],
+                email: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.pattern(
+                            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+                        )
+                    ]
+                ],
                 password: ['', [Validators.required, Validators.minLength(8)]],
                 repassword: ['', [Validators.required]]
             },
@@ -74,7 +86,7 @@ export class RegistroComponent implements OnInit {
             const email = this.form.get('email').value;
             const password = this.form.get('password').value;
             this.httpClient
-                .post('http://localhost:3000/user ', {
+                .post(`${environment.baseUrl}/user`, {
                     name: this.form.get('name').value,
                     email,
                     password

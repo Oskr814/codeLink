@@ -1,4 +1,6 @@
-<div class="container main__container my-5 animate__animated animate__fadeIn animate__faster">
+<div
+    class="container main__container my-5 animate__animated animate__fadeIn animate__faster"
+>
     <!-- Header -->
     <div class="row" id="landing">
         <div class="col-lg-6 col-sm-12 mb-4 code-card-bg">
@@ -7,7 +9,7 @@
                     class="col-lg-6 col-8 code-card"
                     [id]="'code-card-' + sampleCode.type"
                 >
-                    <pre><code>{{sampleCode.code}}</code></pre>
+                    <pre><code [highlight]="sampleCode.code"></code></pre>
                 </div>
             </div>
         </div>
@@ -107,10 +109,19 @@
                 <div class="precio-card-body">
                     <ul>
                         <li class="check">Almacenamiento en la nube</li>
-                        <li class="uncheck">Exportar proyecto</li>
-                        <li class="uncheck">Proyectos ilimitados</li>
+                        <li class="check">Exportar proyecto</li>
+                        <li class="uncheck">
+                            Proyectos ilimitados <br />
+                            <span class="small text-muted ml-4">
+                                5 Proyectos por cuenta
+                            </span>
+                        </li>
                     </ul>
-                    <button type="button" class="btn btn-precio btn-block">
+                    <button
+                        type="button"
+                        class="btn btn-precio btn-block"
+                        [routerLink]="['/registro']"
+                    >
                         Obtener
                     </button>
                 </div>
@@ -129,8 +140,16 @@
                         <li class="check">Almacenamiento en la nube</li>
                         <li class="check">Exportar proyecto</li>
                         <li class="uncheck">Proyectos ilimitados</li>
+                        <br />
+                        <span class="small text-muted ml-4">
+                            10 Proyectos por cuenta
+                        </span>
                     </ul>
-                    <button type="button" class="btn btn-precio btn-block">
+                    <button
+                        type="button"
+                        class="btn btn-precio btn-block"
+                        [routerLink]="['/registro']"
+                    >
                         Obtener
                     </button>
                 </div>
@@ -149,7 +168,11 @@
                         <li class="check">Exportar proyecto</li>
                         <li class="check">Proyectos ilimitados</li>
                     </ul>
-                    <button type="button" class="btn btn-precio btn-block">
+                    <button
+                        type="button"
+                        class="btn btn-precio btn-block"
+                        [routerLink]="['/registro']"
+                    >
                         Obtener
                     </button>
                 </div>

@@ -8,11 +8,7 @@ const plans = [
   {
     code: "estandar",
     limit: 10,
-  },
-  {
-    code: "premium",
-    limit: 0,
-  },
+  }
 ];
 
 let checkPlan = (req, res, next) => {
@@ -26,11 +22,15 @@ let checkPlan = (req, res, next) => {
           .json({ ok: false, message: "Usuario no valido" });
       }
 
+      if (user.plan == "premium") {
+        return next();
+      }
+
       let total = 0;
 
       total += user.projects.length;
 
-      for (const folder in user.folders) {
+      for (const folder of user.folders) {
         if (folder.projects) {
           total += folder.projects.length;
         }

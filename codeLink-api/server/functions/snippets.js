@@ -45,8 +45,9 @@ let updateFolderSnippet = function (user_id, folder_id, snippet) {
     {
       $set: {
         "folders.$[i].snippets.$[j].name": snippet.name,
+        "folders.$[i].snippets.$[j].code": snippet.code,
+        "folders.$[i].snippets.$[j].language": snippet.language,
         "folders.$[i].snippets.$[j].write_date": snippet.write_date,
-        "folders.$[i].snippets.$[j].code": snippet.code
       },
     },
     {

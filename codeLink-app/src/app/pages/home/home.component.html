@@ -2,6 +2,7 @@
     <app-sidebar
         class="bg-white"
         [folders]="root"
+        [plan]="user.plan"
         (navigate)="getFolderContent($event)"
         (root)="getFolderContent()"
         (createNew)="openModal(modalNewItem, $event)"
@@ -24,7 +25,7 @@
                 *ngFor="let project of recentProjects"
                 (click)="loadProject(project)"
             >
-                <div class="project-card my-3">
+                <div class="project-card-recents my-3">
                     <div class="project-card-bg"></div>
                     <span class="project-card-img ml-3 pt-3" id="circle-project"
                         ><img src="assets/images/project.svg" class="w-75"
@@ -50,51 +51,49 @@
                 </div>
             </div>
         </div>
-        <div class="row" *ngIf="deviceResolution > 576">
-            <div class="col-12">
-                <div class="text-right">
-                    <span class="mr-2 text-muted text-enfasis">Vista:</span>
-                    <i
-                        class="btn btn-light shadow-sm fa fa-list mr-2"
-                        aria-hidden="true"
-                        (click)="list = true"
-                        ngFyRipple
-                    ></i>
-                    <i
-                        class="btn btn-light shadow-sm fa fa-th"
-                        aria-hidden="true"
-                        (click)="list = false"
-                        ngFyRipple
-                    ></i>
-                </div>
-            </div>
-        </div>
 
-        <div class="row" [ngClass]="{ 'd-none': !list }">
-            <div class="col-12">
-                <div class="title">
-                    Mi unidad
+        <div class="row">
+            <div class="col-12 mt-2">
+                <div>
+                    <span class="title">Mi unidad</span>
+                    <span class="float-right" *ngIf="deviceResolution > 576">
+                        <span class="mr-2 text-muted text-enfasis">Vista:</span>
+                        <i
+                            class="btn btn-light fa fa-list mr-2"
+                            aria-hidden="true"
+                            (click)="list = true"
+                            ngFyRipple
+                        ></i>
+                        <i
+                            class="btn btn-light fa fa-th"
+                            aria-hidden="true"
+                            (click)="list = false"
+                            ngFyRipple
+                        ></i>
+                    </span>
                 </div>
-            </div>
-            <div class="table-responsive">
                 <nav class="nav">
                     <a
-                        class="nav-link"
+                        class="nav-link text-secondary"
                         *ngIf="actualRoute !== '/home'"
                         (click)="navigate()"
                         ><i class="fa fa-arrow-left"></i>...</a
                     >
 
-                    <div class="form-group form-inline ml-auto mr-2">
+                    <div class="form-group form-inline ml-auto">
                         <input
                             class="form-control ml-2"
-                            id="search"
-                            type="text"
                             placeholder="Buscar por nombre"
+                            type="text"
                             [(ngModel)]="search"
                         />
                     </div>
                 </nav>
+            </div>
+        </div>
+
+        <div class="row" [ngClass]="{ 'd-none': !list }">
+            <div class="table-responsive">
                 <table class="table">
                     <tr>
                         <th scope="col">Nombre</th>
@@ -251,52 +250,15 @@
                             ></i>
                         </td>
                     </tr>
-                    <tr
-                        *ngIf="
-                            (folders | filter: search).length == 0 &&
-                            (projects | filter: search).length == 0 &&
-                            (snippets | filter: search).length == 0
-                        "
-                        class="animate__animated animate__fadeIn animate__faster"
-                    >
-                        <td colspan="4" class="text-center">
-                            <div class="no-results-text">
-                                No se encontraron carpetas o proyectos
-                            </div>
-                        </td>
-                    </tr>
                 </table>
             </div>
         </div>
 
         <div class="row" [ngClass]="{ 'd-none': list }">
-            <div class="col-12">
+            <div class="col-12" *ngIf="(folders | filter: search).length > 0">
                 <div class="title">
-                    <img
-                        src="assets/images/folder-open.svg"
-                        class="folder-icon"
-                    />
                     Carpetas
                 </div>
-            </div>
-            <div class="col-12">
-                <nav class="nav">
-                    <a
-                        class="nav-link"
-                        *ngIf="actualRoute !== '/home'"
-                        (click)="navigate()"
-                        ><i class="fa fa-arrow-left"></i>...</a
-                    >
-
-                    <div class="form-group form-inline ml-auto">
-                        <input
-                            class="form-control ml-2"
-                            placeholder="Buscar por nombre"
-                            type="text"
-                            [(ngModel)]="search"
-                        />
-                    </div>
-                </nav>
             </div>
             <div
                 class="col-lg-3 col-md-4 col-6"
@@ -306,7 +268,6 @@
                     <div
                         class="card-body"
                         (click)="getFolderContent(folder._id)"
-                        ngFyRipple
                     >
                         <span class="w-75 text-truncate d-inline-block">
                             <img
@@ -319,8 +280,9 @@
                         <div
                             ngbDropdown
                             #dropDownMenu="ngbDropdown"
-                            container="body"
-                            placement="right"
+                            [placement]="
+                                deviceResolution < 576 ? 'left' : 'right'
+                            "
                             class="d-inline-block float-right"
                             style="position: absolute; right: 5px;"
                         >
@@ -371,9 +333,11 @@
                 </div>
             </div>
 
-            <div class="col-12 mt-4" *ngIf="projects.length > 0">
+            <div
+                class="col-12 mt-4"
+                *ngIf="(projects | filter: search).length > 0"
+            >
                 <div class="title">
-                    <img src="assets/images/project.svg" class="project-icon" />
                     Proyectos
                 </div>
             </div>
@@ -388,7 +352,7 @@
                         ngbDropdown
                         #dropDownMenu="ngbDropdown"
                         container="body"
-                        placement="right"
+                        [placement]="deviceResolution < 576 ? 'left' : 'right'"
                         class="d-inline-block float-right"
                     >
                         <i
@@ -399,7 +363,6 @@
                             (click)="
                                 $event.stopPropagation(); dropDownMenu.open()
                             "
-                            ngFyRipple
                         ></i>
 
                         <div ngbDropdownMenu aria-labelledby="dropdownNuevo">
@@ -432,19 +395,10 @@
                         </div>
                     </div>
 
-                    <div class="project-card-bg"></div>
                     <span class="project-card-img ml-3 pt-3" id="circle-project"
                         ><img src="assets/images/project.svg" class="w-75"
                     /></span>
-                    <span class="project-card-img" id="circle-html"
-                        ><img src="assets/images/html.svg" class="w-50"
-                    /></span>
-                    <span class="project-card-img" id="circle-css"
-                        ><img src="assets/images/css.svg" class="w-50"
-                    /></span>
-                    <span class="project-card-img" id="circle-js"
-                        ><img src="assets/images/js.svg" class="w-50"
-                    /></span>
+
                     <div class="project-card-title">
                         <div>{{ project.name }}</div>
                         <div class="project-card-subtitle">
@@ -458,17 +412,85 @@
             </div>
 
             <div
-                class="col-12 mt-2 text-center animate__animated animate__fadeIn animate__faster"
-                *ngIf="
-                    (folders | filter: search).length == 0 &&
-                    (projects | filter: search).length == 0 &&
-                    (snippets | filter: search).length == 0
-                "
+                class="col-12 mt-4"
+                *ngIf="(snippets | filter: search).length > 0"
             >
-                <div class="no-results-text">
-                    No se encontraron carpetas o proyectos
+                <div class="title">
+                    Snippets
                 </div>
             </div>
+
+            <div
+                class="col-lg-3 col-md-4 col-sm-6"
+                *ngFor="let snippet of snippets | filter: search"
+            >
+                <div
+                    class="project-card my-3"
+                    (click)="
+                        openModalSnippet(modalNewSnippet, 'snippet', snippet)
+                    "
+                >
+                    <div
+                        ngbDropdown
+                        #dropDownMenu="ngbDropdown"
+                        container="body"
+                        [placement]="deviceResolution < 576 ? 'left' : 'right'"
+                        class="d-inline-block float-right"
+                    >
+                        <i
+                            id="dropdownNuevo"
+                            ngbDropdownToggle
+                            class="fa fa-ellipsis-v dropdown-toggle-icon-project"
+                            aria-hidden="true"
+                            (click)="
+                                $event.stopPropagation(); dropDownMenu.open()
+                            "
+                        ></i>
+
+                        <div ngbDropdownMenu aria-labelledby="dropdownNuevo">
+                            <button
+                                class="btn btn-light"
+                                ngbDropdownItem
+                                (click)="
+                                    openModal(
+                                        modalDeleteItem,
+                                        'snippet',
+                                        snippet
+                                    )
+                                "
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+
+                    <span class="project-card-img ml-3 pt-3" id="circle-project"
+                        ><img src="assets/images/file.svg" class="w-75"
+                    /></span>
+
+                    <div class="project-card-title">
+                        <div>{{ snippet.name }}</div>
+                        <div class="project-card-subtitle">
+                            <div>{{ snippet.language }}</div>
+                            <div class="project-card-time">
+                                Fecha: {{ snippet.creation_date | date: 'L' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="no-results-text mt-2"
+            *ngIf="
+                (folders | filter: search).length == 0 &&
+                (projects | filter: search).length == 0 &&
+                (snippets | filter: search).length == 0
+            "
+            class="text-center text-muted animate__animated animate__fadeIn animate__faster"
+        >
+            No se encontraron carpetas, proyectos o snippets
         </div>
     </div>
 </div>
@@ -485,6 +507,7 @@
                 name=""
                 id=""
                 [(ngModel)]="name"
+                (keydown.enter)="newItem()"
                 aria-describedby="helpId"
                 [placeholder]="'Nombre ' + modalItemData.type"
             />
@@ -494,7 +517,7 @@
         <button
             type="button"
             class="btn btn-ligth"
-            (click)="modal.close('Close click')"
+            (click)="modal.close('Close click'); name = ''"
             ngFyRipple
         >
             Cancelar
@@ -526,6 +549,7 @@
                 name=""
                 id=""
                 [(ngModel)]="name"
+                (keydown.enter)="editItem()"
                 value="2"
                 aria-describedby="helpId"
                 [placeholder]="modalItemData.item.name"
@@ -536,7 +560,7 @@
         <button
             type="button"
             class="btn btn-ligth"
-            (click)="modal.close('Close click')"
+            (click)="modal.close('Close click'); name = ''"
             ngFyRipple
         >
             Cancelar
@@ -586,6 +610,7 @@
                 name=""
                 id=""
                 [(ngModel)]="name"
+                (keydown.enter)="deleteItem()"
                 value="2"
                 aria-describedby="helpId"
                 [placeholder]="modalItemData.item.name"
@@ -596,7 +621,7 @@
         <button
             type="button"
             class="btn btn-ligth"
-            (click)="modal.close('Close click')"
+            (click)="modal.close('Close click'); name = ''"
             ngFyRipple
         >
             Cancelar
@@ -615,13 +640,15 @@
 
 <ng-template #modalNewSnippet let-modal>
     <div class="modal-header border-0 pb-0">
-        <h4 class="modal-title font-weight-light">{{ modalItemData.item ? 'Editar snippet' : modalItemData.title }}</h4>
+        <h4 class="modal-title font-weight-light">
+            {{ modalItemData.item ? 'Editar snippet' : modalItemData.title }}
+        </h4>
     </div>
     <div class="modal-body py-0">
         <form [formGroup]="snippet">
             <input
                 type="text"
-                class="form-control my-4"
+                class="form-control my-2"
                 name=""
                 id=""
                 formControlName="name"
@@ -631,7 +658,7 @@
 
             <select
                 formControlName="language"
-                class="custom-select my-4"
+                class="custom-select my-2"
                 (change)="setEditorLanguage()"
             >
                 <option
@@ -648,6 +675,7 @@
                 [options]="editor"
                 formControlName="code"
                 style="height: 300px;"
+                class="bg-editor my-2"
             ></ngx-monaco-editor>
         </form>
     </div>
@@ -656,7 +684,7 @@
         <button
             type="button"
             class="btn btn-ligth"
-            (click)="modal.close('Close click')"
+            (click)="modal.close('Close click'); name = ''"
             ngFyRipple
         >
             Cancelar
@@ -668,7 +696,7 @@
             [disabled]="snippet.invalid"
             ngFyRipple
         >
-            Aceptar
+            Guardar
         </button>
     </div>
 </ng-template>

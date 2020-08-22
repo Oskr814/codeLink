@@ -68,13 +68,17 @@ export class UserComponent implements OnInit {
     actualizarUsuario() {
         if (this.validForm(this.form)) {
             this.http
-                .put(`http://localhost:3000/${this.user._id}`, {
+                .put(`${environment.baseUrl}/user/${this.user._id}`, {
                     name: this.form.get('name').value
                 })
                 .subscribe(
                     (res: any) => {
                         if (res.ok) {
                             this._authService.setToken(res.token);
+
+                            this._toastrService.show({
+                                message: 'Informacion actualizada con exito!'
+                            })
                         }
                     },
                     (err) => console.log(err)

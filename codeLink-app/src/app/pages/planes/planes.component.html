@@ -29,6 +29,10 @@
                             *ngFor="let feature of plan.features"
                         >
                             {{ feature.text }}
+                            <br>
+                            <span *ngIf="feature.limit" class="small text-muted ml-4">
+                                {{feature.limit}} Proyectos por cuenta
+                            </span>
                         </li>
                     </ul>
                     <button
@@ -103,7 +107,7 @@
                     id="number"
                     formControlName="number"
                     aria-describedby="helpId"
-                    placeholder="XXXX-XXXX-XXXX-XXXX"
+                    placeholder="XXXX-XXXX-XXXX-XXXX (Incluir guiones)"
                 />
             </div>
             <div class="col-12 mb-2">
