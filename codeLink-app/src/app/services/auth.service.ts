@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ToastrService } from './toastr.service';
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
     providedIn: 'root'
@@ -44,9 +45,8 @@ export class AuthService {
     logOut() {
         localStorage.removeItem('token');
 
-        setTimeout(() => {
-            this.user$.next(null);
-        }, 3000);
+        this.user$.next(null);
+
         this.router.navigate(['/langing']);
     }
 
@@ -62,16 +62,18 @@ export class AuthService {
         let token = localStorage.getItem('token');
 
         if (token) {
-            const base64URL = token.split('.')[1];
-            const base64 = base64URL.replace('-', '+').replace('_', '/');
+            const decode = jwt_decode(token);
 
-            return JSON.parse(window.atob(base64)).data;
+            return decode.data;
         }
 
         return null;
     }
 
     setToken(token) {
+        if (localStorage.getItem('token')) {
+            localStorage.removeItem('token');
+        }
         localStorage.setItem('token', token);
 
         this.user$.next(this.authUser());
